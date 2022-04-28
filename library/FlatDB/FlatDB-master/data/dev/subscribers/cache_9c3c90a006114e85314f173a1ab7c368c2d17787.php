@@ -1,0 +1,1 @@
+<?php exit(); ?>a:5:{i:0;a:2:{s:5:"email";s:16:"john@example.com";s:2:"id";i:1;}i:1;a:2:{s:5:"email";s:15:"ann@example.com";s:2:"id";i:2;}i:2;a:2:{s:5:"email";s:17:"james@example.com";s:2:"id";i:3;}i:3;a:2:{s:5:"email";s:18:"gordon@example.com";s:2:"id";i:4;}i:4;a:2:{s:5:"email";s:16:"lisa@example.com";s:2:"id";i:5;}}
