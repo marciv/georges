@@ -57,7 +57,7 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
         $george->add_variation(
             array(
                 $v['name'] => array( //Name variation
-                    "lp" => $v['variation'] . $variableQuery, //Link variation
+                    "lp" => "https://" . $_SERVER['HTTP_HOST'] . $v['uri'] . $variableQuery, //Link variation
                 )
             )
         );

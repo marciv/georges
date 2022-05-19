@@ -378,6 +378,7 @@ class george
             'default_view' => $this->test,
             'nb_visit' => 0,
             'nb_conversion' => 0,
+            'date_time' => new \DateTime(),
         );
 
         $result = $db->table('data_set')->insert(
@@ -432,24 +433,33 @@ class george
         foreach ($allDb as $oneDB) {
             $nameABtest = "";
             $t .= '<div class="card"><div class="cadre-text p-3">';
+            $t .= "<p class='text-center'><u>Date</u> : <b>" . $oneDB[0]['date_time']->format('d/m/Y H:i') . "</b></p>";
             $t .= "<div class='d-flex justify-content-between'><p><u>Discovery Rate</u> : <b>" . $oneDB[0]['discovery_rate'] . "</b></p><a class='btn btn-outline-danger' href='delDB.php?db=" . $oneDB[0]['variation'] . "'>Delete</a></div>";
             foreach ($oneDB as $index => $entry) {
                 $nameABtest .= trim($entry['uri'], "/") . ' & ';
                 $t .= '<div class="col-12 mx-auto mt-2 mb-2">';
                 $t .= '<p><u>Variation</u> : ' . trim($entry['uri'], "/") . '</p>';
                 $t .= '<div class="row justify-content-center text-center mx-auto">';
-                $t .= '<div class="col-6">
+                $t .= '<div class="col-4">
                         <div class="roundedCardText mx-auto">
                             <div>V</div>
                             <div><b>(' . $entry['nb_visit'] . ')</b></div>
                         </div>
                     </div>';
-                $t .= '<div class="col-6">
+                $t .= '<div class="col-4">
                         <div class="roundedCardText mx-auto">
                             <div>C</div>
                             <div><b>(' . $entry['nb_conversion'] . ')</b></div>
                         </div>
                     </div>';
+                if ($entry['nb_visit'] > 0) {
+                    $t .= '<div class="col-4">
+                    <div class="roundedCardText mx-auto">
+                        <div>TX</div>
+                        <div><b>(' . round(($entry['nb_conversion'] / $entry['nb_visit']) * 100, 1) . '%)</b></div>
+                    </div>
+                </div>';
+                }
                 $t .= '</div>';
                 $t .= '</div>';
             }
