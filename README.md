@@ -1,21 +1,45 @@
-# george
+# George
 
-Add directory george in 1root/library/
+## Prerequisites
 
-Launch IRL => http://localhost/1root/library/George/
+First, check if the George folder is in the root:
 
-=====================================
+```
+C:\\Wamp\www\1root\library\
+```
 
-In general.js of the landing when form is send after conversion_event(gtag_report_conversion); => [ADD]
+Then in the LP:
 
+- Include master-headerV4(In Futur master-headerV2) in the index.php
+- Include in the js/general.js where the form is sent
+
+```
 let event = new CustomEvent('form-sended', {
 bubbles: true,
 cancelable: false
 });
 
-// Emit the event
 document.dispatchEvent(event);
+```
 
-====================================
+## Running the tests
 
-Add master-headerV4 in the same place of the another master-header
+- Start : Go to the url of the root of the folder
+
+```
+https://nomdomaine.fr/library/George/
+```
+
+### ADD ABTest
+
+Fill in URL inputs without adding parameters
+
+```
+URL conversion => https://www.je-renove.net/pho/lan/06/
+
+Discovery Rate => 0.20
+
+URL variation => https://www.je-renove.net/pho/lan/16/
+```
+
+Click in the Button "Start AB Test"

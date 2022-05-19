@@ -28,19 +28,16 @@
         } catch (err) {}
     })();
 </script>
-<script>
-    console.log("Chargement du script george");
-</script>
+
 <?php
-
 require  ABSPATH . LIB . "/George/class.george.php";
-
-$variationName = trim(str_replace("/", "_", $_SERVER['REQUEST_URI']), "_"); //Nom variation actuel 
-var_dump($_SERVER['HTTP_REFERER']);
+$request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$request_uri = str_replace('index.php', '', $request_uri);
+$variationName = trim(str_replace("/", "_",  $request_uri), "_"); //Nom variation actuel 
+$variableQuery =  parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ? "?" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) : "";   //Récupération des query
 $george = new george($variationName); // On vérifie si une bdd avec le nom existe
 $data = $george->get_data_custom();
-
-if ($data['uri'] == $_SERVER['REQUEST_URI'] && (!empty($data) || $data != false)) {
+if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $data != false)) {
     //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
     // options
     $george->set_option(
@@ -49,7 +46,6 @@ if ($data['uri'] == $_SERVER['REQUEST_URI'] && (!empty($data) || $data != false)
             "default_view" => $data['default_view'],
         )
     );
-
     $george->add_variation(
         array(
             $variationName => array( //Name variation
@@ -57,20 +53,16 @@ if ($data['uri'] == $_SERVER['REQUEST_URI'] && (!empty($data) || $data != false)
             )
         )
     );
-
     foreach ($data['listVariation'] as $v) { //On parcours la liste des variations disponible 
         $george->add_variation(
             array(
                 $v['name'] => array( //Name variation
-                    "lp" => $v['variation'], //Link variation
+                    "lp" => $v['variation'] . $variableQuery, //Link variation
                 )
             )
         );
     }
-
     $george->calculate(); // On ajoute à la variation actuel
-
-
     if ($variationName == $george->selected_view_name) {
         $george->render('lp');
     } else {
@@ -88,7 +80,6 @@ if ($data['uri'] == $_SERVER['REQUEST_URI'] && (!empty($data) || $data != false)
 <script>
     document.addEventListener('DOMContentLoaded', function(event) {
         document.addEventListener('form-sended', function(event) { //Event custom quand le form est envoyé et validé 
-
             var formData = new FormData();
             formData.append("path", window.location.pathname);
             var http_referer = <?php echo json_encode($_SERVER['HTTP_REFERER']); ?>;
@@ -103,8 +94,6 @@ if ($data['uri'] == $_SERVER['REQUEST_URI'] && (!empty($data) || $data != false)
             var i = "../../../library/George/addConversion.php";
             xmlHttp.open("post", i)
             xmlHttp.send(formData);
-
-            // window.location = "../../../library/George/addConversion.php?path=" + window.location.pathname + "&conversion_path=" + http_referer;
         });
     });
 </script>

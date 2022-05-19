@@ -82,7 +82,7 @@ class george
         $this->visit['ip'] = $this->get_ip();
         $this->visit['lang'] = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
         $this->visit['timestamp'] = time();
-        @$this->visit['uri'] = strtolower(strtok($_SERVER['REQUEST_URI'], '?'));
+        @$this->visit['uri'] = str_replace("index.php", "", strtolower(strtok($_SERVER['REQUEST_URI'], '?')));
         @$this->visit['utm_source'] = strtolower($_REQUEST['utm_source']);
         @$this->visit['utm_content'] = strtolower($_REQUEST['utm_content']);
         @$this->visit['utm_campaign'] = strtolower($_REQUEST['utm_campaign']);
