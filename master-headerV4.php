@@ -28,7 +28,7 @@
         } catch (err) {}
     })();
 </script>
-
+<!--GEORGE-->
 <?php
 require  ABSPATH . LIB . "/George/class.george.php";
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -37,6 +37,7 @@ $variationName = trim(str_replace("/", "_",  $request_uri), "_"); //Nom variatio
 $variableQuery =  parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ? "?" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) : "";   //Récupération des query
 $george = new george($variationName); // On vérifie si une bdd avec le nom existe
 $data = $george->get_data_custom();
+
 if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $data != false)) {
     //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
     // options
@@ -57,7 +58,7 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
         $george->add_variation(
             array(
                 $v['name'] => array( //Name variation
-                    "lp" => "https://" . $_SERVER['HTTP_HOST'] . $v['uri'] . $variableQuery, //Link variation
+                    "lp" => $v['uri'] . $variableQuery, //Link variation
                 )
             )
         );
@@ -66,7 +67,7 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
     if ($variationName == $george->selected_view_name) {
         $george->render('lp');
     } else {
-        echo '<script>window.location="' . $george->render("lp") . '"</script>';
+        echo '<script>window.location="https://"+window.location.host+"' . $george->render("lp") . '"</script>';
     }
 } else {
     try {
@@ -78,12 +79,26 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
 ?>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function(event) {
+    window.addEventListener('load', (event) => {
         document.addEventListener('form-sended', function(event) { //Event custom quand le form est envoyé et validé 
             var formData = new FormData();
             formData.append("path", window.location.pathname);
             var http_referer = <?php echo json_encode($_SERVER['HTTP_REFERER']); ?>;
+
+            let [
+                first,
+                campaign,
+                lan
+            ] = window.location.pathname.split("/");
+
+            if (http_referer != null) {
+                if (!http_referer.includes(campaign + "/lan/")) { //On vérifie que le HTTPREFERER refère bien à la lp d'origin
+                    http_referer = null;
+                }
+            }
+
             formData.append("conversion_path", http_referer);
+
 
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {

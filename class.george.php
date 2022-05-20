@@ -153,72 +153,50 @@ class george
         }
     }
 
-    function save_conversion_custom($path)
+    function save_conversion_custom($path = "")
     {
-        if (empty($path)) {
-            if (!empty($_SESSION['URI']) && !empty($_SESSION['VARIATION']) && !empty($_SESSION['TEST'])) {
-                $data = array(
-                    'uri' => strtolower($_SESSION['URI']),
-                    'variation' => $_SESSION['VARIATION']
-                );
-                foreach ($_SESSION['VAR'] as $k => $v) {
-                    $data[$k] = $v;
-                }
+        $data = array(
+            'uri' => $path,
+            'variation' => trim(str_replace("/", "_", $path), "_")
+        );
+        foreach ($_SESSION['VAR'] as $k => $v) {
+            $data[$k] = $v;
+        }
 
 
-                $db = new FlatDB("database", $_SESSION['TEST']);
-                // print_r($data);exit;
-                @$result = @$db->table('data_set')->where(
-                    $data
-                )->all();
+        $db = new FlatDB("database", $this->test);
+        // print_r($data);exit;
+        @$result = @$db->table('data_set')->where(
+            $data
+        )->all();
 
-                if (!empty($result[0]['id'])) {
-                    $data = $result[0];
-                    $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
-
-                    $db->table('data_set')->update($result[0]['id'], $data);
-                }
-            }
-        } else {
-            $data = array(
-                'uri' => $path,
-                'variation' => trim(str_replace("/", "_", $path), "_")
-            );
-            foreach ($_SESSION['VAR'] as $k => $v) {
-                $data[$k] = $v;
-            }
-
-
-            $db = new FlatDB("database", $this->test);
-            // print_r($data);exit;
-            @$result = @$db->table('data_set')->where(
-                $data
-            )->all();
-
-            if (!empty($result[0]['id'])) {
-                $data = $result[0];
-                $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
-                $db->table('data_set')->update($result[0]['id'], $data);
-            }
+        if (!empty($result[0]['id'])) {
+            $data = $result[0];
+            $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
+            $db->table('data_set')->update($result[0]['id'], $data);
         }
     }
 
     function get_data()
     {
-        $db = new FlatDB(ABSPATH . LIB . '/George/database', $this->test);
+        if (file_exists(ABSPATH . LIB . '/George/database/' . $this->test)) {
+            $db = new FlatDB(ABSPATH . LIB . '/George/database', $this->test);
 
-        @$result = @$db->table('data_set')->where(
-            array(
-                'uri' => $this->visit['uri'],
-                // $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]
-            )
-        )->all();
-        // exit;
+            @$result = @$db->table('data_set')->where(
+                array(
+                    'uri' => $this->visit['uri'],
+                    // $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]
+                )
+            )->all();
+            // exit;
 
-        if (empty($result)) {
-            return false;
+            if (empty($result)) {
+                return false;
+            } else {
+                return $result;
+            }
         } else {
-            return $result;
+            return false;
         }
     }
 
@@ -390,37 +368,40 @@ class george
 
     function get_data_custom()
     {
-        // $db = new FlatDB('database', $this->test);
-        $db = new FlatDB(ABSPATH . LIB . '/George/database', $this->test);
+        if (file_exists(ABSPATH . LIB . '/George/database/' . $this->test)) {
+            // $db = new FlatDB('database', $this->test);
+            $db = new FlatDB(ABSPATH . LIB . '/George/database', $this->test);
 
-        $result = $db->table('data_set')->all();
-        // exit;
-        if (empty($result[0])) {
-            return "false";
+            $result = $db->table('data_set')->all();
+            // exit;
+            if (empty($result[0])) {
+                return "false";
+            } else {
+                return $result[0];
+            }
         } else {
-            return $result[0];
+            return false;
         }
     }
 
-    function get_data_custom_for_conversion($nameDatabase = "")
+    function get_data_custom_for_conversion($nameDatabase)
     {
+        if (file_exists('database/' . $nameDatabase)) {
+            $db = new FlatDB('database', $nameDatabase ? $nameDatabase : $this->test);
+            @$result = @$db->table('data_set')->where(
+                array(
+                    'uri' => $this->test,
+                )
+            )->all();
 
-        $db = new FlatDB('database', $nameDatabase ? $nameDatabase : $this->test);
-        //$db = new FlatDB(ABSPATH . LIB . '/George/database', $this->test);
-
-
-        @$result = @$db->table('data_set')->where(
-            array(
-                'uri' => $this->test,
-                $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]
-            )
-        )->all();
-
-        // exit;
-        if (empty($result[0])) {
-            return "false";
+            // exit;
+            if (empty($result)) {
+                return "false";
+            } else {
+                return $result;
+            }
         } else {
-            return $result[0];
+            return false;
         }
     }
 
