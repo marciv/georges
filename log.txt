@@ -1,0 +1,577 @@
+
+START : 20/05/2022 11:49:07
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 78.211.0.73
+END : 20/05/2022 11:49:07
+===================================
+START : 20/05/2022 11:49:20
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 77.131.11.188
+END : 20/05/2022 11:49:20
+===================================
+START : 20/05/2022 11:51:11
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : 89.95.213.227
+END : 20/05/2022 11:51:11
+===================================
+START : 20/05/2022 11:54:36
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 90.103.112.113
+END : 20/05/2022 11:54:36
+===================================
+START : 20/05/2022 12:00:43
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : 82.121.29.219
+END : 20/05/2022 12:00:43
+===================================
+START : 20/05/2022 12:02:24
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 37.166.200.47
+END : 20/05/2022 12:02:24
+===================================
+START : 20/05/2022 12:05:59
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 37.164.108.210
+END : 20/05/2022 12:05:59
+===================================
+START : 20/05/2022 12:08:34
+Variation : /pho/lan/16/
+HTTP REFERER : https://www.je-renove.net/pho/lan/06/index.php?utm_campaign=Search&utm_source=adword&utm_content=panneau%20solaire%20prix&gclid=Cj0KCQjw-JyUBhCuARIsANUqQ_IA85q0Xw_hN9UP3ymD-fY__GELPsjtUIIbmOwX7WNThMhRfJkX6m0aAoLdEALw_wcB
+Variation Name AVANT modif : /pho/lan/06/index.php
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 92.184.106.254
+END : 20/05/2022 12:08:34
+===================================
+START : 20/05/2022 12:22:31
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 90.11.161.48
+END : 20/05/2022 12:22:31
+===================================
+START : 20/05/2022 12:28:01
+Variation : /pho/lan/16/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_16
+DATA : 
+PATH => /pho/lan/16/
+CONVERSION SAVE : FAILED
+TYPE DEVICE : mobile
+IP : 93.23.196.103
+END : 20/05/2022 12:28:01
+===================================
+START : 20/05/2022 12:33:40
+Variation : /pho/lan/16/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_16
+DATA : 
+PATH => /pho/lan/16/
+CONVERSION SAVE : FAILED
+TYPE DEVICE : tablet
+IP : 88.163.99.213
+END : 20/05/2022 12:33:40
+===================================
+START : 20/05/2022 12:39:28
+Variation : /pho/lan/16/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_16
+DATA : 
+PATH => /pho/lan/16/
+CONVERSION SAVE : FAILED
+TYPE DEVICE : mobile
+IP : 37.172.54.55
+END : 20/05/2022 12:39:28
+===================================
+START : 20/05/2022 12:42:25
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 37.169.26.224
+END : 20/05/2022 12:42:25
+===================================
+START : 20/05/2022 12:44:50
+Variation : /pho/lan/16/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_16
+DATA : 
+PATH => /pho/lan/16/
+CONVERSION SAVE : FAILED
+TYPE DEVICE : mobile
+IP : 77.194.46.23
+END : 20/05/2022 12:44:50
+===================================
+START : 20/05/2022 12:45:13
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=194&utm_content=1758&utm_medium=124&utm_term=2323&civ={civilty}&ville={city}&nom=Guibaud&prenom=michel&tel={phoneNumberMobile}&cp={postalCity}&email=michelguibaud@yahoo.fr
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : 31.37.118.107
+END : 20/05/2022 12:45:13
+===================================
+START : 20/05/2022 12:46:42
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 81.185.169.227
+END : 20/05/2022 12:46:42
+===================================
+START : 20/05/2022 12:46:55
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 80.119.171.25
+END : 20/05/2022 12:46:55
+===================================
+START : 20/05/2022 12:47:34
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 197.203.238.38
+END : 20/05/2022 12:47:34
+===================================
+START : 20/05/2022 12:47:57
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 92.184.112.167
+END : 20/05/2022 12:47:57
+===================================
+START : 20/05/2022 12:52:45
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 92.184.116.37
+END : 20/05/2022 12:52:45
+===================================
+START : 20/05/2022 12:57:30
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 93.28.169.131
+END : 20/05/2022 12:57:30
+===================================
+START : 20/05/2022 13:01:23
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=194&utm_content=1758&utm_medium=124&utm_term=2323&civ={civilty}&ville={city}&nom=Guibaud&prenom=michel&tel={phoneNumberMobile}&cp={postalCity}&email=michelguibaud@yahoo.fr
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : 31.37.118.107
+END : 20/05/2022 13:01:23
+===================================
+START : 20/05/2022 13:04:39
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 77.130.153.254
+END : 20/05/2022 13:04:39
+===================================
+START : 20/05/2022 13:10:11
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 91.166.73.200
+END : 20/05/2022 13:10:11
+===================================
+START : 20/05/2022 13:12:16
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 90.107.198.248
+END : 20/05/2022 13:12:16
+===================================
+START : 20/05/2022 13:12:47
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 194.51.113.30
+END : 20/05/2022 13:12:47
+===================================
+START : 20/05/2022 13:13:47
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 88.219.187.252
+END : 20/05/2022 13:13:47
+===================================
+START : 20/05/2022 13:16:40
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 91.170.32.3
+END : 20/05/2022 13:16:40
+===================================
+START : 20/05/2022 13:18:07
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 88.170.66.42
+END : 20/05/2022 13:18:07
+===================================
+START : 20/05/2022 13:19:11
+Variation : /pho/lan/06/index.php
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/index.php
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 37.171.57.85
+END : 20/05/2022 13:19:11
+===================================
+START : 20/05/2022 13:31:23
+Variation : /pho/lan/16/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_16
+DATA : 
+PATH => /pho/lan/16/
+CONVERSION SAVE : FAILED
+TYPE DEVICE : mobile
+IP : 91.170.114.187
+END : 20/05/2022 13:31:23
+===================================
+START : 20/05/2022 13:31:53
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 92.184.116.5
+END : 20/05/2022 13:31:53
+===================================
+START : 20/05/2022 13:33:28
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 185.228.229.103
+END : 20/05/2022 13:33:28
+===================================
+START : 20/05/2022 13:38:47
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 83.193.157.25
+END : 20/05/2022 13:38:47
+===================================
+START : 20/05/2022 13:43:06
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 84.4.110.111
+END : 20/05/2022 13:43:06
+===================================
+START : 20/05/2022 13:47:14
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 92.138.177.123
+END : 20/05/2022 13:47:14
+===================================
+START : 20/05/2022 13:48:25
+Variation : /pho/lan/16/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_16
+DATA : 
+PATH => /pho/lan/16/
+CONVERSION SAVE : FAILED
+TYPE DEVICE : mobile
+IP : 88.160.98.208
+END : 20/05/2022 13:48:25
+===================================
+START : 20/05/2022 13:48:37
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 85.168.96.42
+END : 20/05/2022 13:48:37
+===================================
+START : 20/05/2022 13:49:42
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 81.53.205.22
+END : 20/05/2022 13:49:42
+===================================
+START : 20/05/2022 13:51:18
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : tablet
+IP : 90.73.82.117
+END : 20/05/2022 13:51:18
+===================================
+START : 20/05/2022 13:52:16
+Variation : /pho/lan/06/index.php
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/index.php
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 109.209.119.220
+END : 20/05/2022 13:52:16
+===================================
+START : 20/05/2022 13:52:48
+Variation : /pho/lan/06/index.php
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/index.php
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : 37.167.194.128
+END : 20/05/2022 13:52:48
+===================================
+START : 20/05/2022 13:52:57
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 91.164.142.194
+END : 20/05/2022 13:52:57
+===================================
+START : 20/05/2022 13:54:32
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 37.166.155.114
+END : 20/05/2022 13:54:32
+===================================
+START : 20/05/2022 13:56:08
+Variation : /pho/lan/16/
+HTTP REFERER : https://www.je-renove.net/pho/lan/06/index.php?utm_campaign=Search&utm_source=adword&utm_content=tarif%20panneau%20solaire&gclid=Cj0KCQjw-JyUBhCuARIsANUqQ_KortRxPMdEOo_vJOfA5Ms8Vrr7Iht3tQ9W2H9a3_9ltB-eZ9MHJBEaAsNhEALw_wcB
+Variation Name AVANT modif : /pho/lan/06/index.php
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 91.174.41.132
+END : 20/05/2022 13:56:08
+===================================
+START : 20/05/2022 14:01:05
+Variation : /pho/lan/16/
+HTTP REFERER : https://solaire-projet.com/pho/lan/06/?utm_source=ag3&utm_campaign=713&utm_content=1407&utm_medium=124&utm_term=317&civ=&ville={city}&nom=&prenom=&tel={phoneNumberMobile}&cp={postalCity}&email=
+Variation Name AVANT modif : /pho/lan/06/
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/16/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 91.175.64.229
+END : 20/05/2022 14:01:05
+===================================
+START : 20/05/2022 14:04:34
+Variation : /pho/lan/06/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 92.145.168.128
+END : 20/05/2022 14:04:34
+===================================
+START : 20/05/2022 14:05:42
+Variation : /pho/lan/06/index.php
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : pho_lan_06
+DATA : false
+PATH => /pho/lan/06/index.php
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : 92.184.97.114
+END : 20/05/2022 14:05:42
+===================================
