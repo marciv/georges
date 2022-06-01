@@ -1,0 +1,13 @@
+{
+    "name": "compleo/georges",
+    "description": "bandit manchot AB testing",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "marciv",
+            "email": "barlot.marc@gmail.com"
+        }
+    ],
+    "require": {}
+}
