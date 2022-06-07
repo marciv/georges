@@ -577,21 +577,21 @@ class george
             $draw .= '<div class="col-6">
                     <h6 class="mt-5 text-center">Convertion mobile</h6>
                     <div class="roundedCardText mx-auto">
-                        <div><b>' . $value['nb_conversion_mobile'] . '</b></div>
+                        <div><b>' .  round(($value['nb_conversion_mobile'] / $value['nb_visit']) * 100, 1) . '%</b></div>
                     </div>
                 </div>';
 
             $draw .= '<div class="col-6">
                         <h6 class="mt-5 text-center">Conversion tablette</h6>
                         <div class="roundedCardText mx-auto">
-                            <div><b>' . $value['nb_conversion_tablet'] . '</b></div>
+                            <div><b>' . round(($value['nb_conversion_tablet'] / $value['nb_visit']) * 100, 1) . '%</b></div>
                         </div>
                     </div>';
 
             $draw .= '<div class="col-6">
                     <h6 class="mt-5 text-center">Conversion PC</h6>
                     <div class="roundedCardText mx-auto">
-                        <div><b>' . $value['nb_conversion_desktop'] . '</b></div>
+                        <div><b>' . round(($value['nb_conversion_desktop'] / $value['nb_visit']) * 100, 1) . '%</b></div>
                     </div>
                 </div>';
 
