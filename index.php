@@ -9,15 +9,20 @@
     <title>George</title>
 
     <style>
-        <?php @include_once "css/bootstrap.min.css";
-        @require "class.george.php";
-        ?>
+        <?php @include_once "css/bootstrap.min.css"; ?>
     </style>
 
     <link href="./css/style.css" rel="stylesheet">
 </head>
 
 <body>
+    <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    require "class.george.php";
+
+    ?>
     <div class="main-george">
         <h1 class="mb-3 text-center">George</h1>
 

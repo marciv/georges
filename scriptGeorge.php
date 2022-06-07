@@ -1,5 +1,7 @@
-<!--GEORGE-->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $request_uri = str_replace('index.php', '', $request_uri);
 $variationName = trim(str_replace("/", "_",  $request_uri), "_"); //Nom variation actuel 
@@ -23,11 +25,18 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
             )
         )
     );
+
+    if (empty($variableQuery)) {
+        $http_referer = "?http_referer=" . $variationName;
+    } else {
+        $http_referer = "&http_referer=" . $variationName;
+    }
+
     foreach ($data['listVariation'] as $v) { //On parcours la liste des variations disponible 
         $george->add_variation(
             array(
                 $v['name'] => array( //Name variation
-                    "lp" => $v['uri'] . $variableQuery . "&http_referer=" . $variationName, //Link variation
+                    "lp" => $v['uri'] . $variableQuery . $http_referer, //Link variation
                 )
             )
         );
@@ -37,6 +46,7 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
         $george->render('lp');
     } else {
         header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $george->render("lp"));
+        exit;
         // echo '<script>window.location="https://"+window.location.host+"' . $george->render("lp") . '"</script>';
     }
 } else {
@@ -45,7 +55,6 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
     } catch (\Throwable $th) {
     }
 }
-
 ?>
 
 <script>
