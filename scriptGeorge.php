@@ -9,8 +9,6 @@ $variableQuery =  parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ? "?" . pars
 $george = new george($variationName); // On vérifie si une bdd avec le nom existe
 $data = $george->get_data_custom();
 
-var_dump($data);
-
 if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $data != false) && $data['status'] != 1) {
     //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
     // options
@@ -63,7 +61,8 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
             var formData = new FormData();
             formData.append("path", window.location.pathname);
             var http_referer = <?php echo json_encode($_GET['http_referer']); ?>;
-            var status = <?php echo $data['status']; ?>;
+            var status = <?php echo json_encode($data['status']); ?>;
+
 
             console.log(http_referer);
             if (http_referer == null || http_referer == undefined || http_referer == "") {
