@@ -1,1 +1,0 @@
-<?php exit(); ?>a:3:{s:7:"last_id";i:2;s:7:"indexes";a:1:{s:2:"id";a:2:{i:0;i:1;i:1;i:2;}}s:5:"count";i:2;}

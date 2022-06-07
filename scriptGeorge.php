@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $request_uri = str_replace('index.php', '', $request_uri);
 $variationName = trim(str_replace("/", "_",  $request_uri), "_"); //Nom variation actuel 
@@ -9,7 +9,9 @@ $variableQuery =  parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ? "?" . pars
 $george = new george($variationName); // On vérifie si une bdd avec le nom existe
 $data = $george->get_data_custom();
 
-if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $data != false)) {
+var_dump($data);
+
+if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $data != false) && $data['status'] != 1) {
     //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
     // options
     $george->set_option(
@@ -49,11 +51,6 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
         exit;
         // echo '<script>window.location="https://"+window.location.host+"' . $george->render("lp") . '"</script>';
     }
-} else {
-    try {
-        $george->deleteData(ABSPATH . LIB . "/George/database/" . $variationName);
-    } catch (\Throwable $th) {
-    }
 }
 ?>
 
@@ -65,7 +62,8 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
 
             var formData = new FormData();
             formData.append("path", window.location.pathname);
-            var http_referer = <?php echo json_encode($_GET['http_referer']); ?>
+            var http_referer = <?php echo json_encode($_GET['http_referer']); ?>;
+            var status = <?php echo $data['status']; ?>;
 
             console.log(http_referer);
             if (http_referer == null || http_referer == undefined || http_referer == "") {
@@ -83,7 +81,10 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
             }
             var i = "../../../library/George/addConversion.php";
             xmlHttp.open("post", i)
-            xmlHttp.send(formData);
+
+            if (status != "1") {
+                xmlHttp.send(formData);
+            }
         });
     });
 </script>

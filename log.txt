@@ -17002,3 +17002,99 @@ TYPE DEVICE : computer
 IP : 90.92.56.247
 END : 06/06/2022 12:37:35
 ===================================
+START : 07/06/2022 10:25:43
+Variation : /1root/test/lan/09/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : 1root_test_lan_09
+DATA : false
+PATH => /1root/test/lan/09/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : ::1
+END : 07/06/2022 10:25:43
+===================================
+START : 07/06/2022 11:36:03
+Variation : /1root/test/lan/08/
+HTTP REFERER : 1root_test_lan_09
+Variation Name AVANT modif : 1root_test_lan_09
+Variation Name APRES modif : 1root_test_lan_09
+DATA : false
+PATH => /1root/test/lan/08/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : ::1
+END : 07/06/2022 11:36:03
+===================================
+START : 07/06/2022 11:40:00
+Variation : /1root/test/lan/08/
+HTTP REFERER : 1root_test_lan_09
+Variation Name AVANT modif : 1root_test_lan_09
+Variation Name APRES modif : 1root_test_lan_09
+DATA : false
+PATH => /1root/test/lan/08/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : ::1
+END : 07/06/2022 11:40:01
+===================================
+START : 07/06/2022 14:16:48
+Variation : 
+HTTP REFERER : 
+Variation Name AVANT modif : 
+Variation Name APRES modif : 1root_test_lan_08
+DATA : 
+PATH => 
+CONVERSION SAVE : FAILED
+TYPE DEVICE : computer
+IP : ::1
+END : 07/06/2022 14:16:48
+===================================
+START : 07/06/2022 14:17:10
+Variation : 
+HTTP REFERER : 
+Variation Name AVANT modif : 
+Variation Name APRES modif : 1root_test_lan_08
+DATA : Array
+PATH => 
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : ::1
+END : 07/06/2022 14:17:10
+===================================
+START : 07/06/2022 14:17:55
+Variation : 
+HTTP REFERER : 
+Variation Name AVANT modif : /1root/test/lan/09/
+Variation Name APRES modif : 1root_test_lan_09
+DATA : 
+PATH => 
+CONVERSION SAVE : FAILED
+TYPE DEVICE : computer
+IP : ::1
+END : 07/06/2022 14:17:55
+===================================
+START : 07/06/2022 14:25:20
+Variation : /1root/test/lan/08/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : 1root_test_lan_08
+DATA : false
+PATH => /1root/test/lan/08/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : computer
+IP : ::1
+END : 07/06/2022 14:25:20
+===================================
+START : 07/06/2022 14:30:46
+Variation : /1root/test/lan/08/
+HTTP REFERER : null
+Variation Name AVANT modif : null
+Variation Name APRES modif : 1root_test_lan_08
+DATA : false
+PATH => /1root/test/lan/08/
+CONVERSION SAVE : SUCCESSS
+TYPE DEVICE : mobile
+IP : ::1
+END : 07/06/2022 14:30:46
+===================================

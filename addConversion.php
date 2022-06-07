@@ -10,9 +10,6 @@ $txt .= "START : " . $start->format("d/m/Y H:i:s") . "\n";
 $txt .= "Variation : " . $_POST['path'] . "\n";
 $txt .= "HTTP REFERER : " . $_POST['conversion_path'] . "\n";
 
-
-
-
 $http_referer =  $_POST['conversion_path']; //HTTP Referer
 
 $txt .= "Variation Name AVANT modif : " . $http_referer . "\n";

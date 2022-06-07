@@ -47,9 +47,18 @@ This Folder contains all library require for George
 - Mobile-Detect-2.8.25 => Detection for mobile
 - class.browser.php => Detection for browser
 
-### File addABTest.php
+### File AddConversion.php
 
-Script for create ABTest with one URL conversion, one Discovery Rate and variation URL
+Script for save a conversion to a variation URL
+
+### File abtest.php
+
+File for see data [nb_visit, coonversion, tx, etc...]
+acces with parameter $_GET['dbName']
+
+### File changeStatus.php
+
+Script for change status PAUSE OR STARTED of abtest
 
 ### File AddConversion.php
 

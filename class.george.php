@@ -98,6 +98,9 @@ class george
             'variation' => $this->selected_view_name,
             'nb_visit' => 1,
             'nb_conversion' => 0,
+            'nb_conversion_mobile' => 0,
+            'nb_conversion_tablet' => 0,
+            'nb_conversion_desktop' => 0
         );
 
         // print_r($data);exit;
@@ -143,6 +146,14 @@ class george
                 $data = $result[0];
                 $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
 
+                if ($this->visit['device_type'] == "mobile") {
+                    $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
+                } else if ($this->visit['device_type'] == "tablet") {
+                    $data['nb_conversion_tablet'] = max(0, $result[0]['nb_conversion_tablet']) + 1;
+                } else {
+                    $data['nb_conversion_desktop'] = max(0, $result[0]['nb_conversion_desktop']) + 1;
+                }
+
                 $db->table('data_set')->update($result[0]['id'], $data);
             }
         } else {
@@ -172,6 +183,13 @@ class george
         if (!empty($result[0]['id'])) {
             $data = $result[0];
             $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
+            if ($this->visit['device_type'] == "mobile") {
+                $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
+            } else if ($this->visit['device_type'] == "tablet") {
+                $data['nb_conversion_tablet'] = max(0, $result[0]['nb_conversion_tablet']) + 1;
+            } else {
+                $data['nb_conversion_desktop'] = max(0, $result[0]['nb_conversion_desktop']) + 1;
+            }
             $db->table('data_set')->update($result[0]['id'], $data);
         }
     }
@@ -358,7 +376,11 @@ class george
             'discovery_rate' => $discovery_rate,
             'default_view' => $this->test,
             'nb_visit' => 0,
+            'status' => 0,
             'nb_conversion' => 0,
+            'nb_conversion_mobile' => 0,
+            'nb_conversion_tablet' => 0,
+            'nb_conversion_desktop' => 0,
             'date_time' => new \DateTime(),
         );
 
@@ -367,6 +389,28 @@ class george
         );
 
         return;
+    }
+
+    function changeStatus()
+    {
+        $db = new FlatDB('database', $this->test);
+
+        // print_r($data);exit;
+        @$result = @$db->table('data_set')->where(
+            array(
+                'variation' => $this->test,
+            )
+        )->all();
+
+        $data = $result[0];
+
+        if ($result[0]['status'] == 0) {
+            $data['status'] = 1; //Pause
+        } else {
+            $data['status'] = 0; //Resume
+        }
+
+        $db->table('data_set')->update($result[0]['id'], $data);
     }
 
     function get_data_custom()
@@ -381,6 +425,24 @@ class george
                 return "false";
             } else {
                 return $result[0];
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function get_data_by_abtest()
+    {
+        if (file_exists('database/' . $this->test)) {
+            // $db = new FlatDB('database', $this->test);
+            $db = new FlatDB('database', $this->test);
+
+            $result = $db->table('data_set')->all();
+            // exit;
+            if (empty($result[0])) {
+                return "false";
+            } else {
+                return $result;
             }
         } else {
             return false;
@@ -418,7 +480,19 @@ class george
             $nameABtest = "";
             $t .= '<div class="card"><div class="cadre-text p-3">';
             $t .= "<p class='text-center'><u>Date</u> : <b>" . $oneDB[0]['date_time']->format('d/m/Y H:i') . "</b></p>";
-            $t .= "<div class='d-flex justify-content-between'><p><u>Discovery Rate</u> : <b>" . $oneDB[0]['discovery_rate'] . "</b></p><a class='btn btn-outline-danger' href='delDB.php?db=" . $oneDB[0]['variation'] . "'>Delete</a></div>";
+            if ($oneDB[0]['status'] == 0) {
+                $t .= "<p class='text-center text-primary'><b>En cours</b></p>";
+            } else {
+                $t .= "<p class='text-center text-warning'><b>En pause</b></p>";
+            }
+            $t .= "<div class='d-flex justify-content-between'>
+                        <p><u>Discovery Rate</u> : <b>" . $oneDB[0]['discovery_rate'] . "</b></p>";
+            $t .= "<a class='btn btn-outline-danger' href='delDB.php?db=" . $oneDB[0]['variation'] . "'>Delete</a>";
+            if ($oneDB[0]['status'] == 0) {
+                $t .= "<a class='btn btn-outline-warning' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Pause</a></div>";
+            } else {
+                $t .= "<a class='btn btn-outline-primary' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Reprendre</a></div>";
+            }
             foreach ($oneDB as $index => $entry) {
                 $nameABtest .= trim($entry['uri'], "/") . ' & ';
                 $t .= '<div class="col-12 mx-auto mt-2 mb-2">';
@@ -447,10 +521,105 @@ class george
                 $t .= '</div>';
                 $t .= '</div>';
             }
-            $t .= '</div><div class="bottomBar bg-primary text-white text-center"><h5>' . trim($nameABtest, ' & ') . '</h5></div>';
+            $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($nameABtest, ' & ') . '</h5></a></div>';
             $t .= "</div>";
         }
 
         return $t;
+    }
+
+
+    function array_msort($array, $cols)
+    {
+        $colarr = array();
+        foreach ($cols as $col => $order) {
+            $colarr[$col] = array();
+            foreach ($array as $k => $row) {
+                $colarr[$col]['_' . $k] = strtolower($row[$col]);
+            }
+        }
+        $eval = 'array_multisort(';
+        foreach ($cols as $col => $order) {
+            $eval .= '$colarr[\'' . $col . '\'],' . $order . ',';
+        }
+        $eval = substr($eval, 0, -1) . ');';
+        eval($eval);
+        $ret = array();
+        foreach ($colarr as $col => $arr) {
+            foreach ($arr as $k => $v) {
+                $k = substr($k, 1);
+                if (!isset($ret[$k])) $ret[$k] = $array[$k];
+                $ret[$k][$col] = $array[$k][$col];
+            }
+        }
+        return $ret;
+    }
+
+    function draw_abtest()
+    {
+        $abtest = $this->get_data_by_abtest();
+        $draw = '<div class="d-flex align-items-center justify-content-evenly">';
+
+        $abtest = $this->array_msort($abtest, array('nb_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC)); //Permet de trier un tableau multidimensionnel par ordre décroissant
+
+        $i = 0;
+        foreach ($abtest as $key => $value) {
+
+            $draw .= '<div class="card">';
+            $draw .= '<h2 class="text-center">' . $value['variation'] . '</h2>';
+            $draw .= '<div class="row justify-content-center align-items-center">';
+            $draw .= '<div class="col-6">
+                            <h6 class="mt-5 text-center">Nombre de visiteur</h6>
+                            <div class="roundedCardText mx-auto">
+                                <div><b>' . $value['nb_visit'] . '</b></div>
+                            </div>
+                        </div>';
+            $draw .= '<div class="col-6">
+                    <h6 class="mt-5 text-center">Convertion mobile</h6>
+                    <div class="roundedCardText mx-auto">
+                        <div><b>' . $value['nb_conversion_mobile'] . '</b></div>
+                    </div>
+                </div>';
+
+            $draw .= '<div class="col-6">
+                        <h6 class="mt-5 text-center">Conversion tablette</h6>
+                        <div class="roundedCardText mx-auto">
+                            <div><b>' . $value['nb_conversion_tablet'] . '</b></div>
+                        </div>
+                    </div>';
+
+            $draw .= '<div class="col-6">
+                    <h6 class="mt-5 text-center">Conversion PC</h6>
+                    <div class="roundedCardText mx-auto">
+                        <div><b>' . $value['nb_conversion_desktop'] . '</b></div>
+                    </div>
+                </div>';
+
+            $draw .= '<div class="col-6">
+                <h6 class="mt-5 text-center">Conversion total</h6>
+                <div class="roundedCardText mx-auto">
+                    <div><b>' . $value['nb_conversion'] . '</b></div>
+                </div>
+            </div>';
+
+            $draw .= '<div class="col-6">
+                    <h6 class="mt-5 text-center">Taux de conversion</h6>';
+            if ($i == 0) { //On repère le premier et le plus performant
+                $draw .= '<div class="roundedCardText text-white bg-success mx-auto">';
+            } else {
+                $draw .= '<div class="roundedCardText text-white bg-warning mx-auto">';
+            }
+            $draw .= '<div><b>' . round(($value['nb_conversion'] / $value['nb_visit']) * 100, 1) . '%</b></div>
+                    </div>
+                </div>';
+            $draw .= '</div>';
+            $draw .= '</div>';
+
+            $i++;
+        }
+
+        $draw .= "</div>";
+
+        return $draw;
     }
 }
