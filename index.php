@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
     <title>George</title>
 
     <style>
-        <?php @include_once "../bs4/css/bootstrap.min.css";
+        <?php @include_once "css/bootstrap.min.css";
         @require "class.george.php";
         ?>
     </style>

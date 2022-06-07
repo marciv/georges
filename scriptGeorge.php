@@ -1,0 +1,80 @@
+<!--GEORGE-->
+<?php
+$request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$request_uri = str_replace('index.php', '', $request_uri);
+$variationName = trim(str_replace("/", "_",  $request_uri), "_"); //Nom variation actuel 
+$variableQuery =  parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ? "?" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) : "";   //Récupération des query
+$george = new george($variationName); // On vérifie si une bdd avec le nom existe
+$data = $george->get_data_custom();
+
+if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $data != false)) {
+    //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
+    // options
+    $george->set_option(
+        array(
+            "discovery_rate" => $data['discovery_rate'],
+            "default_view" => $data['default_view'],
+        )
+    );
+    $george->add_variation(
+        array(
+            $variationName => array( //Name variation
+                "lp" => "", //Link variation
+            )
+        )
+    );
+    foreach ($data['listVariation'] as $v) { //On parcours la liste des variations disponible 
+        $george->add_variation(
+            array(
+                $v['name'] => array( //Name variation
+                    "lp" => $v['uri'] . $variableQuery . "&http_referer=" . $variationName, //Link variation
+                )
+            )
+        );
+    }
+    $george->calculate(); // On ajoute à la variation actuel
+    if ($variationName == $george->selected_view_name) {
+        $george->render('lp');
+    } else {
+        header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $george->render("lp"));
+        // echo '<script>window.location="https://"+window.location.host+"' . $george->render("lp") . '"</script>';
+    }
+} else {
+    try {
+        $george->deleteData(ABSPATH . LIB . "/George/database/" . $variationName);
+    } catch (\Throwable $th) {
+    }
+}
+
+?>
+
+<script>
+    window.addEventListener('load', (event) => {
+        document.addEventListener('form-sended', function(event) { //Event custom quand le form est envoyé et validé 
+
+            console.log('FORM SENDED');
+
+            var formData = new FormData();
+            formData.append("path", window.location.pathname);
+            var http_referer = <?php echo json_encode($_GET['http_referer']); ?>
+
+            console.log(http_referer);
+            if (http_referer == null || http_referer == undefined || http_referer == "") {
+                http_referer = null;
+            }
+
+            formData.append("conversion_path", http_referer);
+
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    console.log(xmlHttp.responseText);
+                }
+            }
+            var i = "../../../library/George/addConversion.php";
+            xmlHttp.open("post", i)
+            xmlHttp.send(formData);
+        });
+    });
+</script>

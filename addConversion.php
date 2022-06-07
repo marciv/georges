@@ -5,6 +5,7 @@ require  "class.george.php";
 $myfile = fopen("log.txt", "a") or die("Unable to open file!");
 
 $start = new \DateTime();
+$txt = "";
 $txt .= "START : " . $start->format("d/m/Y H:i:s") . "\n";
 $txt .= "Variation : " . $_POST['path'] . "\n";
 $txt .= "HTTP REFERER : " . $_POST['conversion_path'] . "\n";
@@ -12,13 +13,15 @@ $txt .= "HTTP REFERER : " . $_POST['conversion_path'] . "\n";
 
 
 
-$variationName =  parse_url($_POST['conversion_path'], PHP_URL_PATH); //HTTP Referer
+$http_referer =  $_POST['conversion_path']; //HTTP Referer
 
-$txt .= "Variation Name AVANT modif : " . $variationName . "\n";
+$txt .= "Variation Name AVANT modif : " . $http_referer . "\n";
 
 
-if (empty($variationName) || $variationName == "null") { //Si pas HTTP Referer alors on ajoute la conversion au path actuel
+if (empty($http_referer) || $http_referer == "null") { //Si pas HTTP Referer alors on ajoute la conversion au path actuel
     $variationName = $_POST['path'];
+} else {
+    $variationName = $http_referer;
 }
 
 $variationName = str_replace("index.php", "", $variationName);

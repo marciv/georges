@@ -1,7 +1,4 @@
 <?php
-
-use LDAP\Result;
-
 include_once './library/Mobile-Detect-2.8.25/Mobile_Detect.php';
 include_once './library/class.browser.php';
 include_once './library/FlatDB/flatdb.php';
@@ -153,6 +150,8 @@ class george
         }
     }
 
+
+
     function save_conversion_custom($path = "")
     {
         $data = array(
@@ -282,6 +281,10 @@ class george
         $_SESSION['TEST'] = $this->test;
         $_REQUEST['utm_campaign'] = @trim("-", $this->test . "-" . $this->selected_view_name . "-" . $_REQUEST['utm_campaign']);
     }
+
+
+
+
 
     function get_ip()
     {

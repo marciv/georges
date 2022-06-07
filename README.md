@@ -8,9 +8,9 @@ First, create a folder here name "George":
 C:\\Wamp\www\1root\library\
 ```
 
-Past All file here without master-headerV4
+Past All file here
 
-Second, move master-headerV4 in the same folder to master-headerV2
+Second, include scriptGeorge.php in the master-header.php
 
 ```
 C:\\Wamp\www\1root\
@@ -18,14 +18,11 @@ C:\\Wamp\www\1root\
 
 Then in the LP:
 
-- Include master-headerV4(In Futur master-headerV2) in the index.php
+- Include master-header in the index.php
 - Include in the js/general.js where the form is sent a custom event see below
 
 ```
-let event = new CustomEvent('form-sended', {
-bubbles: true,
-cancelable: false
-});
+let event = new CustomEvent('form-sended');
 
 document.dispatchEvent(event);
 ```
@@ -66,9 +63,9 @@ Script for delete a DB and delete files and folder with a name
 
 Interface User for George
 
-### File master-headerV4.php
+### File scriptGeorge.php
 
-This file is the master-headerV4 for the LP and contain script for search if DB and data exist and launch the script for calculate visit and the conversion
+This file is the "scriptGeorge.php" for the LP and contain script for search if DB and data exist and launch the script for calculate visit and the conversion, include this file in the header of the page
 
 ## Running the tests
 
