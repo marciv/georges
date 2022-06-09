@@ -54,14 +54,17 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
 
 <script>
     window.addEventListener('load', (event) => {
-        document.addEventListener('form-sended', function(event) { //Event custom quand le form est envoyé et validé 
-
+        let submitBtn = document.getElementById('final-submit');
+        submitBtn.addEventListener('click', function(evt) {
+            console.log("Clicked ============================================");
             console.log('FORM SENDED');
 
             var formData = new FormData();
             formData.append("path", window.location.pathname);
             var http_referer = <?php echo json_encode($_GET['http_referer']); ?>;
             var status = <?php echo json_encode($data['status']); ?>;
+
+            console.log('status ===>' + status);
 
 
             console.log(http_referer);
@@ -81,7 +84,7 @@ if (isset($data['uri']) && ($data['uri'] == $request_uri  && !empty($data) || $d
             var i = "../../../library/George/addConversion.php";
             xmlHttp.open("post", i)
 
-            if (status != "1") {
+            if (status != "1" || status != 1) {
                 xmlHttp.send(formData);
             }
         });

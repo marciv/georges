@@ -98,6 +98,7 @@ class george
             'variation' => $this->selected_view_name,
             'nb_visit' => 1,
             'nb_conversion' => 0,
+            'tx_conversion' => 0,
             'nb_conversion_mobile' => 0,
             'nb_conversion_tablet' => 0,
             'nb_conversion_desktop' => 0
@@ -145,6 +146,7 @@ class george
             if (!empty($result[0]['id'])) {
                 $data = $result[0];
                 $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
+                $data['tx_conversion'] = round(($data['nb_conversion'] / $data['nb_visit']) * 100, 1);
 
                 if ($this->visit['device_type'] == "mobile") {
                     $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
@@ -162,7 +164,12 @@ class george
     }
 
 
-
+    /**
+     * Save conversion with path
+     *
+     * @param string $path
+     * @return void
+     */
     function save_conversion_custom($path = "")
     {
         $data = array(
@@ -183,6 +190,7 @@ class george
         if (!empty($result[0]['id'])) {
             $data = $result[0];
             $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
+            $data['tx_conversion'] = round(($data['nb_conversion'] / $data['nb_visit']) * 100, 1);
             if ($this->visit['device_type'] == "mobile") {
                 $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
             } else if ($this->visit['device_type'] == "tablet") {
@@ -333,7 +341,10 @@ class george
     }
 
 
-
+    /**
+     * Get list of all DB in directory database
+     * @return array
+     */
     function show_allData()
     {
         $dirs = scandir("database"); //On récupère le nom de toutes les DB disponibles
@@ -354,6 +365,12 @@ class george
         return $ListDB;
     }
 
+    /**
+     * Delete DB
+     *
+     * @param string $nameDB
+     * @return void
+     */
     function deleteData($nameDB)
     {
         foreach (new DirectoryIterator($nameDB) as $item) {
@@ -363,7 +380,14 @@ class george
         rmdir($nameDB);
     }
 
-
+    /**
+     * Create DB for ABTEST
+     *
+     * @param string $url_conversion
+     * @param string $discovery_rate
+     * @param string $urls_variation
+     * @return void
+     */
     function registerInDB($url_conversion, $discovery_rate, $urls_variation)
     {
 
@@ -378,6 +402,7 @@ class george
             'nb_visit' => 0,
             'status' => 0,
             'nb_conversion' => 0,
+            'tx_conversion' => 0,
             'nb_conversion_mobile' => 0,
             'nb_conversion_tablet' => 0,
             'nb_conversion_desktop' => 0,
@@ -390,7 +415,11 @@ class george
 
         return;
     }
-
+    /**
+     * Change State of ABTEST
+     *
+     * @return void
+     */
     function changeStatus()
     {
         $db = new FlatDB('database', $this->test);
@@ -413,6 +442,11 @@ class george
         $db->table('data_set')->update($result[0]['id'], $data);
     }
 
+    /**
+     * Get data from master-header
+     *
+     * @return void
+     */
     function get_data_custom()
     {
         if (file_exists(ABSPATH . LIB . '/George/database/' . $this->test)) {
@@ -430,7 +464,9 @@ class george
             return false;
         }
     }
-
+    /**
+     * Get data for one ABTEST
+     */
     function get_data_by_abtest()
     {
         if (file_exists('database/' . $this->test)) {
@@ -470,6 +506,11 @@ class george
         }
     }
 
+    /**
+     * Display all DB
+     *
+     * @return string
+     */
     function draw_allData()
     {
         $allDb = $this->show_allData();
@@ -514,7 +555,7 @@ class george
                     $t .= '<div class="col-4">
                     <div class="roundedCardText mx-auto">
                         <div>TX</div>
-                        <div><b>(' . round(($entry['nb_conversion'] / $entry['nb_visit']) * 100, 1) . '%)</b></div>
+                        <div><b>(' . $entry['tx_conversion'] . '%)</b></div>
                     </div>
                 </div>';
                 }
@@ -528,7 +569,12 @@ class george
         return $t;
     }
 
-
+    /**
+     * Sort array multidimentional
+     * @param array $array
+     * @param string $cols
+     * @return array
+     */
     function array_msort($array, $cols)
     {
         $colarr = array();
@@ -555,12 +601,16 @@ class george
         return $ret;
     }
 
+    /**
+     * Display data for one ABTest
+     * @return string
+     */
     function draw_abtest()
     {
         $abtest = $this->get_data_by_abtest();
         $draw = '<div class="d-flex align-items-center justify-content-evenly">';
 
-        $abtest = $this->array_msort($abtest, array('nb_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC)); //Permet de trier un tableau multidimensionnel par ordre décroissant
+        $abtest = $this->array_msort($abtest, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC)); //Permet de trier un tableau multidimensionnel par ordre décroissant
 
         $i = 0;
         foreach ($abtest as $key => $value) {
@@ -609,7 +659,7 @@ class george
             } else {
                 $draw .= '<div class="roundedCardText text-white bg-warning mx-auto">';
             }
-            $draw .= '<div><b>' . round(($value['nb_conversion'] / $value['nb_visit']) * 100, 1) . '%</b></div>
+            $draw .= '<div><b>' . $value['tx_conversion'] . '%</b></div>
                     </div>
                 </div>';
             $draw .= '</div>';

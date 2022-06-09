@@ -1,5 +1,4 @@
 <?php include(ABSPATH . LIB . "/George/scriptGeorge.php");
-ob_end_flush();
 ?>
 <!-- Google Tag Manager -->
 <script>
