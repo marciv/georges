@@ -28,10 +28,10 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                    console.log(xmlHttp.responseText);
+                    console.log("OK");
                 }
             }
-            var i = "../../../library/George/addConversion.php";
+            var i = "../../../library/George/switchGeorge.php?action=addConversion";
             xmlHttp.open("post", i)
 
             if (status != "1" || status != 1) {

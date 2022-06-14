@@ -69,6 +69,16 @@
         });
     </script>
     <script>
+        function first(str) {
+            first_part = str.substring(0, 1);
+            return first_part;
+        }
+
+        function last(str) {
+            last_part = str.substring(str.length - 1);
+            return last_part;
+        }
+
         $("#addInput").click(function() {
             $('.anotherInput').append(`
                 <div class="input-group mb-3">
@@ -93,16 +103,6 @@
                 }
             });
 
-            function first(str) {
-                first_part = str.substring(0, 1);
-                return first_part;
-            }
-
-            function last(str) {
-                last_part = str.substring(str.length - 1);
-                return last_part;
-            }
-
             if (first($('#url_conversion').val()) != "/" || last($('#url_conversion').val()) != "/") {
                 alert("URL Conversion must start and end with /");
                 checked = false;
@@ -113,7 +113,7 @@
 
             }
             if (checked) {
-                $.post("addABTest.php", {
+                $.post("switchGeorge.php?action=createDB", {
                     url_conversion: $('#url_conversion').val(),
                     taux_decouvert: $('#taux_decouvert').val(),
                     url_variations: form_fields

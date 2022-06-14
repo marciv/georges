@@ -344,6 +344,7 @@ class george
 
 
         if ($data && $data !== false) {
+            var_dump("TEST");
             $data = $this->calculate_conversion($data);
 
             if (empty($data) or $data === false) {
@@ -462,7 +463,7 @@ class george
      */
     function registerInDB($url_conversion, $discovery_rate, $urls_variation)
     {
-
+        //Create DB for principal
         $db = new FlatDB('database', $this->test);
         $data = array(
             'uri' => $url_conversion,
@@ -482,7 +483,7 @@ class george
         $db->table('data_set')->insert(
             $data
         );
-
+        //Create DB for variation
         foreach ($urls_variation as $value => $entry) {
             $data = array(
                 'uri' => $entry['uri'],
@@ -616,11 +617,11 @@ class george
             }
             $t .=           '<p><u>Discovery Rate</u> : <b>' . $oneDB[0]['discovery_rate'] . '</b></p>';
             $t .=           "<div class='d-flex justify-content-evenly'>";
-            $t .=               "<a class='btn btn-outline-danger' href='delDB.php?db=" . $oneDB[0]['variation'] . "'>Delete</a>";
+            $t .=               "<a class='btn btn-outline-danger' href='switchGeorge.php?action=delete&db=" . $oneDB[0]['variation'] . "'>Delete</a>";
             if ($oneDB[0]['status'] == 0) {
-                $t .=               "<a class='btn btn-outline-warning ml-3' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Pause</a>";
+                $t .=               "<a class='btn btn-outline-warning ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Pause</a>";
             } else {
-                $t .=               "<a class='btn btn-outline-primary ml-3' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Reprendre</a>";
+                $t .=               "<a class='btn btn-outline-primary ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Reprendre</a>";
             }
             $t .=           '</div>';
             $t .=       '</div>';
@@ -649,12 +650,11 @@ class george
                                         <div><b>(' . $entry['tx_conversion'] . '%)</b></div>
                                     </div>
                                 </div>';
-
                 $t .=           '</div>';
                 $t .=       '</div>';
             }
             $t .= '</div>';
-            $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($nameABtest, ' & ') . '</h5></a></div>';
+            $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($nameABtest, ' & ') . '</h5></a></div>';
             $t .= "</div>";
         }
 
