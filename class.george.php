@@ -15,10 +15,6 @@ class george
         $this->set_visit_data();
     }
 
-    function str_contains($haystack, $needle)
-    {
-        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
-    }
 
     /**
      * Initialize method for george, check if db with $variationName exist or not, 
@@ -261,7 +257,7 @@ class george
         if (!empty($result[0]['id'])) {
             $data = $result[0];
             $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
-            $data['tx_conversion'] = round(($data['nb_conversion'] / $data['nb_visit']) * 100, 1);
+            $data['tx_conversion'] = round(($data['nb_conversion'] / $data['nb_visit']) * 100, 2);
             if ($this->visit['device_type'] == "mobile") {
                 $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
             } else if ($this->visit['device_type'] == "tablet") {
@@ -700,7 +696,26 @@ class george
     function draw_abtest()
     {
         $abtest = $this->get_data_by_abtest();
-        $draw = '<div class="d-flex align-items-center justify-content-center flex-wrap">';
+        $state = $abtest[0]['status'] == true ? "En cours" : "En pause";
+        $draw = '
+            <div class="headerCard">
+                <div class="date_crea text-center">Date de création : ' . $abtest[0]['date_time']->format('d/m/Y H:i') . '</div>
+                <div class="discovery_rate text-center d-flex align-items-center justify-content-between">
+                    <p><span class="text-info">' . $state . '</span> | Taux de découverte : ' . $abtest[0]['discovery_rate'] * 100 . '% </p>
+                    <div class="dropdown">
+                        <p class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                        </p>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="switchGeorge.php?action=delete&db=' . $abtest[0]['variation'] . '">Supprimer</a>
+                            <a class="dropdown-item" href="switchGeorge.php?action=changeState&db=' . $abtest[0]['variation'] . '">Pause/Play</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ';
+
+        $draw .= '<div class="d-flex align-items-center justify-content-center flex-wrap">';
 
         $abtest = $this->array_msort($abtest, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC)); //Permet de trier un tableau multidimensionnel par ordre décroissant
 

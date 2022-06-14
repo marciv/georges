@@ -8,7 +8,6 @@ if (isset($_GET['action'])) {
     if ($_GET['action'] == "changeState") {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
         $george->changeStatus();
-        return;
     }
     /**
      * Delete DB
@@ -17,7 +16,6 @@ if (isset($_GET['action'])) {
     if ($_GET['action'] == "delete") {
         $george = new george();
         $george->deleteData("database/" . $_GET['db']); //Suppression de l'ABTest
-        return;
     }
     /**
      * Create ABTEST
@@ -38,7 +36,6 @@ if (isset($_GET['action'])) {
 
         $george = new george($nameDB);
         $george->registerInDB(parse_url($url_conversion, PHP_URL_PATH), $discovery_rate, $urls_variation); //On crée une nouvelle BDD
-        return;
     }
     /**
      * Add conversion 
@@ -92,7 +89,6 @@ if (isset($_GET['action'])) {
                 fclose($myfile);
             }
         }
-        return;
     }
 }
 header('Location: index.php');

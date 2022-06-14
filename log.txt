@@ -40,3 +40,27 @@ IP : ::1
 CONVERSION SAVE : SUCCESSS
 END : 14/06/2022 12:33:25
 ===================================
+START : 14/06/2022 13:32:11
+Variation : /1root/test/lan/09/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 14/06/2022 13:32:11
+===================================
+START : 14/06/2022 13:34:20
+Variation : /1root/test/lan/09/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 14/06/2022 13:34:20
+===================================
+START : 14/06/2022 13:34:52
+Variation : /1root/test/lan/08/
+Main Variation : null
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 14/06/2022 13:34:52
+===================================
