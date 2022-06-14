@@ -59,7 +59,7 @@ Interface User for George
 
 ### File scriptGeorge.php
 
-This file is the "scriptGeorge.php" for the LP and contain script for search if DB and data exist and launch the script for calculate visit and the conversion, include this file in the header of the page
+Contains Script for add conversion to LP
 
 ## Running the tests
 
@@ -74,7 +74,7 @@ https://nomdomaine.fr/library/George/
 Fill in URL inputs without adding parameters
 
 ```
-URL conversion => https://www.je-renove.net/pho/lan/06/
+URL Principale => https://www.je-renove.net/pho/lan/06/
 
 Discovery Rate => 0.20
 
