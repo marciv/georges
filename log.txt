@@ -1,72 +1,10 @@
-START : 13/06/2022 07:50:00
-Variation : /1root/test/lan/08/
+Variation : /rad/lan/12/index.php
 Main Variation : null
 TYPE DEVICE : computer
-IP : ::1
-CONVERSION SAVE : SUCCESSS
-END : 13/06/2022 07:50:00
+CONVERSION SAVE : FAILED
 ===================================
-Variation : /test/lan/09/
+Variation : /rad/lan/12/index.php
+Main Variation : null
 TYPE DEVICE : computer
 CONVERSION SAVE : FAILED
-===================================
-Variation : /test/lan/09/
-TYPE DEVICE : mobile
-CONVERSION SAVE : FAILED
-===================================
-START : 14/06/2022 09:45:35
-Variation : /test/lan/08/
-Main Variation : null
-TYPE DEVICE : mobile
-IP : 90.3.0.57
-CONVERSION SAVE : SUCCESSS
-END : 14/06/2022 09:45:35
-===================================
-Variation : /test/lan/09/
-TYPE DEVICE : mobile
-CONVERSION SAVE : FAILED
-===================================
-Variation : /test/lan/09/
-Main Variation : true
-TYPE DEVICE : mobile
-CONVERSION SAVE : FAILED
-===================================
-Variation : /test/lan/09/
-Main Variation : true
-TYPE DEVICE : mobile
-CONVERSION SAVE : FAILED
-===================================
-START : 14/06/2022 09:52:58
-Variation : /test/lan/09/
-Main Variation : test_lan_08
-TYPE DEVICE : mobile
-IP : 90.3.0.57
-CONVERSION SAVE : SUCCESSS
-END : 14/06/2022 09:52:58
-===================================
-START : 14/06/2022 10:11:28
-Variation : /test/lan/08/
-Main Variation : null
-TYPE DEVICE : mobile
-IP : 90.3.0.57
-CONVERSION SAVE : SUCCESSS
-END : 14/06/2022 10:11:28
-===================================
-Variation : /test/lan/09/
-Main Variation : 1
-TYPE DEVICE : mobile
-CONVERSION SAVE : FAILED
-===================================
-Variation : /test/lan/09/
-Main Variation : 1
-TYPE DEVICE : mobile
-CONVERSION SAVE : FAILED
-===================================
-START : 14/06/2022 10:13:36
-Variation : /test/lan/09/
-Main Variation : test_lan_08
-TYPE DEVICE : mobile
-IP : 90.3.0.57
-CONVERSION SAVE : SUCCESSS
-END : 14/06/2022 10:13:36
 ===================================

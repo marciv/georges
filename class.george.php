@@ -41,10 +41,6 @@ class george
 
         $this->status = $data['status'];
 
-        if (isset($_GET['debug'])) {
-            var_dump($data);
-        }
-
         if (isset($data['uri']) && ($data['uri'] == $newURI  && !empty($data) || $data != false) && $data['status'] != 1) {
             //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
             // options
@@ -170,7 +166,6 @@ class george
 
         $data = array(
             'uri' => "/" . str_replace("_", "/", $this->selected_view_name) . "/",
-            @$this->option['tracking_var'] => @$_REQUEST[$this->option['tracking_var']],
             'variation' => $this->selected_view_name,
             'nb_visit' => 1,
             'nb_conversion' => 0,
@@ -471,7 +466,6 @@ class george
         $db = new FlatDB('database', $this->test);
         $data = array(
             'uri' => $url_conversion,
-            @$this->option['tracking_var'] => @$_REQUEST[$this->option['tracking_var']],
             'variation' => $this->test,
             'listVariation' => $urls_variation,
             'discovery_rate' => $discovery_rate,
@@ -485,11 +479,26 @@ class george
             'nb_conversion_desktop' => 0,
             'date_time' => new \DateTime(),
         );
-
-        $result = $db->table('data_set')->insert(
+        $db->table('data_set')->insert(
             $data
         );
 
+        foreach ($urls_variation as $value => $entry) {
+            $data = array(
+                'uri' => $entry['uri'],
+                'variation' => $entry['name'],
+                'nb_visit' => 0,
+                'nb_conversion' => 0,
+                'tx_conversion' => 0,
+                'nb_conversion_mobile' => 0,
+                'nb_conversion_tablet' => 0,
+                'nb_conversion_desktop' => 0
+            );
+
+            $db->table('data_set')->insert(
+                $data
+            );
+        }
         return;
     }
     /**
@@ -596,7 +605,6 @@ class george
 
         foreach ($allDb as $oneDB) {
             $nameABtest = "";
-            $status = $oneDB[0]['status'];
             $t .= '<div class="card">
                     <div class="cadre-text p-3 row">
                         <div class="col-12 col-md-4 mt-2">
@@ -634,14 +642,14 @@ class george
                                         <div><b>(' . $entry['nb_conversion'] . ')</b></div>
                                     </div>
                                 </div>';
-                if ($entry['nb_visit'] > 0) {
-                    $t .=           '<div class="col-6 col-md-4">
+
+                $t .=           '<div class="col-6 col-md-4">
                                     <div class="roundedCardText mx-auto">
                                         <div>TX</div>
                                         <div><b>(' . $entry['tx_conversion'] . '%)</b></div>
                                     </div>
                                 </div>';
-                }
+
                 $t .=           '</div>';
                 $t .=       '</div>';
             }
@@ -692,7 +700,7 @@ class george
     function draw_abtest()
     {
         $abtest = $this->get_data_by_abtest();
-        $draw = '<div class="d-flex align-items-center justify-content-evenly">';
+        $draw = '<div class="d-flex align-items-center justify-content-center flex-wrap">';
 
         $abtest = $this->array_msort($abtest, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC)); //Permet de trier un tableau multidimensionnel par ordre décroissant
 
