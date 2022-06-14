@@ -1,0 +1,21 @@
+body {
+  background-color: rgb(225, 225, 225);
+}
+
+.card {
+  padding: 20px;
+  margin: 20px 20px;
+  border: none;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.roundedCardText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-color: #e2e2e2;
+  border-radius: 50px;
+}

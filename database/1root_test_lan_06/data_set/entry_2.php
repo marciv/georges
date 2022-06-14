@@ -1,1 +1,0 @@
-<?php exit(); ?>a:6:{s:3:"uri";s:19:"/1root/test/lan/07/";s:0:"";N;s:9:"variation";s:17:"1root_test_lan_07";s:8:"nb_visit";i:11;s:13:"nb_conversion";i:7;s:2:"id";i:2;}

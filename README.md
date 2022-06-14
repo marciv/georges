@@ -8,24 +8,9 @@ First, create a folder here name "George":
 C:\\Wamp\www\1root\library\
 ```
 
-Past All file here
-
-Second, include scriptGeorge.php in the master-header.php
-
-```
-C:\\Wamp\www\1root\
-```
-
 Then in the LP:
 
-- Include master-header in the index.php
-- Include in the js/general.js where the form is sent a custom event see below
-
-```
-let event = new CustomEvent('form-sended');
-
-document.dispatchEvent(event);
-```
+include scriptGeorge.php in your LP
 
 ### Folder CSS
 
@@ -47,9 +32,18 @@ This Folder contains all library require for George
 - Mobile-Detect-2.8.25 => Detection for mobile
 - class.browser.php => Detection for browser
 
-### File addABTest.php
+### File AddConversion.php
 
-Script for create ABTest with one URL conversion, one Discovery Rate and variation URL
+Script for save a conversion to a variation URL
+
+### File abtest.php
+
+File for see data [nb_visit, coonversion, tx, etc...]
+acces with parameter $\_GET['dbName']
+
+### File changeStatus.php
+
+Script for change status PAUSE OR STARTED of abtest
 
 ### File AddConversion.php
 

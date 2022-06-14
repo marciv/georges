@@ -9,30 +9,38 @@
     <title>George</title>
 
     <style>
-        <?php @include_once "css/bootstrap.min.css";
-        @require "class.george.php";
-        ?>
+        <?php @include_once "css/bootstrap.min.css"; ?>
     </style>
 
     <link href="./css/style.css" rel="stylesheet">
 </head>
 
 <body>
+    <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    require './library/Mobile-Detect-2.8.25/Mobile_Detect.php';
+    require './library/class.browser.php';
+    require './library/FlatDB/flatdb.php';
+    require "class.george.php";
+
+    ?>
     <div class="main-george">
         <h1 class="mb-3 text-center">George</h1>
 
         <form id="formData">
             <div class="input-group mb-3">
-                <span class="input-group-text">URL conversion</span>
-                <input type="url" class="form-control" name="url_conversion" id="url_conversion" placeholder="Url de conversion" value="https://">
+                <span class="input-group-text">URL Principale</span>
+                <input type="url" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Discovery Rate</span>
                 <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text">URL variation</span>
-                <input type="url" class="form-control" name="url[]" placeholder="Url de variation">
+                <span class="input-group-text">URL Variation</span>
+                <input type="url" class="form-control" name="url[]" placeholder="/test/lan/09/">
             </div>
             <div id="anotherInput" class="anotherInput"></div>
 
@@ -52,7 +60,6 @@
         ?>
     </div>
 
-
     <script src="../js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <script src="../js/popper-1.12.9.min.js" crossorigin="anonymous"></script>
     <script src="../bs4/js/bootstrap.min.js" crossorigin="anonymous"></script>
@@ -68,8 +75,8 @@
         $("#addInput").click(function() {
             $('.anotherInput').append(`
                 <div class="input-group mb-3">
-                    <span class="input-group-text">URL de variation</span>
-                    <input type="url" class="form-control" name="url[]" placeholder="Url de variation">
+                    <span class="input-group-text">URL Variation</span>
+                    <input type="url" class="form-control" name="url[]" placeholder="test/lan/XX/">
                 </div>`);
         });
 
