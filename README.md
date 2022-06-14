@@ -34,30 +34,19 @@ This Folder contains all library require for George
 - Mobile-Detect-2.8.25 => Detection for mobile
 - class.browser.php => Detection for browser
 
-### File AddConversion.php
-
-Script for save a conversion to a variation URL
-
-### File abtest.php
+### File page_abtest.php
 
 File for see data [nb_visit, coonversion, tx, etc...]
 acces with parameter $\_GET['dbName']
 
-### File changeStatus.php
+### File switchGeorge.php
 
-Script for change status PAUSE OR STARTED of abtest
+Router action function :
 
-### File AddConversion.php
-
-Script for save a conversion to a variation URL
-
-### File delDB.php
-
-Script for delete a DB and delete files and folder with a name
-
-### File index.php
-
-Interface User for George
+- changeState = change state for one abtest
+- delete = delete database
+- createDB = Create on ABTEST
+- addConversion = add Conversion
 
 ### File scriptGeorge.php
 
