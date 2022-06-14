@@ -8,6 +8,8 @@ First, create a folder here name "George":
 C:\\Wamp\www\1root\library\
 ```
 
+Create Folder "database" in George folder
+
 Then in the LP:
 
 include scriptGeorge.php in your LP

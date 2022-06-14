@@ -20,6 +20,16 @@ class george
         return $needle !== '' && mb_strpos($haystack, $needle) !== false;
     }
 
+    /**
+     * Initialize method for george, check if db with $variationName exist or not, 
+     * If exist,
+     *  Add +1 visitor, set option with data of the DB [status, discovery_rate, default_view, variation]
+     *  If variationName is the view selected stay here
+     *  Else redirect to the view selected with Header Location
+     * Else
+     *  Do Nothing
+     * @return void
+     */
     function initialize()
     {
         $newURI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
