@@ -10,6 +10,8 @@ $dbName = $_GET['dbName'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" href="css/rocket.png">
+
     <title>ABTest <?php echo $dbName; ?></title>
     <style>
         <?php @include_once "css/bootstrap.min.css"; ?>
@@ -27,7 +29,7 @@ $dbName = $_GET['dbName'];
     if (!empty($dbName)) {
         $george = new George($dbName);
     ?>
-        <div class=" container">
+        <div class="container">
             <?php
             echo $george->draw_abtest();
             ?>

@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" href="css/rocket.png">
     <title>George</title>
 
     <style>
@@ -20,9 +21,6 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    require './library/Mobile-Detect-2.8.25/Mobile_Detect.php';
-    require './library/class.browser.php';
-    require './library/FlatDB/flatdb.php';
     require "class.george.php";
 
     ?>
@@ -49,7 +47,6 @@
             <button id="addInput" onclick="addInput()" class="btn btn-outline-info btn-rounded mr-3">+ Add variation</button>
             <button id="send" class="btn btn-outline-primary">Start AB Test</button>
         </div>
-        <a class="text-center" target="_blank" id="See" href="#"></a>
         <p class="text-center alert"></p>
     </div>
 
@@ -76,7 +73,7 @@
             $('.anotherInput').append(`
                 <div class="input-group mb-3">
                     <span class="input-group-text">URL Variation</span>
-                    <input type="url" class="form-control" name="url[]" placeholder="test/lan/XX/">
+                    <input type="url" class="form-control" name="url[]" placeholder="/test/lan/XX/">
                 </div>`);
         });
 
@@ -89,10 +86,31 @@
                 if (element.value == "") {
                     checked = false;
                 }
+
+                if (first(element.value) != "/" || last(element.value) != "/") {
+                    alert("URL Variation must start and end with /");
+                    checked = false;
+                }
             });
+
+            function first(str) {
+                first_part = str.substring(0, 1);
+                return first_part;
+            }
+
+            function last(str) {
+                last_part = str.substring(str.length - 1);
+                return last_part;
+            }
+
+            if (first($('#url_conversion').val()) != "/" || last($('#url_conversion').val()) != "/") {
+                alert("URL Conversion must start and end with /");
+                checked = false;
+            }
 
             if ($('#url_conversion').val() == "" || $('#taux_decouvert').val() == "") {
                 checked = false;
+
             }
             if (checked) {
                 $.post("addABTest.php", {
