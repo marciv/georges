@@ -52,3 +52,11 @@ a:hover {
 .bottomBar {
   padding: 10px;
 }
+
+@media screen and (max-width: 375px) {
+  .roundedCardText {
+    width: 75px;
+    height: 75px;
+    font-size: 13px;
+  }
+}

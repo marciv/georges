@@ -2,8 +2,6 @@
 include_once './library/Mobile-Detect-2.8.25/Mobile_Detect.php';
 include_once './library/class.browser.php';
 include_once './library/FlatDB/flatdb.php';
-
-
 class george
 {
     public function __construct($name = "test_data", $tracking_var = array())
@@ -15,6 +13,74 @@ class george
 
         $this->test = $name;
         $this->set_visit_data();
+    }
+
+    function str_contains($haystack, $needle)
+    {
+        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+    }
+
+    function initialize()
+    {
+        $newURI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $newURI = str_replace('index.php', '', $newURI);
+        $variationName = trim(str_replace("/", "_",  $newURI), "_"); //Nom variation actuel 
+        $variableQuery =  parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ? "?" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) : "";   //Récupération des query
+
+        $data = $this->get_data_custom();
+
+        $this->status = $data['status'];
+
+        if (isset($_GET['debug'])) {
+            var_dump($data);
+        }
+
+        if (isset($data['uri']) && ($data['uri'] == $newURI  && !empty($data) || $data != false) && $data['status'] != 1) {
+            //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
+            // options
+
+            $this->set_option(
+                array(
+                    "discovery_rate" => $data['discovery_rate'],
+                    "default_view" => $data['default_view'],
+                )
+            );
+            $this->add_variation(
+                array(
+                    $variationName => array( //Name variation
+                        "lp" => "", //Link variation
+                    )
+                )
+            );
+            if (empty($variableQuery)) {
+                $http_referer = "?http_referer=" . $variationName;
+            } else {
+                $http_referer = "&http_referer=" . $variationName;
+            }
+            foreach ($data['listVariation'] as $v) { //On parcours la liste des variations disponible 
+                $this->add_variation(
+                    array(
+                        $v['name'] => array( //Name variation
+                            "lp" => $v['uri'] . $variableQuery . $http_referer, //Link variation
+                        )
+                    )
+                );
+            }
+            $this->calculate(); // On ajoute à la variation actuel
+            if ($variationName == $this->selected_view_name) {
+                $this->render('lp');
+            } else {
+                if (!headers_sent()) {
+                    header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $this->render("lp"), false);
+                    exit;
+                } else {
+                    echo '<script>window.location="https://"+window.location.host+"' . $this->render("lp") . '"</script>';
+                    exit;
+                }
+            }
+        } else {
+            return;
+        }
     }
 
     function set_tracking_var($tracking_var, $VAR)
@@ -216,6 +282,7 @@ class george
             // exit;
 
             if (empty($result)) {
+
                 return false;
             } else {
                 return $result;
@@ -488,10 +555,10 @@ class george
     function get_data_custom_for_conversion($nameDatabase)
     {
         if (file_exists('database/' . $nameDatabase)) {
-            $db = new FlatDB('database', $nameDatabase ? $nameDatabase : $this->test);
+            $db = new FlatDB('database', $nameDatabase);
             @$result = @$db->table('data_set')->where(
                 array(
-                    'uri' => $this->test,
+                    'variation' => $nameDatabase,
                 )
             )->all();
 
@@ -519,49 +586,56 @@ class george
 
         foreach ($allDb as $oneDB) {
             $nameABtest = "";
-            $t .= '<div class="card"><div class="cadre-text p-3">';
-            $t .= "<p class='text-center'><u>Date</u> : <b>" . $oneDB[0]['date_time']->format('d/m/Y H:i') . "</b></p>";
+            $status = $oneDB[0]['status'];
+            $t .= '<div class="card">
+                    <div class="cadre-text p-3 row">
+                        <div class="col-12 col-md-4 mt-2">
+                            <p><u>Date</u> : <b>' . $oneDB[0]['date_time']->format('d/m/Y H:i') . '</b></p>';
             if ($oneDB[0]['status'] == 0) {
-                $t .= "<p class='text-center text-primary'><b>En cours</b></p>";
+                $t .=           "<p><u>Status</u> : <b class='text-primary'>En cours</b></p>";
             } else {
-                $t .= "<p class='text-center text-warning'><b>En pause</b></p>";
+                $t .=           "<p><u>Status</u> : <b class='text-warning'>En pause</b></p>";
             }
-            $t .= "<div class='d-flex justify-content-between'>
-                        <p><u>Discovery Rate</u> : <b>" . $oneDB[0]['discovery_rate'] . "</b></p>";
-            $t .= "<a class='btn btn-outline-danger' href='delDB.php?db=" . $oneDB[0]['variation'] . "'>Delete</a>";
+            $t .=           '<p><u>Discovery Rate</u> : <b>' . $oneDB[0]['discovery_rate'] . '</b></p>';
+            $t .=           "<div class='d-flex justify-content-evenly'>";
+            $t .=               "<a class='btn btn-outline-danger' href='delDB.php?db=" . $oneDB[0]['variation'] . "'>Delete</a>";
             if ($oneDB[0]['status'] == 0) {
-                $t .= "<a class='btn btn-outline-warning' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Pause</a></div>";
+                $t .=               "<a class='btn btn-outline-warning ml-3' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Pause</a>";
             } else {
-                $t .= "<a class='btn btn-outline-primary' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Reprendre</a></div>";
+                $t .=               "<a class='btn btn-outline-primary ml-3' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Reprendre</a>";
             }
+            $t .=           '</div>';
+            $t .=       '</div>';
+            $t .=   '<div class="col-12 col-md-8">';
             foreach ($oneDB as $index => $entry) {
                 $nameABtest .= trim($entry['uri'], "/") . ' & ';
-                $t .= '<div class="col-12 mx-auto mt-2 mb-2">';
-                $t .= '<p><u>Variation</u> : ' . trim($entry['uri'], "/") . '</p>';
-                $t .= '<div class="row justify-content-center text-center mx-auto">';
-                $t .= '<div class="col-4">
-                        <div class="roundedCardText mx-auto">
-                            <div>V</div>
-                            <div><b>(' . $entry['nb_visit'] . ')</b></div>
-                        </div>
-                    </div>';
-                $t .= '<div class="col-4">
-                        <div class="roundedCardText mx-auto">
-                            <div>C</div>
-                            <div><b>(' . $entry['nb_conversion'] . ')</b></div>
-                        </div>
-                    </div>';
+                $t .=   '<div class="col-12 mt-2">';
+                $t .=       '<p><u>Variation</u> : ' . trim($entry['uri'], "/") . '</p>';
+                $t .=       '<div class="row justify-content-center text-center mx-auto">';
+                $t .=           '<div class="col-6 col-md-4">
+                                    <div class="roundedCardText mx-auto">
+                                        <div>V</div>
+                                        <div><b>(' . $entry['nb_visit'] . ')</b></div>
+                                    </div>
+                                </div>';
+                $t .=           '<div class="col-6 col-md-4">
+                                    <div class="roundedCardText mx-auto">
+                                        <div>C</div>
+                                        <div><b>(' . $entry['nb_conversion'] . ')</b></div>
+                                    </div>
+                                </div>';
                 if ($entry['nb_visit'] > 0) {
-                    $t .= '<div class="col-4">
-                    <div class="roundedCardText mx-auto">
-                        <div>TX</div>
-                        <div><b>(' . $entry['tx_conversion'] . '%)</b></div>
-                    </div>
-                </div>';
+                    $t .=           '<div class="col-6 col-md-4">
+                                    <div class="roundedCardText mx-auto">
+                                        <div>TX</div>
+                                        <div><b>(' . $entry['tx_conversion'] . '%)</b></div>
+                                    </div>
+                                </div>';
                 }
-                $t .= '</div>';
-                $t .= '</div>';
+                $t .=           '</div>';
+                $t .=       '</div>';
             }
+            $t .= '</div>';
             $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($nameABtest, ' & ') . '</h5></a></div>';
             $t .= "</div>";
         }
