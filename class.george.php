@@ -628,10 +628,13 @@ class george
     function draw_allData()
     {
         $allDb = $this->show_allData();
+        $play = '<div class="tab-pane fade show active " id="pills-play" role="tabpanel" aria-labelledby="pills-play-tab"><div class="listDB">';
+        $pause = '<div class="tab-pane fade " id="pills-pause" role="tabpanel" aria-labelledby="pills-pause-tab"><div class="listDB">';
+        $archived = '<div class="tab-pane fade " id="pills-archived" role="tabpanel" aria-labelledby="pills-archived-tab"><div class="listDB">';
 
-        $t = "";
 
         foreach ($allDb as $oneDB) {
+            $t = "";
             if ($this->str_contains($oneDB[0]['uri'], "#archived")) {
                 $t .= '<div class="card card-archived">';
             } else {
@@ -689,9 +692,27 @@ class george
                 $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
             }
             $t .= "</div>";
+
+            if ($oneDB[0]['status'] == 0 && !$this->str_contains($oneDB[0]['uri'], "#archived")) {
+                $play .= $t;
+            }
+
+            if ($oneDB[0]['status'] == 1 && !$this->str_contains($oneDB[0]['uri'], "#archived")) {
+                $pause .= $t;
+            }
+
+            if ($this->str_contains($oneDB[0]['uri'], "#archived")) {
+                $archived .= $t;
+            }
         }
 
-        return $t;
+        $play .= '</div></div>';
+        $pause .= '</div></div>';
+        $archived .= '</div></div>';
+
+        $display = $play . $pause . $archived;
+
+        return $display;
     }
 
     /**
