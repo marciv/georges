@@ -1,5 +1,21 @@
-body {
-  background-color: rgb(225, 225, 225);
+body,
+nav,
+ol {
+  background-color: rgb(225, 225, 225) !important;
+  font-family: Fira Sans;
+}
+
+.headerCard {
+  background-color: white;
+  padding: 20px;
+  border-radius: 3px;
+  margin: 20px 20px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.date_crea {
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .card {

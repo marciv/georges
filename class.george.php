@@ -15,10 +15,6 @@ class george
         $this->set_visit_data();
     }
 
-    function str_contains($haystack, $needle)
-    {
-        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
-    }
 
     /**
      * Initialize method for george, check if db with $variationName exist or not, 
@@ -261,7 +257,7 @@ class george
         if (!empty($result[0]['id'])) {
             $data = $result[0];
             $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
-            $data['tx_conversion'] = round(($data['nb_conversion'] / $data['nb_visit']) * 100, 1);
+            $data['tx_conversion'] = round(($data['nb_conversion'] / $data['nb_visit']) * 100, 2);
             if ($this->visit['device_type'] == "mobile") {
                 $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
             } else if ($this->visit['device_type'] == "tablet") {
@@ -344,6 +340,7 @@ class george
 
 
         if ($data && $data !== false) {
+            var_dump("TEST");
             $data = $this->calculate_conversion($data);
 
             if (empty($data) or $data === false) {
@@ -462,7 +459,7 @@ class george
      */
     function registerInDB($url_conversion, $discovery_rate, $urls_variation)
     {
-
+        //Create DB for principal
         $db = new FlatDB('database', $this->test);
         $data = array(
             'uri' => $url_conversion,
@@ -482,7 +479,7 @@ class george
         $db->table('data_set')->insert(
             $data
         );
-
+        //Create DB for variation
         foreach ($urls_variation as $value => $entry) {
             $data = array(
                 'uri' => $entry['uri'],
@@ -524,6 +521,37 @@ class george
         } else {
             $data['status'] = 0; //Resume
         }
+
+        $db->table('data_set')->update($result[0]['id'], $data);
+    }
+
+    function str_contains($haystack, $needle)
+    {
+        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+    }
+
+    /**
+     * Archive or Not ABTEST
+     */
+    function setArchive()
+    {
+        $db = new FlatDB('database', $this->test);
+
+        // print_r($data);exit;
+        @$result = @$db->table('data_set')->where(
+            array(
+                'variation' => $this->test,
+            )
+        )->all();
+
+        $data = $result[0];
+
+        if ($this->str_contains($data['uri'], "#archived")) {
+            $data['uri'] = str_replace("#archived", "", $data['uri']);
+        } else {
+            $data['uri'] = '#archived' . $data['uri'];
+        }
+
 
         $db->table('data_set')->update($result[0]['id'], $data);
     }
@@ -604,9 +632,12 @@ class george
         $t = "";
 
         foreach ($allDb as $oneDB) {
-            $nameABtest = "";
-            $t .= '<div class="card">
-                    <div class="cadre-text p-3 row">
+            if ($this->str_contains($oneDB[0]['uri'], "#archived")) {
+                $t .= '<div class="card card-archived">';
+            } else {
+                $t .= '<div class="card">';
+            }
+            $t .=   '<div class="cadre-text p-3 row">
                         <div class="col-12 col-md-4 mt-2">
                             <p><u>Date</u> : <b>' . $oneDB[0]['date_time']->format('d/m/Y H:i') . '</b></p>';
             if ($oneDB[0]['status'] == 0) {
@@ -616,17 +647,16 @@ class george
             }
             $t .=           '<p><u>Discovery Rate</u> : <b>' . $oneDB[0]['discovery_rate'] . '</b></p>';
             $t .=           "<div class='d-flex justify-content-evenly'>";
-            $t .=               "<a class='btn btn-outline-danger' href='delDB.php?db=" . $oneDB[0]['variation'] . "'>Delete</a>";
+            $t .=               "<a class='btn btn-outline-danger' href='switchGeorge.php?action=delete&db=" . $oneDB[0]['variation'] . "'>Delete</a>";
             if ($oneDB[0]['status'] == 0) {
-                $t .=               "<a class='btn btn-outline-warning ml-3' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Pause</a>";
+                $t .=               "<a class='btn btn-outline-warning ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Pause</a>";
             } else {
-                $t .=               "<a class='btn btn-outline-primary ml-3' href='changeStatus.php?db=" . $oneDB[0]['variation'] . "'>Reprendre</a>";
+                $t .=               "<a class='btn btn-outline-primary ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Reprendre</a>";
             }
             $t .=           '</div>';
             $t .=       '</div>';
             $t .=   '<div class="col-12 col-md-8">';
             foreach ($oneDB as $index => $entry) {
-                $nameABtest .= trim($entry['uri'], "/") . ' & ';
                 $t .=   '<div class="col-12 mt-2">';
                 $t .=       '<p><u>Variation</u> : ' . trim($entry['uri'], "/") . '</p>';
                 $t .=       '<div class="row justify-content-center text-center mx-auto">';
@@ -649,12 +679,15 @@ class george
                                         <div><b>(' . $entry['tx_conversion'] . '%)</b></div>
                                     </div>
                                 </div>';
-
                 $t .=           '</div>';
                 $t .=       '</div>';
             }
             $t .= '</div>';
-            $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($nameABtest, ' & ') . '</h5></a></div>';
+            if ($oneDB[0]['status'] == 0) {
+                $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
+            } else {
+                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
+            }
             $t .= "</div>";
         }
 
@@ -700,7 +733,32 @@ class george
     function draw_abtest()
     {
         $abtest = $this->get_data_by_abtest();
-        $draw = '<div class="d-flex align-items-center justify-content-center flex-wrap">';
+        $state = $abtest[0]['status'] == 0 ? "En cours" : "En pause";
+        $draw = '
+            <div class="headerCard">';
+        if ($this->str_contains($abtest[0]['uri'], "#archived")) {
+            $draw .= '<h3 class="text-info text-center">ABTEST Archivé</h3>';
+            $state = 'Archivé';
+        }
+        $draw .= '
+                <div class="date_crea text-center">Date de création : ' . $abtest[0]['date_time']->format('d/m/Y H:i') . '</div>
+                <div class="discovery_rate text-center d-flex align-items-center justify-content-between">
+                    <p><span class="text-info">' . $state . '</span> | Taux de découverte : ' . $abtest[0]['discovery_rate'] * 100 . '% </p>
+                    <div class="dropdown">
+                        <p class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                        </p>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-info" href="switchGeorge.php?action=changeState&db=' . $abtest[0]['variation'] . '">Pause/Play</a>
+                            <a class="dropdown-item text-warning" href="switchGeorge.php?action=setArchive&db=' . $abtest[0]['variation'] . '">Archiver</a>
+                            <a class="dropdown-item text-danger" href="switchGeorge.php?action=delete&db=' . $abtest[0]['variation'] . '">/!\ Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ';
+
+        $draw .= '<div class="d-flex align-items-center justify-content-center flex-wrap">';
 
         $abtest = $this->array_msort($abtest, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC)); //Permet de trier un tableau multidimensionnel par ordre décroissant
 
@@ -747,9 +805,9 @@ class george
             $draw .= '<div class="col-6">
                     <h6 class="mt-5 text-center">Taux de conversion</h6>';
             if ($i == 0) { //On repère le premier et le plus performant
-                $draw .= '<div class="roundedCardText text-white bg-success mx-auto">';
+                $draw .= '<div class="roundedCardText text-white bg-primary mx-auto">';
             } else {
-                $draw .= '<div class="roundedCardText text-white bg-warning mx-auto">';
+                $draw .= '<div class="roundedCardText text-white bg-secondary mx-auto">';
             }
             $draw .= '<div><b>' . $value['tx_conversion'] . '%</b></div>
                     </div>

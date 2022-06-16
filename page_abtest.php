@@ -21,9 +21,13 @@ $dbName = $_GET['dbName'];
 </head>
 
 <body>
-    <div class="mt-5 text-center d-flex justify-content-around align-items-center">
-        <a class="btn btn-outline-secondary" href="index.php">Retour</a>
-        <a class='btn btn-outline-danger' href='delDB.php?db=<?= $dbName ?>'>Delete</a>
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.php">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><?php echo $dbName; ?></li>
+            </ol>
+        </nav>
     </div>
     <?php
     if (!empty($dbName)) {
