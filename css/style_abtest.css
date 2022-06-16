@@ -1,5 +1,7 @@
-body {
-  background-color: rgb(225, 225, 225);
+body,
+nav,
+ol {
+  background-color: rgb(225, 225, 225) !important;
   font-family: Fira Sans;
 }
 

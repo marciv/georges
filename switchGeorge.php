@@ -90,6 +90,14 @@ if (isset($_GET['action'])) {
             }
         }
     }
+
+    /**
+     * Archivage
+     */
+    if ($_GET['action'] == "setArchive") {
+        $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
+        $george->setArchive();
+    }
 }
 header('Location: index.php');
 exit;
