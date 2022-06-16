@@ -1,3 +1,6 @@
+<?php
+header("Cache-Control: no-cache, must-revalidate");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,12 +53,28 @@
         <p class="text-center alert"></p>
     </div>
 
-    <div class="listDB">
+    <div class="container">
+        <ul class="nav nav-pills justify-content-left mb-3 w-100" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="ml-3 nav-link btn btn-outline-primary active" id="pills-play-tab" data-toggle="pill" href="#pills-play" role="tab" aria-controls="pills-play" aria-selected="true">En cours</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="ml-3 nav-link btn btn-outline-secondary" id="pills-pause-tab" data-toggle="pill" href="#pills-pause" role="tab" aria-controls="pills-pause" aria-selected="false">En pause</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="ml-3 nav-link btn btn-outline-warning" id="pills-archived-tab" data-toggle="pill" href="#pills-archived" role="tab" aria-controls="pills-archived" aria-selected="false">Archivé</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content" id="pills-tabContent">
         <?php
         $george = new george();
         echo $george->draw_allData(); // Affichage des bdd disponible
         ?>
     </div>
+
+
 
     <script src="../js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <script src="../js/popper-1.12.9.min.js" crossorigin="anonymous"></script>
