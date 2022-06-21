@@ -7,36 +7,42 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
 }
 ?>
 <script>
-    window.addEventListener('load', (event) => {
-        let submitBtn = document.getElementById('final-submit');
-        submitBtn.addEventListener('click', function(evt) {
-            console.log('FORM SENDED');
+    $(document).ready(function() {
+        if (jQuery) {
+            // jQuery is loaded 
+            let formSended = false;
 
-            var formData = new FormData();
-            formData.append("path", window.location.pathname);
-            var http_referer = "<?= isset($_GET['http_referer']) ? $_GET['http_referer'] : ""; ?>";
-            var status = <?= json_encode($george->status); ?>
-
-            console.log(http_referer);
-            if (http_referer == null || http_referer == undefined || http_referer == "") {
-                http_referer = null;
-            }
-
-            formData.append("conversion_path", http_referer);
+            $('#pixel_crm_confirmation').on('load', function() {
+                addConversion();
+            });
 
 
-            var xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                    console.log("OK");
+            $('form').on("submit", function() {
+                addConversion();
+            })
+
+            function addConversion() {
+                if (!formSended) {
+                    console.log("=======================form sended with jquery and catch him============================");
+                    formSended = true;
+                    let http_referer = "<?= isset($_GET['http_referer']) ? $_GET['http_referer'] : ""; ?>";
+                    let status = <?= json_encode($george->status); ?>;
+                    console.log(http_referer);
+                    console.log(status);
+
+                    if (http_referer == null || http_referer == undefined || http_referer == "") {
+                        http_referer = null;
+                    }
+
+                    if (status != "1" || status != 1) {
+                        $.post("../../../library/George/switchGeorge.php?action=addConversion", {
+                            conversion_path: http_referer,
+                            path: window.location.pathname
+                        });
+                    }
+                    return;
                 }
             }
-            var i = "../../../library/George/switchGeorge.php?action=addConversion";
-            xmlHttp.open("post", i)
-
-            if (status != "1" || status != 1) {
-                xmlHttp.send(formData);
-            }
-        });
+        }
     });
 </script>
