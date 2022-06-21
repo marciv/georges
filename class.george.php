@@ -70,7 +70,8 @@ class george
             }
             $this->calculate(); // On ajoute à la variation actuel
             if ($variationName == $this->selected_view_name) {
-                $this->render('lp');
+                // $this->render('lp');
+                return;
             } else {
                 if (!headers_sent()) {
                     header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $this->render("lp"), false);
@@ -257,7 +258,7 @@ class george
         if (!empty($result[0]['id'])) {
             $data = $result[0];
             $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
-            $data['tx_conversion'] = round(($data['nb_conversion'] / $data['nb_visit']) * 100, 2);
+            $data['tx_conversion'] = max(0, round(($data['nb_conversion'] / $data['nb_visit']) * 100, 1) + 1);
             if ($this->visit['device_type'] == "mobile") {
                 $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
             } else if ($this->visit['device_type'] == "tablet") {
@@ -304,7 +305,7 @@ class george
                 continue;
             }
 
-            @$conversion_rate = max(0, round($v['nb_conversion'] / $v['nb_visit'], 2));
+            @$conversion_rate = max(0, round($v['nb_conversion'] / $v['nb_visit'], 1));
             $data_index[] = $conversion_rate;
             $max_conversion_rate = max($conversion_rate, $max_conversion_rate);
             @$this->nb_visit = $this->nb_visit + max(1, $v['nb_visit']);
@@ -340,7 +341,7 @@ class george
 
 
         if ($data && $data !== false) {
-            var_dump("TEST");
+            // var_dump("TEST");
             $data = $this->calculate_conversion($data);
 
             if (empty($data) or $data === false) {
