@@ -11,15 +11,21 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
         if (jQuery) {
             // jQuery is loaded 
             let formSended = false;
+            try {
+                $('#pixel_crm_confirmation').on('load', function() {
+                    addConversion();
+                });
+            } catch (error) {
+                console.log(error);
+            }
 
-            $('#pixel_crm_confirmation').on('load', function() {
-                addConversion();
-            });
-
-
-            $('form').on("submit", function() {
-                addConversion();
-            })
+            try {
+                $('form').on("submit", function() {
+                    addConversion();
+                })
+            } catch (error) {
+                console.log(error);
+            }
 
             function addConversion() {
                 if (!formSended) {

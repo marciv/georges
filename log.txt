@@ -1,0 +1,1730 @@
+DATE : 21/06/2022 10:16:31
+Variation : /1eur/lan/04/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:16:45
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:18:22
+Variation : /1eur/lan/04/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:19:47
+Variation : /pho/lan/15/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:23:35
+Variation : /man/lan/21/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:24:47
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:25:27
+Variation : /man/lan/21/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:27:12
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:27:24
+Variation : /rad/lan/53/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:30:03
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:31:15
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:33:29
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:34:42
+Variation : /man/lan/21/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:36:30
+Variation : /pac/lan/27.032022/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:36:56
+Variation : /pac/lan/24/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:38:15
+Variation : /cha/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:38:35
+Variation : /man/lan/15/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:39:04
+Variation : /man/lan/21/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:39:29
+Variation : /pac/lan/24/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:40:38
+Variation : /pac/lan/24/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:40:52
+Variation : /pho/lan/15/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:42:52
+Variation : /cha/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:43:26
+Variation : /sol/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:45:03
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:45:05
+Variation : /fen/lan/10.2/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:45:11
+Variation : /pac/lan/27.032022/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:45:58
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:46:15
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:46:17
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:46:21
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:48:03
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:48:35
+Variation : /toi/lan/07/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:49:11
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:49:26
+Variation : /cha/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:49:27
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:49:29
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:49:36
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:49:40
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:49:44
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:49:46
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:50:24
+Variation : /hum/lan/02/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:50:59
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:52:30
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:54:18
+Variation : /pho/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:55:25
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:55:36
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:56:37
+Variation : /rad/lan/12/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:57:38
+Variation : /sal/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:58:29
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:58:36
+Variation : /1eur/lan/04/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:59:00
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 10:59:23
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 176.145.95.233
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 10:59:23
+===================================
+DATE : 21/06/2022 10:59:32
+Variation : /vol/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 10:59:49
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:00:09
+Variation : /man/lan/21/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:00:21
+Variation : /sal/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:00:38
+Variation : /toi/lan/07/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:01:00
+Variation : /1eur/lan/04/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:04:58
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:05:16
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:06:23
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:06:34
+Variation : /prt/lan/03/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:06:36
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:07:58
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:08:02
+Variation : /rad/lan/12/index.php
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:08:35
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 11:08:50
+Variation : /pac/lan/37/
+Main Variation : pac_lan_27.032022
+TYPE DEVICE : computer
+IP : 90.57.161.30
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 11:08:50
+===================================
+DATE : 21/06/2022 11:09:00
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:09:24
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:10:32
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:10:37
+Variation : /1eur/lan/03/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:11:53
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 11:13:06
+Variation : /pac/lan/37/
+Main Variation : pac_lan_27.032022
+TYPE DEVICE : mobile
+IP : 90.119.57.180
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 11:13:06
+===================================
+DATE : 21/06/2022 11:13:16
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:15:27
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:15:47
+Variation : /prt/lan/03/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:15:53
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:16:05
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:16:28
+Variation : /hum/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:16:33
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:17:01
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:17:17
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:17:53
+Variation : /sal/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:19:16
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 11:19:30
+Variation : /1eur/lan/04/
+Main Variation : 
+TYPE DEVICE : computer
+IP : 79.93.41.225
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 11:19:30
+===================================
+DATE : 21/06/2022 11:20:40
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:20:52
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:20:59
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:21:19
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:24:15
+Variation : /fen/lan/10.2/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:24:16
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:25:12
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 11:27:05
+Variation : /1eur/lan/04/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 90.3.0.57
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 11:27:05
+===================================
+DATE : 21/06/2022 11:27:55
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:29:27
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:32:39
+Variation : /ala/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:35:26
+Variation : /rav/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:37:40
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:39:39
+Variation : /ado/lan/04/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:42:21
+Variation : /ile/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 11:43:00
+Variation : /1eur/lan/04/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 77.144.162.40
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 11:43:00
+===================================
+START : 21/06/2022 11:43:16
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : computer
+IP : 89.85.82.12
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 11:43:16
+===================================
+DATE : 21/06/2022 11:45:03
+Variation : /toi/lan/07/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:47:35
+Variation : /sal/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:47:49
+Variation : /pac/lan/24/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:47:50
+Variation : /fen/lan/10.2/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:47:59
+Variation : /pho/lan/15/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 11:49:03
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : computer
+IP : 185.109.173.16
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 11:49:03
+===================================
+DATE : 21/06/2022 11:49:57
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:51:23
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:54:04
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:54:11
+Variation : /rac/lan/09/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 11:54:11
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : tablet
+IP : 90.100.131.119
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 11:54:11
+===================================
+DATE : 21/06/2022 11:56:21
+Variation : /sal/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:56:22
+Variation : /man/lan/16/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:57:21
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:57:30
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:58:16
+Variation : /rad/lan/85.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:58:38
+Variation : /man/lan/16/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:58:52
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:59:25
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 11:59:39
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:00:15
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:00:16
+Variation : /sol/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:00:18
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:00:44
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:04:25
+Variation : /ren/lan/03/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:05:21
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:05:31
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:06:12
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:06:40
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:06:43
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:06:51
+Variation : /rad/lan/12/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:07:00
+Variation : /prt/lan/03/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:07:04
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:08:18
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:08:51
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:09:50
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:11:57
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:13:37
+Variation : /sol/lan/02/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:14:19
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:15:08
+Variation : /prt/lan/03/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:15:47
+Variation : /aud/lan/02/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:17:58
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:18:19
+Variation : /sol/lan/02/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:18:42
+Variation : /man/lan/21/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 12:23:07
+Variation : /1eur/lan/06/
+Main Variation : 1eur_lan_04
+TYPE DEVICE : mobile
+IP : 91.174.37.134
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 12:23:07
+===================================
+DATE : 21/06/2022 12:23:22
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:27:27
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 12:28:20
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 193.57.125.85
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 12:28:20
+===================================
+DATE : 21/06/2022 12:28:44
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:28:45
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:28:50
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:29:19
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 12:30:08
+Variation : /1eur/lan/06/
+Main Variation : 1eur_lan_04
+TYPE DEVICE : computer
+IP : 213.163.168.33
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 12:30:08
+===================================
+START : 21/06/2022 12:32:59
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 91.168.162.45
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 12:32:59
+===================================
+DATE : 21/06/2022 12:33:11
+Variation : /man/lan/21/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:34:44
+Variation : /man/lan/21/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:34:46
+Variation : /toi/lan/07/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:37:23
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:39:31
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:39:57
+Variation : /rac/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:47:18
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:47:34
+Variation : /fen/lan/10.2/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:48:22
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:49:01
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:49:16
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:49:17
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:50:14
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:50:37
+Variation : /rad/lan/81/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:51:32
+Variation : /man/lan/22/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:52:19
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:53:26
+Variation : /toi/lan/10/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:54:13
+Variation : /pac/lan/24/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:55:42
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:56:04
+Variation : /pho/lan/15/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:58:07
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 12:58:37
+Variation : /sol/lan/02/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:00:21
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 13:00:48
+Variation : /1eur/lan/04/
+Main Variation : 
+TYPE DEVICE : computer
+IP : 86.211.170.213
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 13:00:48
+===================================
+DATE : 21/06/2022 13:02:34
+Variation : /man/lan/16/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:04:39
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:05:54
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:06:27
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:06:48
+Variation : /pac/lan/24/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:07:30
+Variation : /pac/lan/24/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:10:43
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:11:01
+Variation : /sol/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:11:54
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:12:15
+Variation : /fen/lan/10.2/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:14:00
+Variation : /pho/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:15:32
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:15:50
+Variation : /man/lan/22/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:17:07
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:17:39
+Variation : /pho/lan/15/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:18:33
+Variation : /hum/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:19:06
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:19:13
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:20:31
+Variation : /ado/lan/04/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:20:39
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:21:19
+Variation : /pho/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 13:21:30
+Variation : /pac/lan/37/
+Main Variation : pac_lan_27.032022
+TYPE DEVICE : mobile
+IP : 92.184.121.203
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 13:21:30
+===================================
+DATE : 21/06/2022 13:24:04
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:24:56
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:24:57
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:25:53
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 13:26:45
+Variation : /1eur/lan/04/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 90.79.110.135
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 13:26:45
+===================================
+DATE : 21/06/2022 13:27:02
+Variation : /rad/lan/12/index.php
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:27:40
+Variation : /toi/lan/10/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:28:28
+Variation : /sol/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:30:07
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:30:13
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:30:44
+Variation : /sal/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:31:40
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:36:13
+Variation : /fen/lan/10.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:36:57
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:42:13
+Variation : /rac/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:43:35
+Variation : /fen/lan/10.2/
+TYPE DEVICE : tablet
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:44:26
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 13:44:42
+Variation : /1eur/lan/06/
+Main Variation : 1eur_lan_04
+TYPE DEVICE : mobile
+IP : 80.215.165.116
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 13:44:42
+===================================
+DATE : 21/06/2022 13:45:45
+Variation : /man/lan/16/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:46:45
+Variation : /aud/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:47:06
+Variation : /man/lan/16/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 13:47:26
+Variation : /1eur/lan/06/
+Main Variation : 1eur_lan_04
+TYPE DEVICE : computer
+IP : 176.181.2.120
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 13:47:26
+===================================
+DATE : 21/06/2022 13:48:03
+Variation : /ala/lan/21/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:48:07
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:48:54
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 13:48:59
+Variation : /1eur/lan/04/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 80.215.165.116
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 13:48:59
+===================================
+DATE : 21/06/2022 13:50:27
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:50:47
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:51:00
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:51:32
+Variation : /fen/lan/10.2/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:53:46
+Variation : /man/lan/16/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:55:30
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:55:58
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:56:10
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:56:11
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:56:45
+Variation : /man/lan/21/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:56:45
+Variation : /hum/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 13:58:32
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 13:59:09
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 91.165.109.66
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 13:59:09
+===================================
+DATE : 21/06/2022 14:00:46
+Variation : /pho/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 14:00:47
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : computer
+IP : 91.166.78.82
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 14:00:47
+===================================
+DATE : 21/06/2022 14:02:26
+Variation : /man/lan/16/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:03:31
+Variation : /pac/lan/24/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:04:12
+Variation : /pho/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:05:03
+Variation : /rad/lan/12/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:05:55
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : tablet
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:07:01
+Variation : /pac/lan/24/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:07:11
+Variation : /toi/lan/07/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:08:26
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:08:56
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:09:03
+Variation : /pho/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:10:02
+Variation : /rad/lan/12/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:10:03
+Variation : /toi/lan/07/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:10:28
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:11:12
+Variation : /hum/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:12:20
+Variation : /rad/lan/12/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:12:23
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:12:51
+Variation : /hum/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:14:21
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:14:50
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:16:49
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 14:16:54
+Variation : /1eur/lan/04/
+Main Variation : 
+TYPE DEVICE : computer
+IP : 213.163.168.33
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 14:16:54
+===================================
+DATE : 21/06/2022 14:17:23
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:18:22
+Variation : /vol/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:19:55
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:20:10
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:20:26
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:21:28
+Variation : /cha/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:21:30
+Variation : /rac/lan/09/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:22:39
+Variation : /man/lan/21/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:22:52
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:25:21
+Variation : /rad/lan/85.2/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:25:34
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:26:39
+Variation : /pho/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:27:32
+Variation : /hum/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:28:10
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:29:02
+Variation : /prt/lan/03/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:29:15
+Variation : /hum/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:29:16
+Variation : /hum/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:30:41
+Variation : /prt/lan/03/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:31:18
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:31:39
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:32:14
+Variation : /toi/lan/07/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:32:21
+Variation : /rad/lan/53/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:34:01
+Variation : /rad/lan/12/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:36:43
+Variation : /pho/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:37:30
+Variation : /toi/lan/07/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:39:32
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:40:12
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:41:04
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 14:41:23
+Variation : /1eur/lan/04/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 90.51.227.89
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 14:41:23
+===================================
+DATE : 21/06/2022 14:41:30
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:42:08
+Variation : /pac/lan/24/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:42:17
+Variation : /prt/lan/03/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:42:24
+Variation : /rad/lan/53/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 14:42:30
+Variation : /1eur/lan/06/
+Main Variation : 1eur_lan_04
+TYPE DEVICE : computer
+IP : 74.112.233.121
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 14:42:30
+===================================
+DATE : 21/06/2022 14:43:25
+Variation : /cha/lan/01/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:43:31
+Variation : /pho/lan/06/index.php
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:43:59
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:44:37
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:45:48
+Variation : /pho/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:47:30
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:49:37
+Variation : /fen/lan/10.2/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:49:53
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:50:27
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:50:55
+Variation : /pho/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:51:00
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:52:13
+Variation : /pac/lan/14/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 21/06/2022 14:52:30
+Variation : /pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : mobile
+IP : 77.135.71.10
+CONVERSION SAVE : SUCCESSS
+END : 21/06/2022 14:52:30
+===================================
+DATE : 21/06/2022 14:54:09
+Variation : /rad/lan/53/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:54:10
+Variation : /pac/lan/14/
+TYPE DEVICE : tablet
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:54:24
+Variation : /pac/lan/14/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:55:16
+Variation : /cli/lan/06/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:55:57
+Variation : /aud/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:56:21
+Variation : /pac/lan/24/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:57:54
+Variation : /sal/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 14:59:14
+Variation : /sol/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 15:00:21
+Variation : /cha/lan/01/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 15:00:44
+Variation : /sol/lan/02/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+DATE : 21/06/2022 15:01:21
+Variation : /cli/lan/06/
+TYPE DEVICE : mobile
+CONVERSION SAVE : FAILED
+===================================
+START : 22/06/2022 06:37:59
+Variation : /1root/pac/lan/37/
+Main Variation : 1root_pac_lan_27.032022
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 22/06/2022 06:37:59
+===================================
+START : 22/06/2022 06:41:32
+Variation : /1root/pac/lan/37/
+Main Variation : 1root_pac_lan_27.032022
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 22/06/2022 06:41:32
+===================================
+START : 22/06/2022 06:43:46
+Variation : /1root/pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 22/06/2022 06:43:46
+===================================
+START : 22/06/2022 06:44:26
+Variation : /1root/pac/lan/27.032022/
+Main Variation : 
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 22/06/2022 06:44:26
+===================================
+START : 22/06/2022 06:45:42
+Variation : /1root/pac/lan/37/
+Main Variation : 1root_pac_lan_27.032022
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 22/06/2022 06:45:42
+===================================
+DATE : 22/06/2022 06:46:55
+Variation : /1root/pac/lan/27.032022/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================

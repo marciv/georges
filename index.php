@@ -70,7 +70,11 @@ header("Cache-Control: no-cache, must-revalidate");
     <div class="tab-content" id="pills-tabContent">
         <?php
         $george = new george();
-        echo $george->draw_allData(); // Affichage des bdd disponible
+        echo $george->draw_allData();
+
+        echo '<div class="tab-pane fade " id="pills-archived" role="tabpanel" aria-labelledby="pills-archived-tab"><div class="listDB">';
+        echo $george->draw_allData("archived"); // Affichage des bdd disponible
+        echo '</div></div>';
         ?>
     </div>
 
