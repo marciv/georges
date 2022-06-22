@@ -50,7 +50,7 @@ class george
             $this->add_variation(
                 array(
                     $variationName => array( //Name variation
-                        "lp" => "", //Link variation
+                        "uri" => "", //Link variation
                     )
                 )
             );
@@ -63,21 +63,21 @@ class george
                 $this->add_variation(
                     array(
                         $v['name'] => array( //Name variation
-                            "lp" => $v['uri'] . $variableQuery . $http_referer, //Link variation
+                            "uri" => $v['uri'], //Link variation
                         )
                     )
                 );
             }
             $this->calculate(); // On ajoute à la variation actuel
             if ($variationName == $this->selected_view_name) {
-                // $this->render('lp');
+                // $this->render('uri');
                 return;
             } else {
                 if (!headers_sent()) {
-                    header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $this->render("lp"), false);
+                    header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $this->render("uri") . $variableQuery . $http_referer, false);
                     exit;
                 } else {
-                    echo '<script>window.location="https://"+window.location.host+"' . $this->render("lp") . '"</script>';
+                    echo '<script>window.location="https://"+window.location.host+"' . $this->render("uri") . '"</script>';
                     exit;
                 }
             }
@@ -214,7 +214,7 @@ class george
             if (!empty($result[0]['id'])) {
                 $data = $result[0];
                 $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
-                $data['tx_conversion'] = round(($data['nb_conversion'] / $data['nb_visit']) * 100, 1);
+                $data['tx_conversion'] = max(0, round(($data['nb_conversion'] / $data['nb_visit']) * 100, 1) + 1);
 
                 if ($this->visit['device_type'] == "mobile") {
                     $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
@@ -258,7 +258,7 @@ class george
         if (!empty($result[0]['id'])) {
             $data = $result[0];
             $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
-            $data['tx_conversion'] = max(0, round(($data['nb_conversion'] / $data['nb_visit']) * 100, 1) + 1);
+            $data['tx_conversion'] = round(($data['nb_conversion'] /  $result[0]['nb_visit']) * 100, 1);
             if ($this->visit['device_type'] == "mobile") {
                 $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
             } else if ($this->visit['device_type'] == "tablet") {
@@ -268,6 +268,24 @@ class george
             }
             $db->table('data_set')->update($result[0]['id'], $data);
         }
+    }
+
+    function addChart($path, $http_referer)
+    {
+        $data = file_get_contents("database/" . $this->test . "/data_set/jsonDataConversion.json");
+        $json = json_decode($data);
+        $start = new \DateTime();
+
+        $array = array(
+            'date' => $start->format('Y-m-d H:i:s'),
+            'path' => $path,
+            'http_referer' => $http_referer,
+        );
+
+        $json[] = $array;
+
+        $json = json_encode($json, JSON_PRETTY_PRINT);
+        file_put_contents("database/" . $this->test . "/data_set/jsonDataConversion.json", $json);
     }
 
     function get_data()
@@ -420,12 +438,35 @@ class george
         $dirs = scandir("database"); //On récupère le nom de toutes les DB disponibles
         unset($dirs[array_search(".", $dirs)]); //On Supprime les deux premiers éléments du tableau
         unset($dirs[array_search("..", $dirs)]); //On Supprime les deux premiers éléments du tableau
+        unset($dirs[array_search("archived", $dirs)]); //On Supprime les deux premiers éléments du tableau
 
         $ListDB = [];
 
 
         foreach ($dirs as $db) {
             @$db = new FlatDB('database', $db);
+            @$result = @$db->table('data_set')->all();
+
+            if ($result !== false) {
+                array_push($ListDB, $result);
+            }
+        }
+        return $ListDB;
+    }
+
+    /**
+     * Get list of all DB in directory database
+     * @return array
+     */
+    function show_archivedData()
+    {
+        $dirs = scandir("database/archived"); //On récupère le nom de toutes les DB disponibles
+        unset($dirs[array_search(".", $dirs)]); //On Supprime les deux premiers éléments du tableau
+        unset($dirs[array_search("..", $dirs)]); //On Supprime les deux premiers éléments du tableau
+
+        $ListDB = [];
+        foreach ($dirs as $db) {
+            @$db = new FlatDB('database/archived', $db);
             @$result = @$db->table('data_set')->all();
 
             if ($result !== false) {
@@ -536,25 +577,22 @@ class george
      */
     function setArchive()
     {
-        $db = new FlatDB('database', $this->test);
-
-        // print_r($data);exit;
-        @$result = @$db->table('data_set')->where(
-            array(
-                'variation' => $this->test,
-            )
-        )->all();
-
-        $data = $result[0];
-
-        if ($this->str_contains($data['uri'], "#archived")) {
-            $data['uri'] = str_replace("#archived", "", $data['uri']);
+        if (file_exists('database/' . $this->test)) {
+            //Ne pas deArchived car existe déjà un fichier ici
+            if (!file_exists('database/archived' . $this->test)) {
+                rename('database/' . $this->test, 'database/archived/' . $this->test);
+            } else {
+                return;
+            }
+        } else if (file_exists('database/archived/' . $this->test)) {
+            if (!file_exists('database/' . $this->test)) {
+                rename('database/archived/' . $this->test, 'database/' . $this->test);
+            } else {
+                return;
+            }
         } else {
-            $data['uri'] = '#archived' . $data['uri'];
+            return;
         }
-
-
-        $db->table('data_set')->update($result[0]['id'], $data);
     }
 
     /**
@@ -626,17 +664,22 @@ class george
      *
      * @return string
      */
-    function draw_allData()
+    function draw_allData($statusSearch = "")
     {
-        $allDb = $this->show_allData();
+        if ($statusSearch == "archived") {
+            $allDb = $this->show_archivedData();
+        } else {
+            $allDb = $this->show_allData();
+        }
+
         $play = '<div class="tab-pane fade show active " id="pills-play" role="tabpanel" aria-labelledby="pills-play-tab"><div class="listDB">';
         $pause = '<div class="tab-pane fade " id="pills-pause" role="tabpanel" aria-labelledby="pills-pause-tab"><div class="listDB">';
-        $archived = '<div class="tab-pane fade " id="pills-archived" role="tabpanel" aria-labelledby="pills-archived-tab"><div class="listDB">';
+        $archived = '';
 
 
         foreach ($allDb as $oneDB) {
             $t = "";
-            if ($this->str_contains($oneDB[0]['uri'], "#archived")) {
+            if ($statusSearch == "archived") {
                 $t .= '<div class="card card-archived">';
             } else {
                 $t .= '<div class="card">';
@@ -644,16 +687,24 @@ class george
             $t .=   '<div class="cadre-text p-3 row">
                         <div class="col-12 col-md-4 mt-2">
                             <p><u>Date</u> : <b>' . $oneDB[0]['date_time']->format('d/m/Y H:i') . '</b></p>';
-            if ($oneDB[0]['status'] == 0) {
+            if ($oneDB[0]['status'] == 0 && $statusSearch != "archived") {
                 $t .=           "<p><u>Status</u> : <b class='text-primary'>En cours</b></p>";
+            } else if ($statusSearch == "archived") {
+                $t .=           "<p><u>Status</u> : <b class='text-warning'>Archived</b></p>";
             } else {
                 $t .=           "<p><u>Status</u> : <b class='text-warning'>En pause</b></p>";
             }
             $t .=           '<p><u>Discovery Rate</u> : <b>' . $oneDB[0]['discovery_rate'] . '</b></p>';
             $t .=           "<div class='d-flex justify-content-evenly'>";
-            $t .=               "<a class='btn btn-outline-danger' href='switchGeorge.php?action=delete&db=" . $oneDB[0]['variation'] . "'>Delete</a>";
-            if ($oneDB[0]['status'] == 0) {
+            if ($statusSearch != "archived") {
+                $t .=               "<a class='btn btn-outline-danger' href='switchGeorge.php?archived=false&action=delete&db=" . $oneDB[0]['variation'] . "'>Delete</a>";
+            } else {
+                $t .=               "<a class='btn btn-outline-danger' href='switchGeorge.php?archived=false&action=delete&db=" . $oneDB[0]['variation'] . "'>Delete</a>";
+            }
+            if ($oneDB[0]['status'] == 0 && $statusSearch != "archived") {
                 $t .=               "<a class='btn btn-outline-warning ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Pause</a>";
+            } else if ($statusSearch == "archived") {
+                $t .=               "<a class='btn btn-outline-primary ml-3' href='switchGeorge.php?path=archived&action=setArchive&db=" . $oneDB[0]['variation'] . "'>Extraire</a>";
             } else {
                 $t .=               "<a class='btn btn-outline-primary ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Reprendre</a>";
             }
@@ -687,29 +738,31 @@ class george
                 $t .=       '</div>';
             }
             $t .= '</div>';
-            if ($oneDB[0]['status'] == 0) {
+            if ($oneDB[0]['status'] == 0 && $statusSearch != "archived") {
                 $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
+            } else if ($statusSearch == "archived") {
+                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="#"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
             } else {
-                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
+                $t .= '</div><div class="bottomBar bg-warning text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
             }
             $t .= "</div>";
 
-            if ($oneDB[0]['status'] == 0 && !$this->str_contains($oneDB[0]['uri'], "#archived")) {
+            if ($oneDB[0]['status'] == 0 && !$statusSearch == "archived") {
                 $play .= $t;
             }
 
-            if ($oneDB[0]['status'] == 1 && !$this->str_contains($oneDB[0]['uri'], "#archived")) {
+            if ($oneDB[0]['status'] == 1 && !$statusSearch == "archived") {
                 $pause .= $t;
             }
 
-            if ($this->str_contains($oneDB[0]['uri'], "#archived")) {
+            if ($statusSearch == "archived") {
                 $archived .= $t;
             }
         }
 
         $play .= '</div></div>';
         $pause .= '</div></div>';
-        $archived .= '</div></div>';
+        $archived .= '';
 
         $display = $play . $pause . $archived;
 
@@ -758,7 +811,7 @@ class george
         $state = $abtest[0]['status'] == 0 ? "En cours" : "En pause";
         $draw = '
             <div class="headerCard">';
-        if ($this->str_contains($abtest[0]['uri'], "#archived")) {
+        if ($this->str_contains($abtest[0]['variation'], "archived_")) {
             $draw .= '<h3 class="text-info text-center">ABTEST Archivé</h3>';
             $state = 'Archivé';
         }

@@ -15,7 +15,12 @@ if (isset($_GET['action'])) {
      */
     if ($_GET['action'] == "delete") {
         $george = new george();
-        $george->deleteData("database/" . $_GET['db']); //Suppression de l'ABTest
+        if ($_GET['archived']) {
+            $george->deleteData("database/archived/" . $_GET['db']); //Suppression de l'ABTest
+        } else {
+            $george->deleteData("database/" . $_GET['db']); //Suppression de l'ABTest
+
+        }
     }
     /**
      * Create ABTEST
@@ -62,6 +67,7 @@ if (isset($_GET['action'])) {
 
             if (!empty($data)) {
                 $george->save_conversion_custom(str_replace("index.php", "", $_POST['path']));
+                $george->addChart($_POST['path'], $_POST['conversion_path']);
                 $myfile = fopen("log.txt", "a") or die("Unable to open file!");
                 $start = new \DateTime();
                 $txt = "";
