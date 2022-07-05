@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
      */
     if ($_GET['action'] == "delete") {
         $george = new george();
-        if ($_GET['archived']) {
+        if ($_GET['archived'] == "true") {
             $george->deleteData("database/archived/" . $_GET['db']); //Suppression de l'ABTest
         } else {
             $george->deleteData("database/" . $_GET['db']); //Suppression de l'ABTest
