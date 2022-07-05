@@ -3,7 +3,7 @@
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 if (isset($_GET['debug']) && $_GET['debug'] == true) {
-    var_dump($george->get_data_custom());
+    var_dump($george->get_data_all());
 }
 ?>
 <script>

@@ -93,8 +93,9 @@ $dbName = $_GET['dbName'];
                             'rgb(75, 192, 192)',
                             'rgb(153, 102, 255)',
                         ]
-                    }],
+                    }, ],
                     labels: SetName
+
                 },
                 options: {
                     plugins: {

@@ -141,8 +141,6 @@ header("Cache-Control: no-cache, must-revalidate");
                     taux_decouvert: $('#taux_decouvert').val(),
                     url_variations: form_fields
                 }).done(function(data) {
-                    $('#See').attr('href', $('#url_conversion').val());
-                    $('#See').text("See");
                     $('.alert').css("color", "green");
                     $('.alert').text("Success !");
                 });
