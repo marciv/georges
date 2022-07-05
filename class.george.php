@@ -96,7 +96,7 @@ class george
         $variationName = trim(str_replace("/", "_",  $newURI), "_"); //Nom variation actuel 
         $variableQuery =  parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ? "?" . parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) : "";   //Récupération des query
 
-        $data = $this->get_data_custom();
+        $data = $this->get_data_all();
         $data = $data[0];
 
         $this->status = $data['status'];
@@ -105,16 +105,16 @@ class george
             //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
             // options
 
-            $this->set_option(
+            $this->set_option( //Set Option
                 array(
                     "discovery_rate" => $data['discovery_rate'],
                     "default_view" => $data['default_view'],
                 )
             );
-            $this->add_variation(
+            $this->add_variation( //Set this variation as selected
                 array(
                     $variationName => array( //Name variation
-                        "uri" => "", //Link variation
+                        "uri" => "", //Link variation //
                     )
                 )
             );
@@ -124,7 +124,7 @@ class george
                 $http_referer = "&http_referer=" . $variationName;
             }
             foreach ($data['listVariation'] as $v) { //On parcours la liste des variations disponible 
-                $this->add_variation(
+                $this->add_variation( //Set variation in this list
                     array(
                         $v['name'] => array( //Name variation
                             "uri" => $v['uri'] .  $variableQuery, //Link variation
@@ -414,7 +414,7 @@ class george
      *
      * @return mixed
      */
-    public function get_data()
+    public function get_data_uri()
     {
         if (file_exists(ABSPATH . LIB . '/George/database/' . $this->test)) {
             $db = new FlatDB(ABSPATH . LIB . '/George/database', $this->test);
@@ -489,7 +489,7 @@ class george
 
         // select view
         // get tracking data
-        $data = $this->get_data();
+        $data = $this->get_data_uri();
 
 
         if ($data && $data !== false) {
@@ -651,50 +651,54 @@ class george
      */
     public function registerInDB(string $url_conversion, string $discovery_rate, array $urls_variation)
     {
-        //Create DB for principal
-        $db = new FlatDB('database', $this->test);
-        $data = array(
-            'uri' => $url_conversion,
-            'variation' => $this->test,
-            'listVariation' => $urls_variation,
-            'discovery_rate' => $discovery_rate,
-            'default_view' => $this->test,
-            'nb_visit' => 0,
-            'nb_visit_mobile' => 0,
-            'nb_visit_desktop' => 0,
-            'nb_visit_tablet' => 0,
-            'status' => 0,
-            'nb_conversion' => 0,
-            'tx_conversion' => 0,
-            'nb_conversion_mobile' => 0,
-            'nb_conversion_tablet' => 0,
-            'nb_conversion_desktop' => 0,
-            'date_time' => new \DateTime(),
-        );
-        $db->table('data_set')->insert(
-            $data
-        );
-        //Create DB for variation
-        foreach ($urls_variation as $value => $entry) {
+        if (!file_exists('database/' . $this->test)) {
+            //Create DB for principal
+            $db = new FlatDB('database', $this->test);
             $data = array(
-                'uri' => $entry['uri'],
-                'variation' => $entry['name'],
+                'uri' => $url_conversion,
+                'variation' => $this->test,
+                'listVariation' => $urls_variation,
+                'discovery_rate' => $discovery_rate,
+                'default_view' => $this->test,
                 'nb_visit' => 0,
                 'nb_visit_mobile' => 0,
                 'nb_visit_desktop' => 0,
                 'nb_visit_tablet' => 0,
+                'status' => 0,
                 'nb_conversion' => 0,
                 'tx_conversion' => 0,
                 'nb_conversion_mobile' => 0,
                 'nb_conversion_tablet' => 0,
-                'nb_conversion_desktop' => 0
+                'nb_conversion_desktop' => 0,
+                'date_time' => new \DateTime(),
             );
-
             $db->table('data_set')->insert(
                 $data
             );
+            //Create DB for variation
+            foreach ($urls_variation as $value => $entry) {
+                $data = array(
+                    'uri' => $entry['uri'],
+                    'variation' => $entry['name'],
+                    'nb_visit' => 0,
+                    'nb_visit_mobile' => 0,
+                    'nb_visit_desktop' => 0,
+                    'nb_visit_tablet' => 0,
+                    'nb_conversion' => 0,
+                    'tx_conversion' => 0,
+                    'nb_conversion_mobile' => 0,
+                    'nb_conversion_tablet' => 0,
+                    'nb_conversion_desktop' => 0
+                );
+
+                $db->table('data_set')->insert(
+                    $data
+                );
+            }
+            return;
+        } else {
+            return false;
         }
-        return;
     }
     /**
      * Change State of ABTEST
@@ -766,7 +770,7 @@ class george
      *
      * @return array
      */
-    public function get_data_custom()
+    public function get_data_all()
     {
         if (file_exists(ABSPATH . LIB . '/George/database/' . $this->test)) {
             // $db = new FlatDB('database', $this->test);
@@ -783,6 +787,7 @@ class george
             return false;
         }
     }
+
 
     /**
      * Get data for one ABTEST

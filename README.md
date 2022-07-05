@@ -65,11 +65,11 @@ https://nomdomaine.fr/library/George/
 Fill in URL inputs without adding parameters
 
 ```
-URL Principale => https://www.je-renove.net/pho/lan/06/
+URL Principale => /pho/lan/06/
 
 Discovery Rate => 0.20
 
-URL variation => https://www.je-renove.net/pho/lan/16/
+URL variation => /pho/lan/16/
 ```
 
 Click in the Button "Start AB Test"
