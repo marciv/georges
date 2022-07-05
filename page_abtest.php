@@ -1,12 +1,7 @@
 <?php
+header("Cache-Control: no-cache, must-revalidate");
 require  "class.george.php";
 $dbName = $_GET['dbName'];
-if (isset($_GET['path'])) {
-    $path = $_GET['path'];
-} else {
-    $path = "";
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -46,13 +41,8 @@ if (isset($_GET['path'])) {
     ?>
         <div class="container">
             <?php
-            echo $george->draw_abtest($path);
+            echo $george->draw_abtest();
             ?>
-
-
-        </div>
-        <div class="container card mx-auto">
-            <canvas id="donut" width="100" height="100"></canvas>
         </div>
     <?php
     } else {
@@ -64,94 +54,93 @@ if (isset($_GET['path'])) {
     <script src="../bs4/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>
-
     <script>
-        let dbName = <?= json_encode($dbName); ?>;
-        let dbData = <?= json_encode($george->get_data_custom_for_conversion($dbName)) ?>;
+        let dbData = <?= json_encode($george->get_data_by_abtest()) ?>;
 
-        let Variation = [];
+        let SetName = [];
+        let txConversionSetCount = [];
+        let visitSetCount = [];
+        let conversionSetCount = [];
 
-        dbData[0].listVariation.forEach(element => {
-            Variation.push({
-                name: element.variation,
-                count: 0
-            });
+
+        dbData.forEach(element => {
+            SetName.push(element.uri);
+            txConversionSetCount.push(element.tx_conversion);
+            visitSetCount.push(element.nb_visit);
+            conversionSetCount.push(element.nb_conversion);
         });
 
-        Variation.push({
-            name: dbData[0].uri,
-            count: dbData[0].nb_conversion
-        });
-
-        getData();
-
-
-        /**
-         * Get data json
-         *
-         * @return void
-         */
-        async function getData() {
-            let data = await fetch("database/" + dbName + "/data_set/jsonDataConversion.json");
-            let dataJson = await data.json();
-            // console.log(dataJson);
-            dataJson.forEach(point => {
-                if (point.http_referer != "" && point.http_referer != null) { //Variation
-                    Variation.forEach(variation => {
-                        if (point.path.includes(variation.name)) {
-                            variation.count++;
-                        }
-                    });
-                } else {
-
-                }
-            });
-
-            Variation.forEach(variation => {
-                console.log(variation.name + " : " + variation.count);
-            });
-
-            console.log(Variation);
-            draw();
-        }
+        draw();
         /**
          * Draw Chart
          *
          * @return void
          */
         function draw() {
-            let dataSetName = [];
-            let dataSetCount = [];
-
-
-            Variation.forEach(element => {
-                dataSetName.push(element.name);
-                dataSetCount.push(element.count);
-            })
-
             Chart.register(ChartDataLabels);
+            Chart.defaults.font.size = 16;
 
-            const donutEl = document.getElementById("donut").getContext("2d");
-            const data = [4, 9, 5, 2];
+            const donutEl = document.getElementById("donut_tx_conversion").getContext("2d");
 
             const pieChart = new Chart(donutEl, {
                 type: 'doughnut',
                 data: {
                     datasets: [{
-                        data: dataSetCount,
-                        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', ],
+                        data: txConversionSetCount,
+                        backgroundColor: ['rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                        ]
                     }],
-                    labels: dataSetName
+                    labels: SetName
                 },
                 options: {
                     plugins: {
                         datalabels: {
                             formatter: (value) => {
-                                return value;
+                                return value + "%";
                             }
-                        }
+                        },
                     }
                 }
+            })
+
+            const donutConversion = document.getElementById("donut_conversion").getContext("2d");
+
+            const pieChart2 = new Chart(donutConversion, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: conversionSetCount,
+                        backgroundColor: ['rgb(225, 131, 148)',
+                            'rgb(177, 214, 239)',
+                            'rgb(167, 180, 189)',
+                            'rgb(182, 230, 163)',
+                            'rgb(79, 112, 208)',
+                        ]
+                    }],
+                    labels: SetName
+                },
+            })
+
+            const donutVisit = document.getElementById("donut_visit").getContext("2d");
+
+            const pieChart3 = new Chart(donutVisit, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: visitSetCount,
+                        backgroundColor: ['rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                        ]
+                    }],
+                    labels: SetName
+                },
             })
         }
     </script>
