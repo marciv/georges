@@ -27,7 +27,7 @@ a:hover {
 
 .card {
   max-width: 550px;
-  margin: 0 20px;
+  margin: 20px 20px;
   border: none;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }

@@ -104,7 +104,6 @@ class george
         if (isset($data['uri']) && ($data['uri'] == $newURI  && !empty($data) || $data != false) && $data['status'] != 1) {
             //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
             // options
-
             $this->set_option( //Set Option
                 array(
                     "discovery_rate" => $data['discovery_rate'],
@@ -283,7 +282,7 @@ class george
         )->all();
 
 
-        if (!empty($result[0]['id'])) {
+        if (!empty($result[0])) {
             $data = $result[0];
             $data['nb_visit'] = max(0, $result[0]['nb_visit']) + 1;
             $data['tx_conversion'] = round(($result[0]['nb_conversion'] / $data['nb_visit']) * 100, 1);
@@ -385,31 +384,6 @@ class george
     }
 
     /**
-     * Register conversion for chart
-     *
-     * @param string $path => path of the page
-     * @param string $http_referer => path of principal variation if exist
-     * @return void
-     */
-    public function addChart(string $path, string $http_referer): void
-    {
-        $data = file_get_contents("database/" . $this->test . "/data_set/jsonDataConversion.json");
-        $json = json_decode($data);
-        $start = new \DateTime();
-
-        $array = array(
-            'date' => $start->format('Y-m-d H:i:s'),
-            'path' => $path,
-            'http_referer' => $http_referer,
-        );
-
-        $json[] = $array;
-
-        $json = json_encode($json, JSON_PRETTY_PRINT);
-        file_put_contents("database/" . $this->test . "/data_set/jsonDataConversion.json", $json);
-    }
-
-    /**
      * Return data
      *
      * @return mixed
@@ -477,7 +451,7 @@ class george
      *
      * @return bool
      */
-    private function calculate()
+    private function calculate(): bool
     {
         global $_REQUEST;
         $this->selected_view = @$this->variation[$this->option['default_view']];
@@ -529,8 +503,6 @@ class george
         $_REQUEST['utm_campaign'] = @trim("-", $this->test . "-" . $this->selected_view_name . "-" . $_REQUEST['utm_campaign']);
         return true;
     }
-
-
 
 
     /**

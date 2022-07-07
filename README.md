@@ -44,13 +44,14 @@ acces with parameter $\_GET['dbName']
 Router action function :
 
 - changeState = change state for one abtest
-- delete = delete database
+- delete = delete ABTEST
 - createDB = Create on ABTEST
-- addConversion = add Conversion
+- addConversion = add Conversion to ABTEST
+- setArchive = Archive ABTEST
 
 ### File scriptGeorge.php
 
-Contains Script for add conversion to LP
+Contains Script in Jquery for add conversion to LP
 
 ## Running the tests
 
