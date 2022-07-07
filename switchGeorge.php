@@ -88,7 +88,6 @@ if (isset($_GET['action'])) {
             $txt = "";
             if (!empty($data)) {
                 $george->save_conversion(str_replace("index.php", "", $_POST['path']));
-                $george->addChart($_POST['path'], $_POST['conversion_path']);
                 $txt .= "START : " . $start->format("d/m/Y H:i:s") . "\n";
                 $txt .= "Variation : " . $_POST['path'] . "\n";
                 $txt .= "Main Variation : " . $_POST['conversion_path'] . "\n";
