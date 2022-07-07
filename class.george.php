@@ -682,7 +682,7 @@ class george
             );
             //Create DB for variation
             foreach ($urls_variation as $value => $entry) {
-                $data = array(
+                $dataVariation = array(
                     'uri' => $entry['uri'],
                     'variation' => $entry['name'],
                     'nb_visit' => 0,
@@ -697,7 +697,7 @@ class george
                 );
 
                 $db->table('data_set')->insert(
-                    $data
+                    $dataVariation
                 );
             }
             return true;
@@ -881,7 +881,7 @@ class george
             } else {
                 $t .=           "<p><u>Status</u> : <b class='text-warning'>En pause</b></p>";
             }
-            $t .=           '<p><u>Discovery Rate</u> : <b>' . $oneDB[0]['discovery_rate'] . '</b></p>';
+            $t .=           '<p><u>Discovery Rate</u> : <b>' . $oneDB[0]['discovery_rate'] * 100 . '%</b></p>';
             $t .=           "<div class='d-flex justify-content-evenly'>";
             if ($statusSearch != "archived") {
                 $t .=               "<a class='btn btn-outline-danger' href='switchGeorge.php?archived=false&action=delete&db=" . $oneDB[0]['variation'] . "'>Delete</a>";

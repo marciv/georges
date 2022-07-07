@@ -157,17 +157,10 @@ header("Cache-Control: no-cache, must-revalidate");
                     taux_decouvert: $('#taux_decouvert').val(),
                     url_variations: form_fields
                 }).done(function(data) {
-                    if (data) {
-                        $('.message-contenu').css("color", "green");
-                        $('.message-contenu').css("font-weight", "bolder");
-                        $('.message-contenu').text("ABTEST créé !");
-                    } else {
-                        $('.message-contenu').css("color", "red");
-                        $('.message-contenu').css("font-weight", "bolder");
-
-                        $('.message-contenu').text("Erreur lors de la création de l'ABTEST, un ABTEST existe déjà avec cette URL !");
-                    }
-
+                    console.log(data);
+                    $('.message-contenu').css("color", "green");
+                    $('.message-contenu').css("font-weight", "bolder");
+                    $('.message-contenu').text("ABTEST créé sauf si un ABTEST contient déjà l'url !");
                 });
             } else {
                 $('.message-contenu').css("color", "orange");
