@@ -26,6 +26,23 @@ header("Cache-Control: no-cache, must-revalidate");
     error_reporting(E_ALL);
     require "class.george.php";
 
+    if (isset($_GET['success'])) {
+        if ($_GET['success'] == "true") {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <span class="message-contenu"><strong>Succès ! </strong>' . $_GET['message'] . '</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>';
+        } else {
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span class="message-contenu"><strong>Erreur ! </strong> ' . $_GET['message'] . '</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>';
+        }
+    }
     ?>
     <div class="main-george">
         <h1 class="mb-3 text-center">George</h1>
@@ -50,7 +67,7 @@ header("Cache-Control: no-cache, must-revalidate");
             <button id="addInput" onclick="addInput()" class="btn btn-outline-info btn-rounded mr-3">+ Add variation</button>
             <button id="send" class="btn btn-outline-primary">Start AB Test</button>
         </div>
-        <p class="text-center alert"></p>
+        <p class="text-center message-contenu"></p>
     </div>
 
     <div class="container">
@@ -70,10 +87,10 @@ header("Cache-Control: no-cache, must-revalidate");
     <div class="tab-content" id="pills-tabContent">
         <?php
         $george = new george();
-        echo $george->draw_allData();
+        echo $george->draw_allData(); // Affichage des bdd disponible
 
         echo '<div class="tab-pane fade " id="pills-archived" role="tabpanel" aria-labelledby="pills-archived-tab"><div class="listDB">';
-        echo $george->draw_allData("archived"); // Affichage des bdd disponible
+        echo $george->draw_allData("archived"); // Affichage des bdd archivées
         echo '</div></div>';
         ?>
     </div>
@@ -133,7 +150,6 @@ header("Cache-Control: no-cache, must-revalidate");
 
             if ($('#url_conversion').val() == "" || $('#taux_decouvert').val() == "") {
                 checked = false;
-
             }
             if (checked) {
                 $.post("switchGeorge.php?action=createDB", {
@@ -141,16 +157,25 @@ header("Cache-Control: no-cache, must-revalidate");
                     taux_decouvert: $('#taux_decouvert').val(),
                     url_variations: form_fields
                 }).done(function(data) {
-                    $('.alert').css("color", "green");
-                    $('.alert').text("Success !");
+                    if (data) {
+                        $('.message-contenu').css("color", "green");
+                        $('.message-contenu').css("font-weight", "bolder");
+                        $('.message-contenu').text("ABTEST créé !");
+                    } else {
+                        $('.message-contenu').css("color", "red");
+                        $('.message-contenu').css("font-weight", "bolder");
+
+                        $('.message-contenu').text("Erreur lors de la création de l'ABTEST, un ABTEST existe déjà avec cette URL !");
+                    }
+
                 });
             } else {
-                $('.alert').css("color", "orange");
-                $('.alert').text("Veuillez remplir tous les champs !");
-                setTimeout(function() {
-                    $('.alert').text("");
-                }, 4000)
+                $('.message-contenu').css("color", "orange");
+                $('.message-contenu').text("Veuillez remplir tous les champs !");
             }
+            setTimeout(function() {
+                $('.message-contenu').text("");
+            }, 4000)
         })
     </script>
 </body>

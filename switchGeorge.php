@@ -7,20 +7,34 @@ if (isset($_GET['action'])) {
      */
     if ($_GET['action'] == "changeState") {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
-        $george->changeStatus();
+        if ($george->changeStatus()) {
+            header('Location: index.php?success=true&message=Status de l\'ABTEST changé');
+        } else {
+            header('Location: index.php?success=false&message=Une erreur est survenue');
+        }
+        exit;
     }
     /**
      * Delete DB
      * $_GET['db'] = nameDB
      */
     if ($_GET['action'] == "delete") {
+        $success = false;
         $george = new george();
         if ($_GET['archived'] == "true") {
             $george->deleteData("database/archived/" . $_GET['db']); //Suppression de l'ABTest
         } else {
-            $george->deleteData("database/" . $_GET['db']); //Suppression de l'ABTest
-
+            //Suppression de l'ABTest
+            if ($george->deleteData("database/" . $_GET['db'])) {
+                $success = true;
+            }
         }
+        if ($success) {
+            header('Location: index.php?success=true&message=ABTEST supprimé avec succès');
+        } else {
+            header('Location: index.php?success=false&message=Erreur dans la suppression');
+        }
+        exit;
     }
     /**
      * Create ABTEST
@@ -40,7 +54,11 @@ if (isset($_GET['action'])) {
         }
 
         $george = new george($nameDB);
-        $george->registerInDB(parse_url($url_conversion, PHP_URL_PATH), $discovery_rate, $urls_variation); //On crée une nouvelle BDD
+        if ($george->registerInDB(parse_url($url_conversion, PHP_URL_PATH), $discovery_rate, $urls_variation)) { //On crée une nouvelle BDD
+            return true;
+        } else {
+            return false;
+        }
     }
     /**
      * Add conversion 
@@ -63,14 +81,14 @@ if (isset($_GET['action'])) {
 
         if ($variationName != "ref.php" || $variationName != "/") {
             $george = new george($variationName); // On vérifie si une bdd avec le nom existe
-            $data = $george->get_data_custom_for_conversion($variationName);
+            $data = $george->get_data_variation($variationName);
 
+            $myfile = fopen("log.txt", "a") or die("Unable to open file!");
+            $start = new \DateTime();
+            $txt = "";
             if (!empty($data)) {
-                $george->save_conversion_custom(str_replace("index.php", "", $_POST['path']));
+                $george->save_conversion(str_replace("index.php", "", $_POST['path']));
                 $george->addChart($_POST['path'], $_POST['conversion_path']);
-                $myfile = fopen("log.txt", "a") or die("Unable to open file!");
-                $start = new \DateTime();
-                $txt = "";
                 $txt .= "START : " . $start->format("d/m/Y H:i:s") . "\n";
                 $txt .= "Variation : " . $_POST['path'] . "\n";
                 $txt .= "Main Variation : " . $_POST['conversion_path'] . "\n";
@@ -80,21 +98,17 @@ if (isset($_GET['action'])) {
                 $end = new \DateTime();
                 $txt .= "END : " . $end->format("d/m/Y H:i:s") . "\n";
                 $txt .= "===================================\n";
-                fwrite($myfile, $txt);
-                fclose($myfile);
             } else {
-                $myfile = fopen("log.txt", "a") or die("Unable to open file!");
-                $txt = "";
-                $start = new \DateTime();
                 $txt .= "DATE : " . $start->format("d/m/Y H:i:s") . "\n";
                 $txt .= "Variation : " . $_POST['path'] . "\n";
                 $txt .= "TYPE DEVICE : " . $george->visit['device_type'] . "\n";
                 $txt .= "CONVERSION SAVE : FAILED\n";
                 $txt .= "===================================\n";
-                fwrite($myfile, $txt);
-                fclose($myfile);
             }
+            fwrite($myfile, $txt);
+            fclose($myfile);
         }
+        return;
     }
 
     /**
@@ -102,8 +116,11 @@ if (isset($_GET['action'])) {
      */
     if ($_GET['action'] == "setArchive") {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
-        $george->setArchive();
+        if ($george->setArchive()) {
+            header('Location: index.php?success=true&message=Archivage réussi');
+        } else {
+            header('Location: index.php?success=false&message=Archivage échoué');
+        }
+        exit;
     }
 }
-header('Location: index.php');
-exit;
