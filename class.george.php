@@ -45,7 +45,7 @@ class george
      *
      * @var array<string>
      */
-    private $option;
+    public $option;
     // /**
     //  *
     //  * @var array<string>
@@ -55,7 +55,7 @@ class george
      *
      * @var array<mixed>
      */
-    private $visit;
+    public $visit;
     // /**
     //  *
     //  * @var array<string>
@@ -69,7 +69,7 @@ class george
      * @param string $name
      * @param array<string> $tracking_var
      */
-    public function __construct(string $name = "test_data"/*, array $tracking_var = array()*/)
+    public function __construct(string $name = "test_data", array $tracking_var = array())
     {
         if (session_status() == PHP_SESSION_NONE) {
             @session_start();
@@ -114,7 +114,7 @@ class george
             $this->add_variation( //Set this variation as selected
                 array(
                     $variationName => array( //Name variation
-                        "uri" => "", //Link variation //
+                        "uri" => "", //Link variation
                     )
                 )
             );
@@ -229,7 +229,7 @@ class george
      *
      * @return void
      */
-    private function set_visit_data()
+    private function set_visit_data(): void
     {
 
         //DETECT DEVICE / BROWSER / OS / LANGUAGE
@@ -277,7 +277,7 @@ class george
         @$result = @$db->table('data_set')->where(
             array(
                 'uri' => "/" . str_replace("_", "/", $this->selected_view_name) . "/",
-                $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']],
+                // $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']],
                 'variation' => $this->selected_view_name
             )
         )->all();
@@ -352,15 +352,15 @@ class george
      * @param string $path
      * @return void
      */
-    public function save_conversion_custom(string $path = ""): void
+    public function save_conversion(string $path = ""): void
     {
         $data = array(
             'uri' => $path,
             'variation' => trim(str_replace("/", "_", $path), "_")
         );
-        foreach ($_SESSION['VAR'] as $k => $v) {
-            $data[$k] = $v;
-        }
+        // foreach ($_SESSION['VAR'] as $k => $v) {
+        //     $data[$k] = $v;
+        // }
 
 
         $db = new FlatDB("database", $this->test);
@@ -421,7 +421,7 @@ class george
 
             @$result = @$db->table('data_set')->where(
                 array(
-                    'uri' => $this->visit['uri'],
+                    'uri' => $this->visit['uri']
                     // $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]
                 )
             )->all();
@@ -630,15 +630,20 @@ class george
      * Delete DB
      *
      * @param string $nameDB
-     * @return void
+     * @return bool
      */
-    public function deleteData(string $nameDB): void
+    public function deleteData(string $nameDB): bool
     {
-        foreach (new DirectoryIterator($nameDB) as $item) {
-            if ($item->isFile()) unlink($item->getRealPath());
-            if (!$item->isDot() && $item->isDir()) $this->deleteData($item->getRealPath());
+        try {
+            foreach (new DirectoryIterator($nameDB) as $item) {
+                if ($item->isFile()) unlink($item->getRealPath());
+                if (!$item->isDot() && $item->isDir()) $this->deleteData($item->getRealPath());
+            }
+            rmdir($nameDB);
+            return true;
+        } catch (Exception $e) {
+            return false;
         }
-        rmdir($nameDB);
     }
 
     /**
@@ -647,9 +652,9 @@ class george
      * @param string $url_conversion
      * @param string $discovery_rate
      * @param array<string> $urls_variation
-     * @return void
+     * @return bool
      */
-    public function registerInDB(string $url_conversion, string $discovery_rate, array $urls_variation)
+    public function registerInDB(string $url_conversion, string $discovery_rate, array $urls_variation): bool
     {
         if (!file_exists('database/' . $this->test)) {
             //Create DB for principal
@@ -695,7 +700,7 @@ class george
                     $data
                 );
             }
-            return;
+            return true;
         } else {
             return false;
         }
@@ -703,9 +708,9 @@ class george
     /**
      * Change State of ABTEST
      *
-     * @return void
+     * @return bool
      */
-    public function changeStatus(): void
+    public function changeStatus(): bool
     {
         $db = new FlatDB('database', $this->test);
 
@@ -724,7 +729,12 @@ class george
             $data['status'] = 0; //Resume
         }
 
-        $db->table('data_set')->update($result[0]['id'], $data);
+        try {
+            $db->table('data_set')->update($result[0]['id'], $data);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -743,25 +753,25 @@ class george
     /**
      * Archive or Not ABTEST
      *
-     * @return void
+     * @return bool
      */
-    public function setArchive()
+    public function setArchive(): bool
     {
         if (file_exists('database/' . $this->test)) {
             //Ne pas deArchived car existe déjà un fichier ici
             if (!file_exists('database/archived' . $this->test)) {
                 rename('database/' . $this->test, 'database/archived/' . $this->test . "_" . date("Y-m-d_H-i-s"));
+                return true;
             } else {
-                return;
+                return false;
             }
         } else if (file_exists('database/archived/' . $this->test)) {
             if (!file_exists('database/' . $this->test)) {
                 rename('database/archived/' . $this->test, 'database/' . $this->test);
+                return true;
             } else {
-                return;
+                return false;
             }
-        } else {
-            return;
         }
     }
 
@@ -817,13 +827,13 @@ class george
      * @param string $nameDatabase
      * @return array|string|bool
      */
-    public function get_data_custom_for_conversion(string $nameDatabase = "")
+    public function get_data_variation(string $nameDatabase = "")
     {
         if (file_exists('database/' . $nameDatabase)) {
             $db = new FlatDB('database', $nameDatabase);
             @$result = @$db->table('data_set')->where(
                 array(
-                    'variation' => $nameDatabase,
+                    'variation' => $nameDatabase
                 )
             )->all();
 
@@ -833,8 +843,6 @@ class george
             } else {
                 return $result;
             }
-        } else {
-            return false;
         }
     }
 

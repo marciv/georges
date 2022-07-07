@@ -29,7 +29,6 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
 
             function addConversion() {
                 if (!formSended) {
-                    console.log("=======================form sended with jquery and catch him============================");
                     formSended = true;
                     let http_referer = "<?= isset($_GET['http_referer']) ? $_GET['http_referer'] : ""; ?>";
                     let status = <?= json_encode($george->status); ?>;
@@ -39,6 +38,9 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
                     if (http_referer == null || http_referer == undefined || http_referer == "") {
                         http_referer = null;
                     }
+
+                    console.log(http_referer);
+
 
                     if (status != "1" || status != 1) {
                         $.post("../../../library/George/switchGeorge.php?action=addConversion", {
