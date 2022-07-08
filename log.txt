@@ -308,3 +308,27 @@ IP : ::1
 CONVERSION SAVE : SUCCESSS
 END : 08/07/2022 08:15:31
 ===================================
+START : 08/07/2022 15:01:38
+Variation : /1root/test/lan/09/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 08/07/2022 15:01:38
+===================================
+START : 08/07/2022 15:02:06
+Variation : /1root/test/lan/07/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 08/07/2022 15:02:06
+===================================
+START : 08/07/2022 15:02:42
+Variation : /1root/test/lan/08/
+Main Variation : 
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 08/07/2022 15:02:42
+===================================

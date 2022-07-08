@@ -280,7 +280,7 @@ class george
         )->all();
 
 
-        if (!empty($result[0])) {
+        if (!empty($result[0]['id'])) {
             $data = $result[0];
             $data['nb_visit'] = max(0, $result[0]['nb_visit']) + 1;
             $data['tx_conversion'] = round(($result[0]['nb_conversion'] / $data['nb_visit']) * 100, 1);
@@ -463,7 +463,6 @@ class george
         // get tracking data
         $data = $this->get_data_uri();
 
-
         if ($data && $data !== false) {
             $data = $this->calculate_conversion($data);
 
@@ -480,7 +479,11 @@ class george
             if (floor($key2) - floor($key1) == 1) {
                 // explore
                 // echo 'explore';
-                // unset($this->variation[$best_view_name]);
+                $dump = $this->variation;
+                unset($this->variation[$best_view_name]);
+                if (empty($this->variation)) {
+                    $this->variation = $dump;
+                }
                 $this->selected_view_name = array_rand($this->variation);
                 $this->selected_view = $this->variation[$this->selected_view_name];
             } else {
@@ -813,6 +816,27 @@ class george
             } else {
                 return $result;
             }
+        }
+    }
+
+    /**
+     *
+     * @param string $nameDatabase
+     * @return array|string|bool
+     */
+    public function get_data_debug(string $nameDatabase = "")
+    {
+        if (empty($nameDatabase)) {
+            $nameDatabase = $this->test;
+        }
+        $db = new FlatDB(ABSPATH . LIB . '/George/database', $nameDatabase);
+        @$result = @$db->table('data_set')->where()->all();
+
+        // exit;
+        if (empty($result)) {
+            return "false";
+        } else {
+            return $result;
         }
     }
 

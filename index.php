@@ -54,7 +54,7 @@ header("Cache-Control: no-cache, must-revalidate");
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Discovery Rate</span>
-                <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20">
+                <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20" max="0.25">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">URL Variation</span>
@@ -146,11 +146,20 @@ header("Cache-Control: no-cache, must-revalidate");
             if (first($('#url_conversion').val()) != "/" || last($('#url_conversion').val()) != "/") {
                 alert("URL Conversion must start and end with /");
                 checked = false;
+                $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
             }
 
             if ($('#url_conversion').val() == "" || $('#taux_decouvert').val() == "") {
                 checked = false;
+                $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
+                $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
             }
+            if ($('#taux_decouvert').val() > 0.25) {
+                alert("Discovery Rate must be less than 0.25");
+                checked = false;
+                $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
+            }
+
             if (checked) {
                 $.post("switchGeorge.php?action=createDB", {
                     url_conversion: $('#url_conversion').val(),
