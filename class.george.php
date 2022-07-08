@@ -99,8 +99,6 @@ class george
         $data = $this->get_data_all();
         $data = $data[0];
 
-        $this->status = $data['status'];
-
         if (isset($data['uri']) && ($data['uri'] == $newURI  && !empty($data) || $data != false) && $data['status'] != 1) {
             //SI C'EST EN BDD ALORS ON LANCE LE SCRIPT
             // options
@@ -497,10 +495,10 @@ class george
         $this->save_visit();
         $_SESSION['IP'] = $this->get_ip();
         $_SESSION['URI'] = $best_view['uri'];
-        @$_SESSION['VAR'] = array($this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]);
+        // @$_SESSION['VAR'] = array($this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]);
         $_SESSION['VARIATION'] = $this->selected_view_name;
         $_SESSION['TEST'] = $this->test;
-        $_REQUEST['utm_campaign'] = @trim("-", $this->test . "-" . $this->selected_view_name . "-" . $_REQUEST['utm_campaign']);
+        // $_REQUEST['utm_campaign'] = @trim("-", $this->test . "-" . $this->selected_view_name . "-" . $_REQUEST['utm_campaign']);
         return true;
     }
 
@@ -1012,10 +1010,7 @@ class george
                                 <div class="container mx-auto">
                                     <ul class="nav nav-pills justify-content-left mb-3 w-100" id="pills-tab" role="tablist">
                                         <li class="nav-item mx-auto" role="presentation">
-                                            <a class="ml-3 nav-link btn btn-outline-primary active" id="pills-tx-tab" data-toggle="pill" href="#pills-tx" role="tab" aria-controls="pills-tx" aria-selected="true">TX</a>
-                                        </li>
-                                        <li class="nav-item mx-auto" role="presentation">
-                                            <a class="ml-3 nav-link btn btn-outline-primary" id="pills-conv-tab" data-toggle="pill" href="#pills-conv" role="tab" aria-controls="pills-conv" aria-selected="true">Conversion</a>
+                                            <a class="ml-3 nav-link btn btn-outline-primary active" id="pills-tx-tab" data-toggle="pill" href="#pills-tx" role="tab" aria-controls="pills-tx" aria-selected="true">Conversion</a>
                                         </li>
                                         <li class="nav-item mx-auto" role="presentation">
                                             <a class="ml-3 nav-link btn btn-outline-primary" id="pills-visit-tab" data-toggle="pill" href="#pills-visit" role="tab" aria-controls="pills-visit" aria-selected="false">Visite</a>
@@ -1025,9 +1020,6 @@ class george
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade show active " id="pills-tx" role="tabpanel" aria-labelledby="pills-tx-tab">
                                         <canvas id="donut_tx_conversion"></canvas>
-                                    </div>
-                                    <div class="tab-pane fade" id="pills-conv" role="tabpanel" aria-labelledby="pills-conv-tab">
-                                        <canvas id="donut_conversion"></canvas>
                                     </div>
                                     <div class="tab-pane fade" id="pills-visit" role="tabpanel" aria-labelledby="pills-visit-tab">
                                         <canvas id="donut_visit"></canvas>
