@@ -3,13 +3,23 @@
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 if (isset($_GET['debug']) && $_GET['debug'] == true) {
+    if (isset($_GET['http_referer'])) {
 ?>
-    <code>
-        <pre>
-            <?php print_r($george->get_data_all()); ?>
-        </pre>
-    </code>
+        <code>
+            <pre>
+                <?php print_r($george->get_data_debug($_GET['http_referer'])); ?>
+            </pre>
+        </code>
+    <?php
+    } else {
+    ?>
+        <code>
+            <pre>
+                <?php print_r($george->get_data_debug()); ?>
+            </pre>
+        </code>
 <?php
+    }
 }
 ?>
 <script>
