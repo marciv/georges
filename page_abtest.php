@@ -59,16 +59,23 @@ $dbName = $_GET['dbName'];
 
         let SetName = [];
         let txConversionSetCount = [];
-        let visitSetCount = [];
         let conversionSetCount = [];
+        let visitDesktopSetCount = [];
+        let visitMobileSetCount = [];
+        let visitTabletSetCount = [];
+
+
 
 
         dbData.forEach(element => {
             SetName.push(element.uri);
             txConversionSetCount.push(element.tx_conversion);
-            visitSetCount.push(element.nb_visit);
             conversionSetCount.push(element.nb_conversion);
+            visitDesktopSetCount.push(element.nb_visit_desktop);
+            visitMobileSetCount.push(element.nb_visit_mobile);
+            visitTabletSetCount.push(element.nb_visit_tablet);
         });
+
 
         draw();
         /**
@@ -80,69 +87,108 @@ $dbName = $_GET['dbName'];
             Chart.register(ChartDataLabels);
             Chart.defaults.font.size = 16;
 
-            const donutEl = document.getElementById("donut_tx_conversion").getContext("2d");
+            drawTx();
+            drawVisite();
+        }
 
-            const pieChart = new Chart(donutEl, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: txConversionSetCount,
-                        backgroundColor: ['rgb(255, 99, 132)',
+        function drawVisite() {
+            const labels = SetName;
+            const data = {
+                labels: labels,
+                datasets: [{
+                        label: 'Visite Mobile',
+                        data: visitMobileSetCount,
+                        backgroundColor: [
+
+                            'rgba(153, 102, 255, 0.2)'
+
+                        ],
+                        borderColor: [
+                            'rgb(153, 102, 255)'
+                        ],
+                        borderWidth: 1,
+
+                    }, {
+                        label: 'Visite PC',
+                        data: visitDesktopSetCount,
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192)'
+
+                        ],
+                        borderWidth: 1
+                    },
+
+                    {
+                        label: 'Visite Tablette',
+                        data: visitTabletSetCount,
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.2)'
+                        ],
+                        borderColor: [
                             'rgb(54, 162, 235)',
-                            'rgb(255, 206, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(153, 102, 255)',
-                        ]
-                    }, ],
-                    labels: SetName
-
-                },
-                options: {
-                    plugins: {
-                        datalabels: {
-                            formatter: (value) => {
-                                return value + "%";
-                            }
-                        },
+                        ],
+                        borderWidth: 1,
                     }
+                ]
+
+            };
+
+            const config = {
+                type: 'bar',
+                data,
+                options: {
+                    indexAxis: 'x',
                 }
-            })
+            };
+            const VisitChart = document.getElementById("donut_visit").getContext("2d");
+            const BarChart = new Chart(VisitChart, config);
+        }
 
-            const donutConversion = document.getElementById("donut_conversion").getContext("2d");
 
-            const pieChart2 = new Chart(donutConversion, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
+
+        function drawTx() {
+            const labels = SetName;
+            const data = {
+                labels: labels,
+                datasets: [{
+                        label: 'Nb conversion',
                         data: conversionSetCount,
-                        backgroundColor: ['rgb(225, 131, 148)',
-                            'rgb(177, 214, 239)',
-                            'rgb(167, 180, 189)',
-                            'rgb(182, 230, 163)',
-                            'rgb(79, 112, 208)',
-                        ]
-                    }],
-                    labels: SetName
-                },
-            })
-
-            const donutVisit = document.getElementById("donut_visit").getContext("2d");
-
-            const pieChart3 = new Chart(donutVisit, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: visitSetCount,
-                        backgroundColor: ['rgb(75, 192, 192)',
-                            'rgb(153, 102, 255)',
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
                             'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 206, 86)',
-                        ]
-                    }],
-                    labels: SetName
-                },
-            })
+                        ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Taux conversion',
+                        data: txConversionSetCount,
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgb(75, 192, 192)',
+                        ],
+                        borderWidth: 1,
+                    }
+                ]
+
+            };
+
+            const config = {
+                type: 'bar',
+                data,
+                options: {
+                    indexAxis: 'x',
+
+                }
+            };
+            const conversionChart = document.getElementById("donut_tx_conversion").getContext("2d");
+            const pieChart = new Chart(conversionChart, config);
         }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
