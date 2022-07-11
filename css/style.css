@@ -29,8 +29,7 @@ a:hover {
   max-width: 550px;
   margin: 20px 20px;
   border: none;
-  box-shadow: rgba(253, 111, 111, 0.2) 0px 8px 24px;
-
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .card-archived {

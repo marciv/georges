@@ -44,14 +44,13 @@ acces with parameter $\_GET['dbName']
 Router action function :
 
 - changeState = change state for one abtest
-- delete = delete ABTEST
+- delete = delete database
 - createDB = Create on ABTEST
-- addConversion = add Conversion to ABTEST
-- setArchive = Archive ABTEST
+- addConversion = add Conversion
 
 ### File scriptGeorge.php
 
-Contains Script in Jquery for add conversion to LP
+Contains Script for add conversion to LP
 
 ## Running the tests
 
@@ -66,11 +65,11 @@ https://nomdomaine.fr/library/George/
 Fill in URL inputs without adding parameters
 
 ```
-URL Principale => /pho/lan/06/
+URL Principale => https://www.je-renove.net/pho/lan/06/
 
 Discovery Rate => 0.20
 
-URL variation => /pho/lan/16/
+URL variation => https://www.je-renove.net/pho/lan/16/
 ```
 
 Click in the Button "Start AB Test"

@@ -1,6 +1,3 @@
 /vendor/
 /database/
-/phpstan.neon
-/phpstan.neon.dist
-/vendor/
-/log.txt
+log.txt

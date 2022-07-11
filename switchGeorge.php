@@ -1,5 +1,8 @@
 <?php
-require 'class.george.php';
+
+require "../../config.php";
+use library\George as george;
+
 if (isset($_GET['action'])) {
     /**
      * Change state of ABTEST
@@ -77,7 +80,7 @@ if (isset($_GET['action'])) {
 
         $variationName = str_replace("index.php", "", $variationName); //Rewrite variation name
         $variationName = trim(str_replace("/", "_", $variationName), "_"); //Rewrite variation name
-
+        
 
         if ($variationName != "ref.php" || $variationName != "/") {
             $george = new george($variationName); // On vérifie si une bdd avec le nom existe
