@@ -280,7 +280,7 @@ class george
         )->all();
 
 
-        if (!empty($result[0]['id'])) {
+        if (!empty($result[0])) {
             $data = $result[0];
             $data['nb_visit'] = max(0, $result[0]['nb_visit']) + 1;
             $data['tx_conversion'] = round(($result[0]['nb_conversion'] / $data['nb_visit']) * 100, 1);
@@ -419,7 +419,6 @@ class george
         $this->nb_visit = 0;
         $max_conversion_rate = 0;
         foreach ($data as $k => $v) {
-
             if (empty($this->variation[$v['variation']])) {
                 unset($data[$k]);
                 continue;
@@ -443,7 +442,6 @@ class george
         return $data;
     }
 
-
     /**
      * Calculate
      *
@@ -451,7 +449,7 @@ class george
      */
     private function calculate(): bool
     {
-        global $_REQUEST;
+        // global $_REQUEST;
         $this->selected_view = @$this->variation[$this->option['default_view']];
         $this->selected_view_name = @$this->option['default_view'];
 
@@ -461,10 +459,14 @@ class george
 
         // select view
         // get tracking data
-        $data = $this->get_data_uri();
+        $data = $this->get_data_all();
+
+
 
         if ($data && $data !== false) {
             $data = $this->calculate_conversion($data);
+
+
 
             if (empty($data) or $data === false) {
                 $best_view_name = $this->option['default_view'];
@@ -473,21 +475,36 @@ class george
                 $best_view_name = $best_view['variation'];
             }
 
+            // var_dump("best_view_name => " . $best_view_name);
+
             $key2 = ($this->nb_visit + 1) * (max(0.01, $this->option['discovery_rate']));
             $key1 = ($this->nb_visit) * (max(0.01, $this->option['discovery_rate']));
+
+            // var_dump("best_view => " . $best_view['variation']);
+            // var_dump("this->nb_visit => " . $this->nb_visit);
+            // var_dump("max(0.01, this->option['discovery_rate']) => " . max(0.01, $this->option['discovery_rate']));
+            // var_dump("key1 => " . $key1);
+            // var_dump("key2 => " . $key2);
+            // var_dump("result floor(key2) - floor(key1) => " . (floor($key2) - floor($key1)));
 
             if (floor($key2) - floor($key1) == 1) {
                 // explore
                 // echo 'explore';
+                // var_dump("explore");
+
                 $dump = $this->variation;
                 unset($this->variation[$best_view_name]);
                 if (empty($this->variation)) {
                     $this->variation = $dump;
                 }
+                // var_dump($this->variation);
+
                 $this->selected_view_name = array_rand($this->variation);
                 $this->selected_view = $this->variation[$this->selected_view_name];
+                // var_dump("selected_view_name => " . $this->selected_view_name);
             } else {
                 // echo 'exploit';
+                // var_dump("exploit");
                 $this->selected_view = $this->variation[$best_view_name];
                 $this->selected_view_name = $best_view_name;
                 // echo ' '.$best_view_name;					
@@ -496,6 +513,7 @@ class george
 
 
         $this->save_visit();
+
         $_SESSION['IP'] = $this->get_ip();
         $_SESSION['URI'] = $best_view['uri'];
         // @$_SESSION['VAR'] = array($this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]);
