@@ -66,7 +66,6 @@ class George
     //  */
     // private $tracking_var;
 
-
     /**
      * Constructor
      *
@@ -84,9 +83,6 @@ class George
         }
     }
 
-
-
-
     /**
      * Initialize method for george, check if db with $variationName exist or not, 
      * If exist,
@@ -98,8 +94,6 @@ class George
      *
      * @return void
      */
-
-
     public function initialize(): void
     {
 
@@ -182,7 +176,6 @@ class George
         }
         // throw new \Exception("stop");
     }
-
 
     static function _getVariationNamefromUrl($url)
     {
@@ -467,28 +460,27 @@ class George
         }
     }
 
-    /**
-     * Return data
-     *
-     * @return mixed
-     */
-    public function get_data_uri()
-    {
-        
-        if ($this->_checkDBexist()) {
-            $db = new FlatDB(dirname(__FILE__) . "/database/", $this->test);
-            @$result = @$db->table('data_set')->where(
-                array(
-                    'uri' => $this->visit['uri']
-                    // $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]
-                )
-            )->all();
-            // exit;
-            
-            return $result ?? false;
-        }
-    }
+    // /**
+    //  * Return data
+    //  *
+    //  * @return mixed
+    //  */
+    // public function get_data_uri()
+    // {
 
+    //     if ($this->_checkDBexist()) {
+    //         $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
+    //         @$result = @$db->table('data_set')->where(
+    //             array(
+    //                 'uri' => $this->visit['uri']
+    //                 // $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]
+    //             )
+    //         )->all();
+    //         // exit;
+    //     }
+    //     return $result ?? null;
+    // }
+    
 
     /**
      * Undocumented function
@@ -756,10 +748,10 @@ class George
                 $data
             );
             //Create DB for variation
-            foreach ($urls_variation as $value => $entry) {
+            foreach ($urls_variation as $v => $e) {
                 $dataVariation = array(
-                    'uri' => $entry['uri'],
-                    'variation' => $entry['name'],
+                    'uri' => $e['uri'],
+                    'variation' => $e['name'],
                     'nb_visit' => 0,
                     'nb_visit_mobile' => 0,
                     'nb_visit_desktop' => 0,
@@ -791,11 +783,7 @@ class George
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
             // print_r($data);exit;
-            @$result = @$db->table('data_set')->where(
-                array(
-                    'variation' => $this->test,
-                )
-            )->all();
+            $result = $this->get_data_variation($this->test);
 
             $data = $result[0];
 
@@ -827,12 +815,7 @@ class George
         if ($this->_checkDBexist()) {
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
-            // print_r($data);exit;
-            @$result = @$db->table('data_set')->where(
-                array(
-                    'variation' => $this->test,
-                )
-            )->all();
+            $result = $this->get_data_variation($this->test);
 
             $data = $result[0];
 
@@ -850,17 +833,54 @@ class George
     }
 
     /**
-     * verify if string is contains
+     * Add Variation to current ABtest
      *
-     * @param string $haystack
-     * @param string $needle
+     * @param string $variation
      * @return boolean
      */
-    private function str_contains(string $haystack, string $needle): bool
+    public function addVariationToAbtest(string $variation): bool
     {
-        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
-    }
+        if ($this->_checkDBexist()) {
+            $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
+            // print_r($data);exit;
+            $result = $this->get_data_variation($this->test);
+
+            $data = $result[0];
+
+            $data['listVariation'][] = array(
+                "uri" => parse_url($variation, PHP_URL_PATH),
+                "name" => str_replace("/", "_", trim(parse_url($variation, PHP_URL_PATH), "/")),
+                "variation" =>  $variation
+            );
+
+
+            try {
+                $db->table('data_set')->update($result[0]['id'], $data);
+                $dataVariation = array(
+                    'uri' => $variation,
+                    'variation' => str_replace("/", "_", trim(parse_url($variation, PHP_URL_PATH), "/")),
+                    'nb_visit' => 0,
+                    'nb_visit_mobile' => 0,
+                    'nb_visit_desktop' => 0,
+                    'nb_visit_tablet' => 0,
+                    'nb_conversion' => 0,
+                    'tx_conversion' =>  0,
+                    'nb_conversion_mobile' => 0,
+                    'nb_conversion_tablet' => 0,
+                    'nb_conversion_desktop' => 0
+                );
+                $result = $db->table('data_set')->insert(
+                    $dataVariation
+                );
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Archive or Not ABTEST
@@ -872,6 +892,8 @@ class George
         if ($this->_checkDBexist()) {
             rename('database/' . $this->test, 'database/archived/' . $this->test . "_" . date("Y-m-d_H-i-s"));
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -888,9 +910,8 @@ class George
 
             $result = $db->table('data_set')->all();
             // exit;
-            return $result ?? false;
         }
-        return false;
+        return $result ?? null;
     }
 
     /**
@@ -908,7 +929,7 @@ class George
                 )
             )->all();
         }
-        return $result??null;
+        return $result ?? null;
     }
     
     /**
@@ -924,10 +945,9 @@ class George
         if ($this->_checkDBexist($nameDatabase)) {
             $db = new FlatDB(dirname(__FILE__) . "/database", $nameDatabase);
             @$result = @$db->table('data_set')->where()->all();
-            return $result;
-        } else {
-            return;
         }
+
+        return $result ?? null;
     }
 
     /**
@@ -1042,7 +1062,7 @@ class George
      * @param array<string, int> $cols
      * @return array<string>
      */
-    public function array_msort(array $array, array $cols): array
+    public function _array_msort(array $array, array $cols): array
     {
         $colarr = array();
         foreach ($cols as $col => $order) {

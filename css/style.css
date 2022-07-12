@@ -1,6 +1,6 @@
 body {
   display: flex;
-  min-height: 97vh;
+  padding-top: 30px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -44,6 +44,12 @@ a:hover {
   align-items: center;
 }
 
+.main-george {
+  border-radius: 15px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 20px 50px;
+}
+
 .roundedCardText {
   display: flex;
   align-items: center;
@@ -57,6 +63,22 @@ a:hover {
 
 .bottomBar {
   padding: 10px;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(219, 219, 219) !important;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgb(219, 219, 219) !important;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgb(219, 219, 219) !important;
 }
 
 @media screen and (max-width: 1024px) {
