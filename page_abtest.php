@@ -362,7 +362,7 @@ $dbName = $_GET['dbName'];
                             borderWidth: 1,
                         }
                     ]
-
+                
                 };
 
                 const config = {
