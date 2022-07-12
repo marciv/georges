@@ -99,8 +99,7 @@ if (isset($_GET['action'])) {
 
         if ($variationName != "ref.php" || $variationName != "/") {
             $george = new george($variationName); // On vérifie si une bdd avec le nom existe
-            $data = $george->get_data_variation($variationName);
-            
+            $data = @($george->get_data($variationName))[0];            
             $myfile = fopen("log.txt", "a") or die("Unable to open file!");
             $start = new \DateTime();
             $txt = "";

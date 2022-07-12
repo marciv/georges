@@ -239,9 +239,9 @@ $dbName = $_GET['dbName'];
                 last_part = str.substring(str.length - 1);
                 return last_part;
             }
+            
 
-
-            let dbData = <?= json_encode($george->get_data_by_abtest()) ?>;
+            let dbData = <?= json_encode($george->get_data()) ?>;
 
             let SetName = [];
             let txConversionSetCount = [];

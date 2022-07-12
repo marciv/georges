@@ -73,16 +73,13 @@ class George
      * @param array<string> $tracking_var
      */
     public function __construct($name = null, array $tracking_var = array())
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            @session_start();
-        }
-        if (!empty($name)) {
+    { 
+        if (!empty($name)) { 
             $this->test = $name;
-            $this->set_visit_data();
+            $this->set_visit_data();         
         }
     }
-
+    
     /**
      * Initialize method for george, check if db with $variationName exist or not, 
      * If exist,
@@ -106,10 +103,8 @@ class George
             return;
         }
 
-        $data = $this->get_data_by_abtest();
-        if ($data === false) {
-            return;
-        }
+        $data = $this->get_data();
+        if (empty($data)) { return;}
 
         // options
         //Set Option
@@ -118,10 +113,8 @@ class George
                 "discovery_rate" => $data[0]['discovery_rate'] ?? 0.1,
                 "default_view" => $data[0]['default_view'] ?? $newURI,
             )
-        );
-
+        );        
         $this->status = $data[0]['status'];
-
 
         if ((@$data[0]['uri'] == $newURI) && ($this->status != 1)) {
 
@@ -149,14 +142,10 @@ class George
                     )
                 );
             }
-            // echo '<pre>';
-            // print_r($this);
-            // echo'</pre>';
 
             $this->calculate($data); // On ajoute à la variation actuel
-
-            echo '<li><h1>render uri ' . $this->render("uri") . $UrlParameters . '</h1>';
             // throw new \Exception("stop");
+            echo '<li><h1>render uri ' . $this->render("uri") . $UrlParameters . '</h1>';            
             if ($variationName != $this->selected_view_name) {
                 if (!headers_sent()) {
                     $hostURL = (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST'];
@@ -174,7 +163,7 @@ class George
                 }
             }
         }
-        // throw new \Exception("stop");
+        
     }
 
     static function _getVariationNamefromUrl($url)
@@ -192,7 +181,7 @@ class George
         $parametersArray = filter_input_array(INPUT_GET, $params, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         return $parametersArray;
     }
-
+    
 
     static function _getRequestUrl()
     {
@@ -378,50 +367,6 @@ class George
         }
     }
 
-    // /**
-    //  * save conversion
-    //  *
-    //  * @return void
-    //  */
-    // private function save_conversion()
-    // {
-    //     if (!empty($_SESSION['URI']) && !empty($_SESSION['VARIATION']) && !empty($_SESSION['TEST'])) {
-    //         $data = array(
-    //             'uri' => strtolower($_SESSION['URI']),
-    //             'variation' => $_SESSION['VARIATION']
-    //         );
-    //         foreach ($_SESSION['VAR'] as $k => $v) {
-    //             $data[$k] = $v;
-    //         }
-
-
-    //         $db = new FlatDB(ABSPATH . LIB . "/George/database", $_SESSION['TEST']);
-    //         // print_r($data);exit;
-    //         @$result = @$db->table('data_set')->where(
-    //             $data
-    //         )->all();
-
-    //         if (!empty($result[0]['id'])) {
-    //             $data = $result[0];
-    //             $data['nb_conversion'] = max(0, $result[0]['nb_conversion']) + 1;
-    //             $data['tx_conversion'] = round(($data['nb_conversion'] /  $result[0]['nb_visit']) * 100, 1);
-
-    //             if ($this->visit['device_type'] == "mobile") {
-    //                 $data['nb_conversion_mobile'] = max(0, $result[0]['nb_conversion_mobile']) + 1;
-    //             } else if ($this->visit['device_type'] == "tablet") {
-    //                 $data['nb_conversion_tablet'] = max(0, $result[0]['nb_conversion_tablet']) + 1;
-    //             } else {
-    //                 $data['nb_conversion_desktop'] = max(0, $result[0]['nb_conversion_desktop']) + 1;
-    //             }
-
-    //             $db->table('data_set')->update($result[0]['id'], $data);
-    //         }
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-
     /**
      * Save conversion with path
      *
@@ -460,27 +405,6 @@ class George
         }
     }
 
-    // /**
-    //  * Return data
-    //  *
-    //  * @return mixed
-    //  */
-    // public function get_data_uri()
-    // {
-
-    //     if ($this->_checkDBexist()) {
-    //         $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
-    //         @$result = @$db->table('data_set')->where(
-    //             array(
-    //                 'uri' => $this->visit['uri']
-    //                 // $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]
-    //             )
-    //         )->all();
-    //         // exit;
-    //     }
-    //     return $result ?? null;
-    // }
-    
 
     /**
      * Undocumented function
@@ -537,7 +461,7 @@ class George
         // select view
         // get tracking data
         if (empty($data)) {
-            $data = $this->get_data_by_abtest();
+            $data = $this->get_data();
         }
 
 
@@ -583,13 +507,6 @@ class George
 
 
         $this->save_visit();
-        $_SESSION['IP'] = $this->get_ip();
-        $_SESSION['URI'] = $best_view['uri'];
-        // @$_SESSION['VAR'] = array($this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']]);
-        $_SESSION['VARIATION'] = $this->selected_view_name;
-        $_SESSION['TEST'] = $this->test;
-        // $_REQUEST['utm_campaign'] = @trim("-", $this->test . "-" . $this->selected_view_name . "-" . $_REQUEST['utm_campaign']);
-        // throw new \Exception("stop");
         return true;
     }
 
@@ -601,11 +518,11 @@ class George
      */
     public function get_ip(): string
     {
-        // IP si internet partag�
+        // IP si internet partagée
         if (isset($_SERVER['HTTP_CLIENT_IP'])) {
             return $_SERVER['HTTP_CLIENT_IP'];
         }
-        // IP derri�re un proxy
+        // IP derrière un proxy
         elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
@@ -783,7 +700,7 @@ class George
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
             // print_r($data);exit;
-            $result = $this->get_data_variation($this->test);
+            $result = $this->get_data($this->test);
 
             $data = $result[0];
 
@@ -815,7 +732,7 @@ class George
         if ($this->_checkDBexist()) {
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
-            $result = $this->get_data_variation($this->test);
+            $result = $this->get_data($this->test);
 
             $data = $result[0];
 
@@ -844,10 +761,10 @@ class George
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
             // print_r($data);exit;
-            $result = $this->get_data_variation($this->test);
+            $result = $this->get_data($this->test);
 
             $data = $result[0];
-
+            
             $data['listVariation'][] = array(
                 "uri" => parse_url($variation, PHP_URL_PATH),
                 "name" => str_replace("/", "_", trim(parse_url($variation, PHP_URL_PATH), "/")),
@@ -898,58 +815,30 @@ class George
     }
 
     /**
-     * Get data for one ABTEST
+     * Get AB test data
      *
      * @return array
      */
-    public function get_data_by_abtest()
+    public function get_data($Name = null,$variation = null)
     {
-        if ($this->_checkDBexist()) {
-            // $db = new FlatDB('database', $this->test);
-            $db = new FlatDB(dirname(__FILE__) . '/database/', $this->test);
-
-            $result = $db->table('data_set')->all();
-            // exit;
-        }
-        return $result ?? null;
-    }
-
-    /**
-     *
-     * @param string $nameDatabase
-     * @return array|string|bool
-     */
-    public function get_data_variation(string $nameDatabase = null)
-    {
-        if ($this->_checkDBexist($nameDatabase)) {
-            $db = new FlatDB(dirname(__FILE__) . "/database", $nameDatabase);
-            @$result = @$db->table('data_set')->where(
-                array(
-                    'variation' => $nameDatabase
-                )
-            )->all();
-        }
-        return $result ?? null;
-    }
-    
-    /**
-     *
-     * @param string $nameDatabase
-     * @return array|string|bool
-     */
-    public function get_data_debug(string $nameDatabase = null)
-    {
-
         $nameDatabase = $nameDatabase ?? $this->test;
-
-        if ($this->_checkDBexist($nameDatabase)) {
-            $db = new FlatDB(dirname(__FILE__) . "/database", $nameDatabase);
-            @$result = @$db->table('data_set')->where()->all();
+        if ($this->_checkDBexist()) {           
+            $db = new FlatDB(dirname(__FILE__) . '/database', $nameDatabase);   
+            if(!empty($variation)){
+                $result = @$db->table('data_set')->where(
+                    array(
+                        'variation' => $nameDatabase
+                    )
+                )->all();            
+            }  else {
+                $result = $db->table('data_set')->all();
+            }       
+                        
         }
-
         return $result ?? null;
-    }
-
+    }    
+    
+    
     /**
      * Display all DB
      *
@@ -1094,7 +983,7 @@ class George
      */
     public function get_abtest(): array
     {
-        $abtest = $this->get_data_by_abtest();
+        $abtest = $this->get_data();
         return $abtest;
     }
 }
