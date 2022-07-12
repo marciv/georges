@@ -186,8 +186,8 @@ class George
 
     static function _getVariationNamefromUrl($url)
     {
-
-        $newURI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        
+        $newURI = parse_url($url, PHP_URL_PATH);
         $newURI = str_replace('index.php', '', $newURI);
         return trim(str_replace("/", "_",  $newURI), "_");
     }
@@ -474,7 +474,7 @@ class George
      */
     public function get_data_uri()
     {
-
+        
         if ($this->_checkDBexist()) {
             $db = new FlatDB(dirname(__FILE__) . "/database/", $this->test);
             @$result = @$db->table('data_set')->where(
@@ -484,7 +484,7 @@ class George
                 )
             )->all();
             // exit;
-
+            
             return $result ?? false;
         }
     }
@@ -907,12 +907,10 @@ class George
                     'variation' => $nameDatabase
                 )
             )->all();
-
-            // exit;
-            return $result ?? "false";
         }
+        return $result??null;
     }
-
+    
     /**
      *
      * @param string $nameDatabase

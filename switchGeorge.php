@@ -82,22 +82,15 @@ if (isset($_GET['action'])) {
      */
     if ($_GET['action'] == "addConversion") {
 
-        $http_referer =  @$_POST['conversion_path']; //HTTP Referer if exists
-
-        if (empty($http_referer) || $http_referer == "null") { //If null, http referer is not set and is main variation
-            $variationName = $_POST['path']; // Main variation
-        } else { //Else http referer is set and is another variation
-            $variationName = $http_referer;
-        }
-
-        $variationName = str_replace("index.php", "", $variationName); //Rewrite variation name
-        $variationName = trim(str_replace("/", "_", $variationName), "_"); //Rewrite variation name
-
+        
+        $testUrl = (!empty($_POST['referer']))?$_POST['referer']:$_POST['path'];
+        $variationName = George::_getVariationNamefromUrl($testUrl);        
+        echo $variationName;
 
         if ($variationName != "ref.php" || $variationName != "/") {
             $george = new george($variationName); // On vérifie si une bdd avec le nom existe
             $data = $george->get_data_variation($variationName);
-
+            
             $myfile = fopen("log.txt", "a") or die("Unable to open file!");
             $start = new \DateTime();
             $txt = "";
@@ -105,7 +98,7 @@ if (isset($_GET['action'])) {
                 $george->save_conversion(str_replace("index.php", "", $_POST['path']));
                 $txt .= "START : " . $start->format("d/m/Y H:i:s") . "\n";
                 $txt .= "Variation : " . $_POST['path'] . "\n";
-                $txt .= "Main Variation : " . $_POST['conversion_path'] . "\n";
+                $txt .= "Main Variation : " . $testUrl . "\n";
                 $txt .= "TYPE DEVICE : " . $george->visit['device_type'] . "\n";
                 $txt .= "IP : " . $george->visit['ip'] . "\n";
                 $txt .= "CONVERSION SAVE : SUCCESSS\n";
@@ -122,7 +115,7 @@ if (isset($_GET['action'])) {
             fwrite($myfile, $txt);
             fclose($myfile);
         }
-        return;
+        echo @$txt;        
     }
 
     /**

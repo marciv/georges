@@ -7565,3 +7565,112 @@ IP : ::1
 CONVERSION SAVE : SUCCESSS
 END : 12/07/2022 12:08:33
 ===================================
+DATE : 12/07/2022 16:34:17
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 16:35:30
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 16:35:31
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 16:35:35
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 16:40:05
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 16:40:15
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : 
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 16:40:34
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 16:40:47
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 16:40:53
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 17:03:46
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 17:03:50
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 17:03:59
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 17:04:37
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 17:04:38
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 17:04:39
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 17:04:52
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 12/07/2022 17:08:35
+Variation : /1root/test1/lan/08/
+Main Variation : 
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 12/07/2022 17:08:35
+===================================
+START : 12/07/2022 17:10:25
+Variation : /1root/test1/lan/08/
+Main Variation : 
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 12/07/2022 17:10:25
+===================================
+DATE : 12/07/2022 17:12:19
+Variation : /1root/test1/lan/09/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 12/07/2022 17:12:28
+Variation : /1root/test1/lan/09/
+Main Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 12/07/2022 17:12:28
+===================================

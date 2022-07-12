@@ -60,7 +60,7 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
 
                     if (status != "1" || status != 1) {
                         $.post("../../../library/George/switchGeorge.php?action=addConversion", {
-                            conversion_path: http_referer,
+                            referer: http_referer,
                             path: window.location.pathname
                         });
                     }
