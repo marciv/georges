@@ -25,27 +25,6 @@ $dbName = $_GET['dbName'];
 </head>
 
 <body>
-
-    <?php
-    if (isset($_GET['success']) && isset($_GET['message'])) {
-        if ($_GET['success'] == "true") {
-            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                <span class="message-contenu"><strong>Succès ! </strong>' . @$_GET['message'] . '</span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>';
-        } else {
-            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <span class="message-contenu"><strong>Erreur ! </strong> ' . @$_GET['message'] . '</span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>';
-        }
-    }
-    ?>
-
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>" aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -59,7 +38,7 @@ $dbName = $_GET['dbName'];
         $george = new George($dbName);
         $data = $george->get_abtest();
 
-        $abtest = $george->array_msort($data, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC));
+        $abtest = $george->_array_msort($data, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC));
 
         $state = $abtest[0]['status'] == 0 ? "En cours" : "En pause";
     ?>
@@ -75,6 +54,7 @@ $dbName = $_GET['dbName'];
                             <a class="dropdown-item text-danger" href="switchGeorge.php?archived=false&action=delete&db=<?= $abtest[0]['variation'] ?>">/!\ Supprimer</a>
                             <hr />
                             <a type="button" data-toggle="modal" data-target="#updateDiscoveryRate" class="dropdown-item text-secondary">Edit Discovery Rate</a>
+                            <a type="button" data-toggle="modal" data-target="#addVariation" class="dropdown-item text-secondary">Add Variation Rate</a>
                         </div>
                     </div>
                 </div>
@@ -172,9 +152,7 @@ $dbName = $_GET['dbName'];
 
 
 
-            <!-- MODAL UPDATE DATA -->
-            <!-- Button trigger modal -->
-            <!-- Modal -->
+            <!-- MODAL UPDATE DISCOVERY RATE DATA -->
             <div class="modal fade" id="updateDiscoveryRate" tabindex="-1" role="dialog" aria-labelledby="updateDiscoveryRateTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -198,6 +176,31 @@ $dbName = $_GET['dbName'];
                     </div>
                 </div>
             </div>
+
+            <!-- MODAL ADD Variation DATA -->
+            <div class="modal fade" id="addVariation" tabindex="-1" role="dialog" aria-labelledby="addVariationTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addVariationTitle">Ajouter une variation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" onsubmit="return checkVariation();" action="switchGeorge.php?action=addVariationToAbtest&db=<?= $abtest[0]['variation']; ?>">
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="variation" id="variation" placeholder="/test/lan/XX/">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="return e.preventDefault();" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         <?php
     } else {
         echo "Aucune donnée disponible !";
@@ -209,6 +212,35 @@ $dbName = $_GET['dbName'];
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>
         <script>
+            function checkVariation() {
+                let checked = true;
+                let url_variations = $('#variation').val();
+
+                if (first($('#variation').val()) != "/" || last($('#variation').val()) != "/") {
+                    alert("URL Conversion must start and end with /");
+                    checked = false;
+                    $('#variation').css("background-color", "rgba(253, 111, 111, 0.3)");
+                }
+
+                if (checked) {
+                    return true;
+                } else {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+
+            function first(str) {
+                first_part = str.substring(0, 1);
+                return first_part;
+            }
+
+            function last(str) {
+                last_part = str.substring(str.length - 1);
+                return last_part;
+            }
+
+
             let dbData = <?= json_encode($george->get_data_by_abtest()) ?>;
 
             let SetName = [];
@@ -250,6 +282,18 @@ $dbName = $_GET['dbName'];
                 const data = {
                     labels: labels,
                     datasets: [{
+                            label: 'Visite PC',
+                            data: visitDesktopSetCount,
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192)'
+
+                            ],
+                            borderWidth: 1
+                        },
+                        {
                             label: 'Visite Mobile',
                             data: visitMobileSetCount,
                             backgroundColor: [
@@ -262,19 +306,7 @@ $dbName = $_GET['dbName'];
                             ],
                             borderWidth: 1,
 
-                        }, {
-                            label: 'Visite PC',
-                            data: visitDesktopSetCount,
-                            backgroundColor: [
-                                'rgba(75, 192, 192, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(75, 192, 192)'
-
-                            ],
-                            borderWidth: 1
                         },
-
                         {
                             label: 'Visite Tablette',
                             data: visitTabletSetCount,

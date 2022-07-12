@@ -50,18 +50,22 @@ header("Cache-Control: no-cache, must-revalidate");
         <h1 class="mb-3 text-center">George</h1>
 
         <form id="formData" onsubmit="return checkInput();" method="POST" action="switchGeorge.php?action=createDB">
-            <div class="input-group mb-3">
-                <span class="input-group-text">URL Principale</span>
+            <div class="form-group">
+                <label for="urlPrincipal">Main URL</label>
                 <input type="text" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
+                <small id="urlPrincipal" class="form-text text-muted">Main url must start and end with "/".</small>
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">Discovery Rate</span>
-                <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20" max="0.25">
+            <div class="form-group">
+                <label for="DiscoveryRate">Discovery rate</label>
+                <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20" min="0.01" step="0.01" max="0.25">
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">URL Variation</span>
-                <input type="text" class="form-control" name="url_variations[]" placeholder="/test/lan/09/">
+
+            <div class="form-group">
+                <label for="urlPrincipal">Variation URL</label>
+                <input type="text" class="form-control" name="url_variations[]" id="url_variations[]" placeholder="/test/lan/XX/">
+                <small id="urlPrincipal" class="form-text text-muted">Variation url must start and end with "/".</small>
             </div>
+
             <div id="anotherInput" class="anotherInput"></div>
             <div class="d-flex align-items-center justify-content-center">
                 <button type="button" id="addInput" class="btn btn-outline-info btn-rounded mr-3">+ Add variation</button>
@@ -177,10 +181,11 @@ header("Cache-Control: no-cache, must-revalidate");
 
         $("#addInput").click(function() {
             $('.anotherInput').append(`
-                <div class="input-group mb-3">
-                    <span class="input-group-text">URL Variation</span>
-                    <input type="text" class="form-control" name="url_variations[]" placeholder="/test/lan/XX/">
-                </div>`);
+            <div class="form-group">
+                <label for="urlPrincipal">Variation url</label>
+                <input type="text" class="form-control" name="url_variations[]" id="url_variations[]" placeholder="/test/lan/XX/">
+                <small id="urlPrincipal" class="form-text text-muted">Variation url must start and end with "/".</small>
+            </div>`);
         });
     </script>
 </body>
