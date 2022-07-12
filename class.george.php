@@ -787,27 +787,64 @@ class George
      */
     public function changeStatus(): bool
     {
-        $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
+        if ($this->_checkDBexist()) {
+            $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
-        // print_r($data);exit;
-        @$result = @$db->table('data_set')->where(
-            array(
-                'variation' => $this->test,
-            )
-        )->all();
+            // print_r($data);exit;
+            @$result = @$db->table('data_set')->where(
+                array(
+                    'variation' => $this->test,
+                )
+            )->all();
 
-        $data = $result[0];
+            $data = $result[0];
 
-        if ($result[0]['status'] == 0) {
-            $data['status'] = 1; //Pause
+            if ($result[0]['status'] == 0) {
+                $data['status'] = 1; //Pause
+            } else {
+                $data['status'] = 0; //Resume
+            }
+
+            try {
+                $db->table('data_set')->update($result[0]['id'], $data);
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
         } else {
-            $data['status'] = 0; //Resume
+            return false;
         }
+    }
 
-        try {
-            $db->table('data_set')->update($result[0]['id'], $data);
-            return true;
-        } catch (\Exception $e) {
+    /**
+     * Change discovery rate of ABTEST
+     *
+     * @param string $discovery_rate
+     * @return boolean
+     */
+    public function changeDiscoveryRate(string $discovery_rate): bool
+    {
+        if ($this->_checkDBexist()) {
+            $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
+
+            // print_r($data);exit;
+            @$result = @$db->table('data_set')->where(
+                array(
+                    'variation' => $this->test,
+                )
+            )->all();
+
+            $data = $result[0];
+
+            $data['discovery_rate'] = $discovery_rate;
+
+            try {
+                $db->table('data_set')->update($result[0]['id'], $data);
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
+        } else {
             return false;
         }
     }
@@ -1007,7 +1044,7 @@ class George
      * @param array<string, int> $cols
      * @return array<string>
      */
-    private function array_msort(array $array, array $cols): array
+    public function array_msort(array $array, array $cols): array
     {
         $colarr = array();
         foreach ($cols as $col => $order) {
@@ -1035,134 +1072,11 @@ class George
 
     /**
      * Display data for one ABTest
-     * @return string
+     * @return array
      */
-    public function draw_abtest(): string
+    public function get_abtest(): array
     {
         $abtest = $this->get_data_by_abtest();
-
-        if (isset($_GET['debug'])) {
-            var_dump($abtest);
-        }
-
-        $state = $abtest[0]['status'] == 0 ? "En cours" : "En pause";
-        $draw = '
-            <div class="headerCard">';
-        if ($this->str_contains($abtest[0]['variation'], "archived_")) {
-            $draw .= '<h3 class="text-info text-center">ABTEST Archivé</h3>';
-            $state = 'Archivé';
-        }
-        $draw .= '
-                <div class="date_crea text-center">Date de création : ' . $abtest[0]['date_time'] . '</div>
-                <div class="discovery_rate text-center d-flex align-items-center justify-content-between">
-                    <p><span class="text-info">' . $state . '</span> | Taux de découverte : ' . $abtest[0]['discovery_rate'] * 100 . '% </p>
-                    <div class="dropdown">
-                        <p class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Action
-                        </p>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item text-info" href="switchGeorge.php?action=changeState&db=' . $abtest[0]['variation'] . '">Pause/Play</a>';
-
-        if ($state != "Archivé") {
-            $draw .= '<a class="dropdown-item text-warning" href="switchGeorge.php?action=setArchive&db=' . $abtest[0]['variation'] . '">Archiver</a>
-                    <a class="dropdown-item text-danger" href="switchGeorge.php?archived=false&action=delete&db=' . $abtest[0]['variation'] . '">/!\ Supprimer</a>';
-        } else {
-            $draw .= '<a class="dropdown-item text-danger" href="switchGeorge.php?archived=true&action=delete&db=' . $abtest[0]['variation'] . '">/!\ Supprimer</a>';
-        }
-
-        $draw .= '</div>
-                </div>
-            </div>
-        </div>';
-
-        $draw .= '<div class="d-flex align-items-center justify-content-center flex-wrap">';
-
-        $abtest = $this->array_msort($abtest, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC)); //Permet de trier un tableau multidimensionnel par ordre décroissant
-
-        $i = 0;
-
-        foreach ($abtest as $key => $value) {
-            if ($i == 0) {
-                $draw .= '<div class="col-12 col-sm-6">
-                            <div class="card text-center text-success"><b>WINNER : ' . $value['uri'] . '</b></div>
-                            <div class="card"> 
-                                <div class="container mx-auto">
-                                    <ul class="nav nav-pills justify-content-left mb-3 w-100" id="pills-tab" role="tablist">
-                                        <li class="nav-item mx-auto" role="presentation">
-                                            <a class="ml-3 nav-link btn btn-outline-primary active" id="pills-tx-tab" data-toggle="pill" href="#pills-tx" role="tab" aria-controls="pills-tx" aria-selected="true">Conversion</a>
-                                        </li>
-                                        <li class="nav-item mx-auto" role="presentation">
-                                            <a class="ml-3 nav-link btn btn-outline-primary" id="pills-visit-tab" data-toggle="pill" href="#pills-visit" role="tab" aria-controls="pills-visit" aria-selected="false">Visite</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade show active " id="pills-tx" role="tabpanel" aria-labelledby="pills-tx-tab">
-                                        <canvas id="donut_tx_conversion"></canvas>
-                                    </div>
-                                    <div class="tab-pane fade" id="pills-visit" role="tabpanel" aria-labelledby="pills-visit-tab">
-                                        <canvas id="donut_visit"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-            }
-            $draw .= '<div class="card col-12 col-sm-6">';
-            $draw .= '<h2 class="text-center">' . $value['variation'] . '</h2>';
-            $draw .= '<p>Nombre visiteur(s) : <b>M(' . $value['nb_visit_mobile'] . ')</b> | <b>D(' . $value['nb_visit_desktop'] . ')</b> | <b>T(' . $value['nb_visit_tablet'] . ')</b></p>';
-            $draw .= '<div class="row justify-content-center align-items-center">';
-            $draw .= '<div class="col-12 col-sm-6">
-                            <h6 class="mt-5 text-center">Nombre de visiteur</h6>
-                            <div class="roundedCardText mx-auto">
-                                <div><b>' . $value['nb_visit'] . '</b></div>
-                            </div>
-                        </div>';
-            $draw .= '<div class="col-12 col-sm-6">
-                    <h6 class="mt-5 text-center">Convertion mobile</h6>
-                    <div class="roundedCardText mx-auto">
-                        <div><b>' .  round(($value['nb_conversion_mobile'] / $value['nb_visit_mobile']) * 100, 1) . '%</b></div>
-                    </div>
-                </div>';
-
-            $draw .= '<div class="col-12 col-sm-6">
-                        <h6 class="mt-5 text-center">Conversion tablette</h6>
-                        <div class="roundedCardText mx-auto">
-                            <div><b>' . round(($value['nb_conversion_tablet'] / $value['nb_visit_tablet']) * 100, 1) . '%</b></div>
-                        </div>
-                    </div>';
-
-            $draw .= '<div class="col-12 col-sm-6">
-                    <h6 class="mt-5 text-center">Conversion PC</h6>
-                    <div class="roundedCardText mx-auto">
-                        <div><b>' . round(($value['nb_conversion_desktop'] / $value['nb_visit_desktop']) * 100, 1) . '%</b></div>
-                    </div>
-                </div>';
-
-            $draw .= '<div class="col-12 col-sm-6">
-                <h6 class="mt-5 text-center">Conversion total</h6>
-                <div class="roundedCardText mx-auto">
-                    <div><b>' . $value['nb_conversion'] . '</b></div>
-                </div>
-            </div>';
-
-            $draw .= '<div class="col-12 col-sm-6">
-                    <h6 class="mt-5 text-center">Taux de conversion</h6>';
-            if ($i == 0) { //On repère le premier et le plus performant
-                $draw .= '<div class="roundedCardText text-white bg-primary mx-auto">';
-            } else {
-                $draw .= '<div class="roundedCardText text-white bg-secondary mx-auto">';
-            }
-            $draw .= '<div><b>' . $value['tx_conversion'] . '%</b></div>
-                    </div>
-                </div>';
-            $draw .= '</div>';
-            $draw .= '</div>';
-
-            $i++;
-        }
-
-        $draw .= "</div>";
-
-        return $draw;
+        return $abtest;
     }
 }

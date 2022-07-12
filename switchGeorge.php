@@ -18,6 +18,17 @@ if (isset($_GET['action'])) {
         }
         exit;
     }
+
+    if ($_GET['action'] == "changeDiscoveryRate") {
+        $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
+        if ($george->changeDiscoveryRate($_POST['taux_decouvert'])) {
+            header('Location: index.php?success=true&message=Discovery Rate de l\'ABTEST changé');
+        } else {
+            header('Location: index.php?success=false&message=Une erreur est survenue');
+        }
+        exit;
+    }
+
     /**
      * Delete DB
      * $_GET['db'] = nameDB

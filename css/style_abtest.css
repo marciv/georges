@@ -18,6 +18,15 @@ ol {
   font-weight: 700;
 }
 
+.cardStat {
+  padding: 20px;
+  margin: 20px 20px;
+  border: none;
+  background-color: white;
+
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
 .card {
   max-width: 500px;
   padding: 20px;
