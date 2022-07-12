@@ -84,16 +84,17 @@ add this to settings
 // START GEORGE
 use library\George as george;
 try {
+    
     $request_url = George::_getRequestUrl();
     $urlInformations = pathinfo($request_url);
-    if((@$urlInformations['extension']=="php" || empty($urlInformations['extension'])) AND stripos($urlInformations['dirname'],'/lan/')){
+    if((@$urlInformations['extension']=="php" || empty($urlInformations['extension'])) AND stripos($urlInformations['dirname'],'/lan')){
         $variationName = George::_getVariationNamefromUrl($request_url); //Nom variation actuel 
         $george = new George($variationName); // On vérifie si une bdd avec le nom existe
         $george->initialize();
+        
     }
 } catch (Exception $e) {
     echo 'erreur : ';
     echo $e->getMessage();    
-    exit;
     // log system
 }
