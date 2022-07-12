@@ -26,7 +26,7 @@ $dbName = $_GET['dbName'];
 
 <body>
     <div class="container">
-        <nav style="--bs-breadcrumb-divider: '>" aria-label="breadcrumb">
+        <nav style="--bs-breadcrumb-divider: >" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Accueil</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?php echo $dbName; ?></li>
@@ -262,7 +262,7 @@ $dbName = $_GET['dbName'];
                 visitTabletSetCount.push(element.nb_visit_tablet);
             });
 
-
+            
             draw();
             /**
              * Draw Chart
