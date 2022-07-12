@@ -1,6 +1,7 @@
 <?php
 header("Cache-Control: no-cache, must-revalidate");
-require  "class.george.php";
+require "../../config.php";
+use library\George as george;
 $dbName = $_GET['dbName'];
 ?>
 <!DOCTYPE html>

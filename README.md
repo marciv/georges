@@ -29,10 +29,14 @@ The databases are managed with the FlatDB library
 ### Folder library
 
 This Folder contains all library require for George
+you need to install these dependencies before using george 
 
-- FlatDB => DB
-- Mobile-Detect-2.8.25 => Detection for mobile
+- FlatDB => DB                                       https://github.com/onyxhat/FlatDB
+- Mobile-Detect-2.8.25 => Detection for mobile      
 - class.browser.php => Detection for browser
+
+
+
 
 ### File page_abtest.php
 
@@ -73,3 +77,23 @@ URL variation => https://www.je-renove.net/pho/lan/16/
 ```
 
 Click in the Button "Start AB Test"
+
+
+add this to settings 
+
+// START GEORGE
+use library\George as george;
+try {
+    $request_url = George::_getRequestUrl();
+    $urlInformations = pathinfo($request_url);
+    if((@$urlInformations['extension']=="php" || empty($urlInformations['extension'])) AND stripos($urlInformations['dirname'],'/lan/')){
+        $variationName = George::_getVariationNamefromUrl($request_url); //Nom variation actuel 
+        $george = new George($variationName); // On vérifie si une bdd avec le nom existe
+        $george->initialize();
+    }
+} catch (Exception $e) {
+    echo 'erreur : ';
+    echo $e->getMessage();    
+    exit;
+    // log system
+}

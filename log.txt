@@ -7516,3 +7516,36 @@ Variation : /rav/lan/01/
 TYPE DEVICE : computer
 CONVERSION SAVE : FAILED
 ===================================
+DATE : 12/07/2022 00:34:23
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 00:38:33
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 12/07/2022 00:39:15
+Variation : 
+Main Variation : 
+TYPE DEVICE : 
+IP : 
+CONVERSION SAVE : SUCCESSS
+END : 12/07/2022 00:39:15
+===================================
+DATE : 12/07/2022 00:41:09
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 00:41:36
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+DATE : 12/07/2022 00:42:43
+Variation : /1root/test1/lan/08/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================

@@ -36,7 +36,8 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
             }
 
             try {
-                $('form').on("submit", function() {
+                $('form').on("submit", function(e) {
+                    e.preventDefault();
                     addConversion();
                 })
             } catch (error) {

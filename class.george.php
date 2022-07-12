@@ -65,7 +65,7 @@ class George
     //  */
     // private $tracking_var;
 
-
+    
     /**
      * Constructor
      *
@@ -110,7 +110,7 @@ class George
         if(empty($this->test)) { return; }
         
         $data = $this->get_data_by_abtest();
-        if($data === false ) { throw new \Exception("NO database"); return ;  }
+        if($data === false ) { return ;  }
 
         // options
         //Set Option
@@ -163,17 +163,17 @@ class George
                     if ($hostURL == "localhost") {
                         $requestScheme = "http";
                     }                    
-                    Throw new \Exception("Redirect php to ".$this->render("uri"));
+                    // Throw new \Exception("Redirect php to ".$this->render("uri"));
                     header('Location: ' . $requestScheme . '://' . $hostURL . $this->render("uri") . $UrlParameters, false);
                     exit;
                 } else {
-                    Throw new \Exception("Redirect javascript to  ".$this->render("uri"));
+                    // Throw new \Exception("Redirect javascript to  ".$this->render("uri"));
                     echo '<script>window.location="https://"+window.location.host+"' . $this->render("uri") . $UrlParameters . '"</script>';
                     exit;
                 }
             }
         } 
-        throw new \Exception("stop");
+        // throw new \Exception("stop");
     }
     
     

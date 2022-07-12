@@ -70,8 +70,8 @@ if (isset($_GET['action'])) {
      */
     if ($_GET['action'] == "addConversion") {
 
-        $http_referer =  $_POST['conversion_path']; //HTTP Referer if exists
-
+        $http_referer =  @$_POST['conversion_path']; //HTTP Referer if exists
+        
         if (empty($http_referer) || $http_referer == "null") { //If null, http referer is not set and is main variation
             $variationName = $_POST['path']; // Main variation
         } else { //Else http referer is set and is another variation
