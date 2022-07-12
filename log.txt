@@ -7565,3 +7565,19 @@ IP : ::1
 CONVERSION SAVE : SUCCESSS
 END : 12/07/2022 12:08:33
 ===================================
+START : 12/07/2022 17:08:47
+Variation : /1root/test/lan/08/
+Main Variation : 
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 12/07/2022 17:08:47
+===================================
+START : 12/07/2022 17:09:07
+Variation : /1root/test/lan/09/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 12/07/2022 17:09:07
+===================================

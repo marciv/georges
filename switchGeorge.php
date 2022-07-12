@@ -29,6 +29,16 @@ if (isset($_GET['action'])) {
         exit;
     }
 
+    if ($_GET['action'] == "addVariationToAbtest") {
+        $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
+        if ($george->addVariationToAbtest($_POST['variation'])) {
+            header('Location: index.php?success=true&message=Variation ' . $_POST['variation'] . ' ajoutée à l\'ABTEST');
+        } else {
+            header('Location: index.php?success=false&message=Une erreur est survenue');
+        }
+        exit;
+    }
+
     /**
      * Delete DB
      * $_GET['db'] = nameDB
