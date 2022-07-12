@@ -1095,6 +1095,6 @@ class George
     public function get_abtest(): array
     {
         $abtest = $this->get_data_by_abtest();
-        return $abtest;
+        return !empty($abtest) ? $abtest : null;
     }
 }
