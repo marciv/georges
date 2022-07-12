@@ -1,7 +1,9 @@
 <?php
 header("Cache-Control: no-cache, must-revalidate");
 require "../../config.php";
+
 use library\George as george;
+
 $dbName = $_GET['dbName'];
 ?>
 <!DOCTYPE html>
@@ -24,12 +26,28 @@ $dbName = $_GET['dbName'];
 
 <body>
 
-
-    <div class="chart" id="myChart"></div>
-
+    <?php
+    if (isset($_GET['success']) && isset($_GET['message'])) {
+        if ($_GET['success'] == "true") {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <span class="message-contenu"><strong>Succès ! </strong>' . @$_GET['message'] . '</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>';
+        } else {
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span class="message-contenu"><strong>Erreur ! </strong> ' . @$_GET['message'] . '</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>';
+        }
+    }
+    ?>
 
     <div class="container">
-        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <nav style="--bs-breadcrumb-divider: '>" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Accueil</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?php echo $dbName; ?></li>
@@ -39,167 +57,302 @@ $dbName = $_GET['dbName'];
     <?php
     if (!empty($dbName)) {
         $george = new George($dbName);
+        $data = $george->get_abtest();
+
+        $abtest = $george->array_msort($data, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC));
+
+        $state = $abtest[0]['status'] == 0 ? "En cours" : "En pause";
     ?>
         <div class="container">
-            <?php
-            echo $george->draw_abtest();
-            ?>
-        </div>
-    <?php
+            <div class="headerCard">
+                <div class="date_crea text-center">Date de création : <?= $abtest[0]['date_time']; ?></div>
+                <div class="discovery_rate text-center d-flex align-items-center justify-content-between">
+                    <p><span class="text-info"><?= $state; ?></span> | Taux de découverte : <?= $abtest[0]['discovery_rate'] * 100; ?>%</p>
+                    <div class="dropdown">
+                        <p class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</p>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-info" href="switchGeorge.php?action=changeState&db=<?= $abtest[0]['variation']; ?>">Pause/Play</a>
+                            <a class="dropdown-item text-danger" href="switchGeorge.php?archived=false&action=delete&db=<?= $abtest[0]['variation'] ?>">/!\ Supprimer</a>
+                            <hr />
+                            <a type="button" data-toggle="modal" data-target="#updateDiscoveryRate" class="dropdown-item text-secondary">Edit Discovery Rate</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <b class="text-success">WINNER : <?= $abtest[0]['uri']; ?></b>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-center flex-wrap">
+
+                <?php
+                $i = 0;
+                foreach ($abtest as $key => $value) {
+                ?>
+                    <div class="card col-12 col-sm-6">
+                        <h2 class="text-center"><?= $value['variation']; ?></h2>
+                        <p>Nombre visiteur(s) : <b>D(<?= $value['nb_visit_desktop']; ?>)</b> | <b>M(<?= $value['nb_visit_mobile']; ?>)</b> | <b>T(<?= $value['nb_visit_tablet']; ?>)</b></p>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-12 col-sm-6">
+                                <h6 class="mt-5 text-center">Nombre de visiteur</h6>
+                                <div class="roundedCardText mx-auto">
+                                    <div><b><?= $value['nb_visit']; ?></b></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <h6 class="mt-5 text-center">Convertion mobile</h6>
+                                <div class="roundedCardText mx-auto">
+                                    <div><b><?= @round(($value['nb_conversion_mobile'] / $value['nb_visit_mobile']) * 100, 1) ?>%</b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <h6 class="mt-5 text-center">Conversion tablette</h6>
+                                <div class="roundedCardText mx-auto">
+                                    <div><b><?= @round(($value['nb_conversion_tablet'] / $value['nb_visit_tablet']) * 100, 1) ?>%</b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <h6 class="mt-5 text-center">Conversion PC</h6>
+                                <div class="roundedCardText mx-auto">
+                                    <div><b><?= @round(($value['nb_conversion_desktop'] / $value['nb_visit_desktop']) * 100, 1) ?>%</b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <h6 class="mt-5 text-center">Conversion total</h6>
+                                <div class="roundedCardText mx-auto">
+                                    <div><b><?= $value['nb_conversion']; ?></b></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <h6 class="mt-5 text-center">Taux de conversion</h6>
+                                <?php if ($i == 0) { ?>
+                                    <div class="roundedCardText text-white bg-primary mx-auto">
+                                    <?php } else { ?>
+                                        <div class="roundedCardText text-white bg-secondary mx-auto">
+                                        <?php } ?>
+                                        <div>
+                                            <b><?= $value['tx_conversion']; ?>%</b>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    <?php
+                    $i++;
+                }
+                    ?>
+                    <div class="cardStat col-12">
+                        <div class="container mx-auto">
+                            <ul class="nav nav-pills justify-content-left mb-3 w-100" id="pills-tab" role="tablist">
+                                <li class="nav-item mx-auto" role="presentation">
+                                    <a class="ml-3 nav-link btn btn-outline-primary active" id="pills-tx-tab" data-toggle="pill" href="#pills-tx" role="tab" aria-controls="pills-tx" aria-selected="true">Conversion</a>
+                                </li>
+                                <li class="nav-item mx-auto" role="presentation">
+                                    <a class="ml-3 nav-link btn btn-outline-primary" id="pills-visit-tab" data-toggle="pill" href="#pills-visit" role="tab" aria-controls="pills-visit" aria-selected="false">Visite</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active " id="pills-tx" role="tabpanel" aria-labelledby="pills-tx-tab">
+                                <canvas id="donut_tx_conversion"></canvas>
+                            </div>
+                            <div class="tab-pane fade" id="pills-visit" role="tabpanel" aria-labelledby="pills-visit-tab">
+                                <canvas id="donut_visit"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+            </div>
+
+
+
+            <!-- MODAL UPDATE DATA -->
+            <!-- Button trigger modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="updateDiscoveryRate" tabindex="-1" role="dialog" aria-labelledby="updateDiscoveryRateTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateDiscoveryRateTitle">Modification Discovery Rate</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="switchGeorge.php?action=changeDiscoveryRate&db=<?= $abtest[0]['variation']; ?>">
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" min="0.01" step="0.01" max="0.25" value="<?= $abtest[0]['discovery_rate'] ?>">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="return e.preventDefault();" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <?php
     } else {
         echo "Aucune donnée disponible !";
     }
-    ?>
-    <script src="../js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-    <script src="../js/popper-1.12.9.min.js" crossorigin="anonymous"></script>
-    <script src="../bs4/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>
-    <script>
-        let dbData = <?= json_encode($george->get_data_by_abtest()) ?>;
+        ?>
+        <script src="../js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+        <script src="../js/popper-1.12.9.min.js" crossorigin="anonymous"></script>
+        <script src="../bs4/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>
+        <script>
+            let dbData = <?= json_encode($george->get_data_by_abtest()) ?>;
 
-        let SetName = [];
-        let txConversionSetCount = [];
-        let conversionSetCount = [];
-        let visitDesktopSetCount = [];
-        let visitMobileSetCount = [];
-        let visitTabletSetCount = [];
-
-
-
-
-        dbData.forEach(element => {
-            SetName.push(element.uri);
-            txConversionSetCount.push(element.tx_conversion);
-            conversionSetCount.push(element.nb_conversion);
-            visitDesktopSetCount.push(element.nb_visit_desktop);
-            visitMobileSetCount.push(element.nb_visit_mobile);
-            visitTabletSetCount.push(element.nb_visit_tablet);
-        });
-
-
-        draw();
-        /**
-         * Draw Chart
-         *
-         * @return void
-         */
-        function draw() {
-            Chart.register(ChartDataLabels);
-            Chart.defaults.font.size = 16;
-
-            drawTx();
-            drawVisite();
-        }
-
-        function drawVisite() {
-            const labels = SetName;
-            const data = {
-                labels: labels,
-                datasets: [{
-                        label: 'Visite Mobile',
-                        data: visitMobileSetCount,
-                        backgroundColor: [
-
-                            'rgba(153, 102, 255, 0.2)'
-
-                        ],
-                        borderColor: [
-                            'rgb(153, 102, 255)'
-                        ],
-                        borderWidth: 1,
-
-                    }, {
-                        label: 'Visite PC',
-                        data: visitDesktopSetCount,
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(75, 192, 192)'
-
-                        ],
-                        borderWidth: 1
-                    },
-
-                    {
-                        label: 'Visite Tablette',
-                        data: visitTabletSetCount,
-                        backgroundColor: [
-                            'rgba(54, 162, 235, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgb(54, 162, 235)',
-                        ],
-                        borderWidth: 1,
-                    }
-                ]
-
-            };
-
-            const config = {
-                type: 'bar',
-                data,
-                options: {
-                    indexAxis: 'x',
-                }
-            };
-            const VisitChart = document.getElementById("donut_visit").getContext("2d");
-            const BarChart = new Chart(VisitChart, config);
-        }
+            let SetName = [];
+            let txConversionSetCount = [];
+            let conversionSetCount = [];
+            let visitDesktopSetCount = [];
+            let visitMobileSetCount = [];
+            let visitTabletSetCount = [];
 
 
 
-        function drawTx() {
-            const labels = SetName;
-            const data = {
-                labels: labels,
-                datasets: [{
-                        label: 'Nb conversion',
-                        data: conversionSetCount,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgb(255, 99, 132)',
-                        ],
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Taux conversion',
-                        data: txConversionSetCount,
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 0.2)',
-                        ],
-                        borderColor: [
-                            'rgb(75, 192, 192)',
-                        ],
-                        borderWidth: 1,
-                    }
-                ]
 
-            };
+            dbData.forEach(element => {
+                SetName.push(element.uri);
+                txConversionSetCount.push(element.tx_conversion);
+                conversionSetCount.push(element.nb_conversion);
+                visitDesktopSetCount.push(element.nb_visit_desktop);
+                visitMobileSetCount.push(element.nb_visit_mobile);
+                visitTabletSetCount.push(element.nb_visit_tablet);
+            });
 
-            const config = {
-                type: 'bar',
-                data,
-                options: {
-                    indexAxis: 'x',
 
-                }
-            };
-            const conversionChart = document.getElementById("donut_tx_conversion").getContext("2d");
-            const pieChart = new Chart(conversionChart, config);
-        }
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ['Fira Sans', 'Nunito']
+            draw();
+            /**
+             * Draw Chart
+             *
+             * @return void
+             */
+            function draw() {
+                Chart.register(ChartDataLabels);
+                Chart.defaults.font.size = 16;
+
+                drawTx();
+                drawVisite();
             }
-        });
-    </script>
+
+            function drawVisite() {
+                const labels = SetName;
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                            label: 'Visite Mobile',
+                            data: visitMobileSetCount,
+                            backgroundColor: [
+
+                                'rgba(153, 102, 255, 0.2)'
+
+                            ],
+                            borderColor: [
+                                'rgb(153, 102, 255)'
+                            ],
+                            borderWidth: 1,
+
+                        }, {
+                            label: 'Visite PC',
+                            data: visitDesktopSetCount,
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192)'
+
+                            ],
+                            borderWidth: 1
+                        },
+
+                        {
+                            label: 'Visite Tablette',
+                            data: visitTabletSetCount,
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgb(54, 162, 235)',
+                            ],
+                            borderWidth: 1,
+                        }
+                    ]
+
+                };
+
+                const config = {
+                    type: 'bar',
+                    data,
+                    options: {
+                        indexAxis: 'y',
+                    }
+                };
+                const VisitChart = document.getElementById("donut_visit").getContext("2d");
+                const BarChart = new Chart(VisitChart, config);
+            }
+
+
+
+            function drawTx() {
+                const labels = SetName;
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                            label: 'Nb conversion',
+                            data: conversionSetCount,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgb(255, 99, 132)',
+                            ],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Taux conversion',
+                            data: txConversionSetCount,
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgb(75, 192, 192)',
+                            ],
+                            borderWidth: 1,
+                        }
+                    ]
+
+                };
+
+                const config = {
+                    type: 'bar',
+                    data,
+                    options: {
+                        indexAxis: 'y',
+
+                    }
+                };
+                const conversionChart = document.getElementById("donut_tx_conversion").getContext("2d");
+                const pieChart = new Chart(conversionChart, config);
+            }
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script>
+            WebFont.load({
+                google: {
+                    families: ['Fira Sans', 'Nunito']
+                }
+            });
+        </script>
 </body>
 
 </html>
