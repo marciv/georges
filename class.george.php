@@ -1,5 +1,6 @@
 <?php
-namespace library ;
+
+namespace library;
 
 use Mobile_Detect;
 use browser;
@@ -43,7 +44,7 @@ class George
      * @var array<string>
      */
     public $variation;
-    
+
     /**
      *
      * @var array<string>
@@ -65,27 +66,27 @@ class George
     //  */
     // private $tracking_var;
 
-    
+
     /**
      * Constructor
      *
      * @param string $name
      * @param array<string> $tracking_var
      */
-    public function __construct( $name = null, array $tracking_var = array())
+    public function __construct($name = null, array $tracking_var = array())
     {
         if (session_status() == PHP_SESSION_NONE) {
             @session_start();
-        }  
-        if(!empty($name)){
+        }
+        if (!empty($name)) {
             $this->test = $name;
             $this->set_visit_data();
         }
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Initialize method for george, check if db with $variationName exist or not, 
      * If exist,
@@ -97,50 +98,56 @@ class George
      *
      * @return void
      */
-    
-    
+
+
     public function initialize(): void
     {
-         
+
         $newUrl = $this->_getRequestUrl();
-        $variationName = $this->_getVariationNamefromUrl($newUrl);        
-        $parametersArray = $this->_getParametersfromUrl($newUrl);  
-        $newURI = $this->_getUrifromUrl($newUrl);        
-   
-        if(empty($this->test)) { return; }
-        
+        $variationName = $this->_getVariationNamefromUrl($newUrl);
+        $parametersArray = $this->_getParametersfromUrl($newUrl);
+        $newURI = $this->_getUrifromUrl($newUrl);
+
+        if (empty($this->test)) {
+            return;
+        }
+
         $data = $this->get_data_by_abtest();
-        if($data === false ) { return ;  }
+        if ($data === false) {
+            return;
+        }
 
         // options
         //Set Option
-        $this->set_option( 
+        $this->set_option(
             array(
-                "discovery_rate" => $data[0]['discovery_rate']??0.1,
-                "default_view" => $data[0]['default_view']??$newURI,
+                "discovery_rate" => $data[0]['discovery_rate'] ?? 0.1,
+                "default_view" => $data[0]['default_view'] ?? $newURI,
             )
-        );        
-        
-        
-        if ( (@$data[0]['uri'] == $newURI)) {
+        );
+
+        $this->status = $data[0]['status'];
+
+
+        if ((@$data[0]['uri'] == $newURI) && ($this->status != 1)) {
 
             if (empty($parametersArray)) {
                 $UrlParameters = "?http_referer=" . $variationName;
             } else {
-                $UrlParameters = "?http_referer=" . $variationName. '&'.http_build_query($parametersArray);
+                $UrlParameters = "?http_referer=" . $variationName . '&' . http_build_query($parametersArray);
             }
-            
+
             /* dirty bug listvariation fix */
             unset($data[0]['listVariation']);
-            foreach($data as $k=>$v){
-                $data[0]['listVariation'][]=[
-                    'name'=>$v['variation'],
-                    'variation'=>$v['variation'],
-                    'uri'=>$v['uri']                
+            foreach ($data as $k => $v) {
+                $data[0]['listVariation'][] = [
+                    'name' => $v['variation'],
+                    'variation' => $v['variation'],
+                    'uri' => $v['uri']
                 ];
             }
             foreach ($data[0]['listVariation'] as $v) { //On parcours la liste des variations disponible 
-                   $this->add_variation( //Set variation in this list
+                $this->add_variation( //Set variation in this list
                     array(
                         $v['name'] => array( //Name variation
                             "uri" => $v['uri'], //Link variation
@@ -151,10 +158,10 @@ class George
             // echo '<pre>';
             // print_r($this);
             // echo'</pre>';
-            
+
             $this->calculate($data); // On ajoute à la variation actuel
-            
-            echo '<li><h1>render uri '.$this->render("uri").$UrlParameters .'</h1>';
+
+            echo '<li><h1>render uri ' . $this->render("uri") . $UrlParameters . '</h1>';
             // throw new \Exception("stop");
             if ($variationName != $this->selected_view_name) {
                 if (!headers_sent()) {
@@ -162,7 +169,7 @@ class George
                     $requestScheme = "https";
                     if ($hostURL == "localhost") {
                         $requestScheme = "http";
-                    }                    
+                    }
                     // Throw new \Exception("Redirect php to ".$this->render("uri"));
                     header('Location: ' . $requestScheme . '://' . $hostURL . $this->render("uri") . $UrlParameters, false);
                     exit;
@@ -172,53 +179,59 @@ class George
                     exit;
                 }
             }
-        } 
+        }
         // throw new \Exception("stop");
     }
-    
-    
-    static function _getVariationNamefromUrl ($url){
-        
+
+
+    static function _getVariationNamefromUrl($url)
+    {
+
         $newURI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $newURI = str_replace('index.php', '', $newURI);
-        return trim(str_replace("/", "_",  $newURI), "_");      
-        
+        return trim(str_replace("/", "_",  $newURI), "_");
     }
-    
-    static function _getParametersfromUrl($url){
+
+    static function _getParametersfromUrl($url)
+    {
         $url_components = parse_url($url);
         parse_str(@$url_components['query'], $params);
-        $parametersArray = filter_input_array( INPUT_GET,$params ,FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-        return $parametersArray;   
+        $parametersArray = filter_input_array(INPUT_GET, $params, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        return $parametersArray;
     }
-    
 
-    static function _getRequestUrl() {
+
+    static function _getRequestUrl()
+    {
 
         if (isset($_SERVER['REQUEST_URI'])) {
             $uri = $_SERVER['REQUEST_URI'];
-        }
-        else {
+        } else {
             if (isset($_SERVER['argv'])) {
-            $uri = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['argv'][0];
-            }
-            elseif (isset($_SERVER['QUERY_STRING'])) {
-            $uri = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING'];
-            }
-            else {
-            $uri = $_SERVER['SCRIPT_NAME'];
+                $uri = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['argv'][0];
+            } elseif (isset($_SERVER['QUERY_STRING'])) {
+                $uri = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING'];
+            } else {
+                $uri = $_SERVER['SCRIPT_NAME'];
             }
         }
-        
+
         // Prevent multiple slashes to avoid cross site requests via the Form API.
         $uri = '/' . ltrim($uri, '/');
         return $uri;
     }
 
-    private function _getUrifromUrl($url){
+    private function _getUrifromUrl($url)
+    {
         return parse_url($url, PHP_URL_PATH);
-    }   
-    
+    }
+
+    private function _checkDBexist(string $dbName = null)
+    {
+        $dbName = $dbName ?? $this->test;
+        return file_exists(dirname(__FILE__) . "/database/" . $dbName);
+    }
+
     // /**
     //  * Set tracking var
     //  *
@@ -292,7 +305,7 @@ class George
     //     return true;
     // }
 
-    
+
     /**
      * set Data visit
      *
@@ -315,8 +328,8 @@ class George
         @$this->visit['utm_content'] = strtolower($_REQUEST['utm_content']);
         @$this->visit['utm_campaign'] = strtolower($_REQUEST['utm_campaign']);
         @$this->visit['utm_term'] = strtolower($_REQUEST['utm_term']);
-        
-        
+
+
         return;
     }
 
@@ -461,10 +474,9 @@ class George
      */
     public function get_data_uri()
     {
-        
-        if (file_exists(dirname(__FILE__) . "/database/" . $this->test))
-        {          
-            $db = new FlatDB(dirname(__FILE__) . "/database/", $this->test);            
+
+        if ($this->_checkDBexist()) {
+            $db = new FlatDB(dirname(__FILE__) . "/database/", $this->test);
             @$result = @$db->table('data_set')->where(
                 array(
                     'uri' => $this->visit['uri']
@@ -473,11 +485,7 @@ class George
             )->all();
             // exit;
 
-            if (empty($result)) {
-                return false;
-            } else {
-                return $result;
-            }
+            return $result ?? false;
         }
     }
 
@@ -498,7 +506,7 @@ class George
                 unset($data[$k]);
                 continue;
             }
-            
+
             @$conversion_rate = max(0, round($v['nb_conversion'] / $v['nb_visit'], 1));
             $data_index[] = $conversion_rate;
             $max_conversion_rate = max($conversion_rate, $max_conversion_rate);
@@ -526,37 +534,41 @@ class George
     private function calculate($data): bool
     {
         global $_REQUEST;
-        
+
         $this->selected_view = @$this->variation[$this->option['default_view']];
         $this->selected_view_name = @$this->option['default_view'];
-        
+
         // if (!empty($this->filter['utm_source']) and $this->filter['utm_source'] != $this->visit['utm_source']) {
         //     return false;
         // }
 
         // select view
         // get tracking data
-        if (empty($data)){ $data = $this->get_data_by_abtest();   }
-        
-        
+        if (empty($data)) {
+            $data = $this->get_data_by_abtest();
+        }
+
+
         if ($data && $data !== false) {
             $data = $this->calculate_conversion($data);
-            var_dump($data);    
-            
+            var_dump($data);
+
             if (empty($data) or $data === false) {
                 $best_view_name = $this->option['default_view'];
             } else {
                 $best_view = array_shift($data);
                 $best_view_name = $best_view['variation'];
-                if(!$best_view['nb_conversion']>0){ $best_view_name = $this->option['default_view']; }                
+                if (!$best_view['nb_conversion'] > 0) {
+                    $best_view_name = $this->option['default_view'];
+                }
             }
 
-            echo '<li>$best_view_name  : '.$best_view_name ;
+            echo '<li>$best_view_name  : ' . $best_view_name;
             $key2 = ($this->nb_visit) * (max(0.01, $this->option['discovery_rate']));
-            $key1 = max(($this->nb_visit - 1),0) * (max(0.01, $this->option['discovery_rate']));
-            echo '<li>$key2 = this->nb_visit : '.$this->nb_visit.' * max(0.01, $this->option[\'discovery_rate\']) = '.(max(0.01, $this->option['discovery_rate'])).' => '.$key2.'</li>';
-            echo '<li>$key1 = max(($this->nb_visit - 1),0) : '.max(($this->nb_visit - 1),0).' *  max(0.01, $this->option[\'discovery_rate\']) = '.(max(0.01, $this->option['discovery_rate'])).' => '.$key1.'</li>';
-            echo '<li>floor($key2) ='.$key2.' - floor($key1) = '.$key1.' => '.(floor($key2) - floor($key1)).'</li>';
+            $key1 = max(($this->nb_visit - 1), 0) * (max(0.01, $this->option['discovery_rate']));
+            echo '<li>$key2 = this->nb_visit : ' . $this->nb_visit . ' * max(0.01, $this->option[\'discovery_rate\']) = ' . (max(0.01, $this->option['discovery_rate'])) . ' => ' . $key2 . '</li>';
+            echo '<li>$key1 = max(($this->nb_visit - 1),0) : ' . max(($this->nb_visit - 1), 0) . ' *  max(0.01, $this->option[\'discovery_rate\']) = ' . (max(0.01, $this->option['discovery_rate'])) . ' => ' . $key1 . '</li>';
+            echo '<li>floor($key2) =' . $key2 . ' - floor($key1) = ' . $key1 . ' => ' . (floor($key2) - floor($key1)) . '</li>';
             if (floor($key2) - floor($key1) == 1) {
                 // explore
                 echo 'explore';
@@ -573,11 +585,11 @@ class George
                 $this->selected_view_name = $best_view_name;
                 // echo ' '.$best_view_name;					
             }
-             echo '<li>$this->selected_view_name  : '.$this->selected_view_name ;
+            echo '<li>$this->selected_view_name  : ' . $this->selected_view_name;
         }
-        
-        
-        
+
+
+
         $this->save_visit();
         $_SESSION['IP'] = $this->get_ip();
         $_SESSION['URI'] = $best_view['uri'];
@@ -610,7 +622,7 @@ class George
             return (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '');
         }
     }
-    
+
     /**
      * Add variation
      *
@@ -623,7 +635,7 @@ class George
             $this->variation[$k] = $v;
         }
     }
-    
+
     /**
      * render
      *
@@ -634,7 +646,7 @@ class George
     {
         return $this->selected_view[strtolower($k)];
     }
-    
+
 
     /**
      * Get list of all DB in directory database
@@ -660,7 +672,7 @@ class George
         }
         return $ListDB;
     }
-    
+
     /**
      * Get list of all DB in directory database archived
      * @return array<array>
@@ -698,7 +710,7 @@ class George
             }
             rmdir($nameDB);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -713,13 +725,14 @@ class George
      */
     public function registerInDB(string $url_conversion, string $discovery_rate, array $urls_variation): bool
     {
-        if (!file_exists(dirname(__FILE__) . "/database" . $this->test)) {
+        if (!$this->_checkDBexist()) {
             //Create DB for principal
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
+            $date_time = new \DateTime();
             $data = array(
                 'uri' => $url_conversion,
                 'variation' => $this->test,
-                'listVariation' => $urls_variation, 
+                'listVariation' => $urls_variation,
                 'discovery_rate' => $discovery_rate,
                 'default_view' => $this->test,
                 'nb_visit' => 0,
@@ -732,12 +745,12 @@ class George
                 'nb_conversion_mobile' => 0,
                 'nb_conversion_tablet' => 0,
                 'nb_conversion_desktop' => 0,
-                'date_time' => new \DateTime(),
+                'date_time' => $date_time->format('d/m/Y H:i'),
             );
 
-            echo '<pre>';
-            print_r($data);
-            echo '</pre>';
+            // echo '<pre>';
+            // print_r($data);
+            // echo '</pre>';
             // exit;
             $db->table('data_set')->insert(
                 $data
@@ -775,7 +788,7 @@ class George
     public function changeStatus(): bool
     {
         $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
-        
+
         // print_r($data);exit;
         @$result = @$db->table('data_set')->where(
             array(
@@ -794,7 +807,7 @@ class George
         try {
             $db->table('data_set')->update($result[0]['id'], $data);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -819,24 +832,12 @@ class George
      */
     public function setArchive(): bool
     {
-        if (file_exists('database/' . $this->test)) {
-            //Ne pas deArchived car existe déjà un fichier ici
-            if (!file_exists('database/archived' . $this->test)) {
-                rename('database/' . $this->test, 'database/archived/' . $this->test . "_" . date("Y-m-d_H-i-s"));
-                return true;
-            } else {
-                return false;
-            }
-        } else if (file_exists('database/archived/' . $this->test)) {
-            if (!file_exists('database/' . $this->test)) {
-                rename('database/archived/' . $this->test, 'database/' . $this->test);
-                return true;
-            } else {
-                return false;
-            }
+        if ($this->_checkDBexist()) {
+            rename('database/' . $this->test, 'database/archived/' . $this->test . "_" . date("Y-m-d_H-i-s"));
+            return true;
         }
     }
-    
+
     /**
      * Get data for one ABTEST
      *
@@ -844,16 +845,14 @@ class George
      */
     public function get_data_by_abtest()
     {
-        if (file_exists(dirname(__FILE__).'/database/' . $this->test)) {
+        if ($this->_checkDBexist()) {
             // $db = new FlatDB('database', $this->test);
-            $db = new FlatDB(dirname(__FILE__).'/database/', $this->test);
+            $db = new FlatDB(dirname(__FILE__) . '/database/', $this->test);
 
             $result = $db->table('data_set')->all();
             // exit;
-            if (!empty($result[0])) {
-                return $result;
-            } 
-        }     
+            return $result ?? false;
+        }
         return false;
     }
 
@@ -862,9 +861,9 @@ class George
      * @param string $nameDatabase
      * @return array|string|bool
      */
-    public function get_data_variation(string $nameDatabase = "")
+    public function get_data_variation(string $nameDatabase = null)
     {
-        if (file_exists(dirname(__FILE__) . "/database" . $nameDatabase)) {
+        if ($this->_checkDBexist($nameDatabase)) {
             $db = new FlatDB(dirname(__FILE__) . "/database", $nameDatabase);
             @$result = @$db->table('data_set')->where(
                 array(
@@ -873,33 +872,26 @@ class George
             )->all();
 
             // exit;
-            if (empty($result)) {
-                return "false";
-            } else {
-                return $result;
-            }
+            return $result ?? "false";
         }
     }
-    
+
     /**
      *
      * @param string $nameDatabase
      * @return array|string|bool
      */
-    public function get_data_debug(string $nameDatabase = "")
+    public function get_data_debug(string $nameDatabase = null)
     {
-        if (empty($nameDatabase)) {
-            $nameDatabase = $this->test;
-        }
-        $db = new FlatDB(dirname(__FILE__) . "/database", $nameDatabase);
-        @$result = @$db->table('data_set')->where()->all();
 
-        // exit;
-        if (empty($result)) {
-            throw new \Exception("Empty data");
-            return "false";
-        } else {
+        $nameDatabase = $nameDatabase ?? $this->test;
+
+        if ($this->_checkDBexist($nameDatabase)) {
+            $db = new FlatDB(dirname(__FILE__) . "/database", $nameDatabase);
+            @$result = @$db->table('data_set')->where()->all();
             return $result;
+        } else {
+            return;
         }
     }
 
@@ -930,7 +922,7 @@ class George
             }
             $t .=   '<div class="cadre-text p-3 row">
                         <div class="col-12 col-md-4 mt-2">
-                            <p><u>Date</u> : <b>' . $oneDB[0]['date_time']->format('d/m/Y H:i') . '</b></p>';
+                            <p><u>Date</u> : <b>' . $oneDB[0]['date_time'] . '</b></p>';
             if ($oneDB[0]['status'] == 0 && $statusSearch != "archived") {
                 $t .=           "<p><u>Status</u> : <b class='text-primary'>En cours</b></p>";
             } else if ($statusSearch == "archived") {
@@ -1061,7 +1053,7 @@ class George
             $state = 'Archivé';
         }
         $draw .= '
-                <div class="date_crea text-center">Date de création : ' . $abtest[0]['date_time']->format('d/m/Y H:i') . '</div>
+                <div class="date_crea text-center">Date de création : ' . $abtest[0]['date_time'] . '</div>
                 <div class="discovery_rate text-center d-flex align-items-center justify-content-between">
                     <p><span class="text-info">' . $state . '</span> | Taux de découverte : ' . $abtest[0]['discovery_rate'] * 100 . '% </p>
                     <div class="dropdown">

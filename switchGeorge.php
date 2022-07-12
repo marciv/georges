@@ -1,6 +1,7 @@
 <?php
 
 require "../../config.php";
+
 use library\George as george;
 
 if (isset($_GET['action'])) {
@@ -53,14 +54,14 @@ if (isset($_GET['action'])) {
         $nameDB = str_replace("/", "_", trim(parse_url($url_conversion, PHP_URL_PATH), "/"));
 
         foreach ($_POST['url_variations'] as $url) {
-            array_push($urls_variation, ["uri" => parse_url($url['value'], PHP_URL_PATH), "name" => str_replace("/", "_", trim(parse_url($url['value'], PHP_URL_PATH), "/")),  "variation" =>  $url['value']]);
+            array_push($urls_variation, ["uri" => parse_url($url, PHP_URL_PATH), "name" => str_replace("/", "_", trim(parse_url($url, PHP_URL_PATH), "/")),  "variation" =>  $url]);
         }
 
         $george = new george($nameDB);
         if ($george->registerInDB(parse_url($url_conversion, PHP_URL_PATH), $discovery_rate, $urls_variation)) { //On crée une nouvelle BDD
-            return true;
+            header('Location: index.php?success=true&message=ABTEST créé avec succès');
         } else {
-            return false;
+            header('Location: index.php?success=false&message=Erreur sur la création de l\'ABTEST');
         }
     }
     /**
@@ -71,7 +72,7 @@ if (isset($_GET['action'])) {
     if ($_GET['action'] == "addConversion") {
 
         $http_referer =  @$_POST['conversion_path']; //HTTP Referer if exists
-        
+
         if (empty($http_referer) || $http_referer == "null") { //If null, http referer is not set and is main variation
             $variationName = $_POST['path']; // Main variation
         } else { //Else http referer is set and is another variation
@@ -80,7 +81,7 @@ if (isset($_GET['action'])) {
 
         $variationName = str_replace("index.php", "", $variationName); //Rewrite variation name
         $variationName = trim(str_replace("/", "_", $variationName), "_"); //Rewrite variation name
-        
+
 
         if ($variationName != "ref.php" || $variationName != "/") {
             $george = new george($variationName); // On vérifie si une bdd avec le nom existe

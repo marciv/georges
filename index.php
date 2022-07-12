@@ -25,8 +25,9 @@ header("Cache-Control: no-cache, must-revalidate");
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
     require "../../config.php";
+
     use library\George as george;
-    
+
     if (isset($_GET['success']) && isset($_GET['message'])) {
         if ($_GET['success'] == "true") {
             echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -48,10 +49,10 @@ header("Cache-Control: no-cache, must-revalidate");
     <div class="main-george">
         <h1 class="mb-3 text-center">George</h1>
 
-        <form id="formData">
+        <form id="formData" onsubmit="return checkInput();" method="POST" action="switchGeorge.php?action=createDB">
             <div class="input-group mb-3">
                 <span class="input-group-text">URL Principale</span>
-                <input type="url" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
+                <input type="text" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Discovery Rate</span>
@@ -59,15 +60,16 @@ header("Cache-Control: no-cache, must-revalidate");
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">URL Variation</span>
-                <input type="url" class="form-control" name="url[]" placeholder="/test/lan/09/">
+                <input type="text" class="form-control" name="url_variations[]" placeholder="/test/lan/09/">
             </div>
             <div id="anotherInput" class="anotherInput"></div>
+            <div class="d-flex align-items-center justify-content-center">
+                <button type="button" id="addInput" class="btn btn-outline-info btn-rounded mr-3">+ Add variation</button>
+                <button type="submit" class="btn btn-outline-primary">Start AB Test</button>
+            </div>
 
         </form>
-        <div class="d-flex align-items-center justify-content-center">
-            <button id="addInput" onclick="addInput()" class="btn btn-outline-info btn-rounded mr-3">+ Add variation</button>
-            <button id="send" class="btn btn-outline-primary">Start AB Test</button>
-        </div>
+
         <p class="text-center message-contenu"></p>
     </div>
 
@@ -84,7 +86,7 @@ header("Cache-Control: no-cache, must-revalidate");
             </li>
         </ul>
     </div>
-    
+
     <div class="tab-content" id="pills-tabContent">
         <?php
         $george = new george();
@@ -96,7 +98,7 @@ header("Cache-Control: no-cache, must-revalidate");
         ?>
     </div>
 
-    
+
 
     <script src="../js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <script src="../js/popper-1.12.9.min.js" crossorigin="anonymous"></script>
@@ -110,6 +112,59 @@ header("Cache-Control: no-cache, must-revalidate");
         });
     </script>
     <script>
+        //Refresh avec alert
+        if (location.search != "") {
+            setTimeout(function() {
+                window.location.href = "index.php";
+            }, 2000);
+        }
+
+        function checkInput(e) {
+            let checked = true;
+            let url_variations = $('input[name="url_variations[]"]');
+
+            url_variations.each(function() {
+                if ($(this).val() == "") {
+                    checked = false;
+                }
+
+                if (first($(this).val()) != "/" || last($(this).val()) != "/") {
+                    alert("URL Variation must start and end with /");
+                    $(this).css("background-color", "rgba(253, 111, 111, 0.3)");
+                    checked = false;
+                }
+
+            });
+
+
+            if (first($('#url_conversion').val()) != "/" || last($('#url_conversion').val()) != "/") {
+                alert("URL Conversion must start and end with /");
+                checked = false;
+                $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
+            }
+
+            if ($('#url_conversion').val() == "" || $('#taux_decouvert').val() == "") {
+                checked = false;
+                $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
+                $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
+            }
+            if ($('#taux_decouvert').val() > 0.25) {
+                alert("Discovery Rate must be less than 0.25");
+                checked = false;
+                $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
+            }
+
+            if (checked) {
+                return true;
+            } else {
+                event.preventDefault();
+                setTimeout(function() {
+                    $('.message-contenu').text("");
+                }, 4000);
+                return false;
+            }
+        }
+
         function first(str) {
             first_part = str.substring(0, 1);
             return first_part;
@@ -124,62 +179,9 @@ header("Cache-Control: no-cache, must-revalidate");
             $('.anotherInput').append(`
                 <div class="input-group mb-3">
                     <span class="input-group-text">URL Variation</span>
-                    <input type="url" class="form-control" name="url[]" placeholder="/test/lan/XX/">
+                    <input type="text" class="form-control" name="url_variations[]" placeholder="/test/lan/XX/">
                 </div>`);
         });
-
-
-        $("#send").click(() => {
-            var form_fields = $('[name="url[]"').serializeArray();
-            let checked = true;
-
-            form_fields.forEach(element => {
-                if (element.value == "") {
-                    checked = false;
-                }
-
-                if (first(element.value) != "/" || last(element.value) != "/") {
-                    alert("URL Variation must start and end with /");
-                    checked = false;
-                }
-            });
-
-            if (first($('#url_conversion').val()) != "/" || last($('#url_conversion').val()) != "/") {
-                alert("URL Conversion must start and end with /");
-                checked = false;
-                $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
-            }
-            
-            if ($('#url_conversion').val() == "" || $('#taux_decouvert').val() == "") {
-                checked = false;
-                $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
-                $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
-            }
-            if ($('#taux_decouvert').val() > 0.25) {
-                alert("Discovery Rate must be less than 0.25");
-                checked = false;
-                $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
-            }
-
-            if (checked) {
-                $.post("switchGeorge.php?action=createDB", {
-                    url_conversion: $('#url_conversion').val(),
-                    taux_decouvert: $('#taux_decouvert').val(),
-                    url_variations: form_fields
-                }).done(function(data) {
-                    console.log(data);
-                    $('.message-contenu').css("color", "green");
-                    $('.message-contenu').css("font-weight", "bolder");
-                    $('.message-contenu').text("ABTEST créé sauf si un ABTEST contient déjà l'url !");
-                });
-            } else {
-                $('.message-contenu').css("color", "orange");
-                $('.message-contenu').text("Veuillez remplir tous les champs !");
-            }
-            setTimeout(function() {
-                $('.message-contenu').text("");
-            }, 4000)
-        })
     </script>
 </body>
 
