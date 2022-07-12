@@ -24,19 +24,20 @@ header("Cache-Control: no-cache, must-revalidate");
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    require "class.george.php";
-
-    if (isset($_GET['success'])) {
+    require "../../config.php";
+    use library\George as george;
+    
+    if (isset($_GET['success']) && isset($_GET['message'])) {
         if ($_GET['success'] == "true") {
             echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <span class="message-contenu"><strong>Succès ! </strong>' . $_GET['message'] . '</span>
+                    <span class="message-contenu"><strong>Succès ! </strong>' . @$_GET['message'] . '</span>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>';
         } else {
             echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <span class="message-contenu"><strong>Erreur ! </strong> ' . $_GET['message'] . '</span>
+            <span class="message-contenu"><strong>Erreur ! </strong> ' . @$_GET['message'] . '</span>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -83,7 +84,7 @@ header("Cache-Control: no-cache, must-revalidate");
             </li>
         </ul>
     </div>
-
+    
     <div class="tab-content" id="pills-tabContent">
         <?php
         $george = new george();
@@ -95,7 +96,7 @@ header("Cache-Control: no-cache, must-revalidate");
         ?>
     </div>
 
-
+    
 
     <script src="../js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <script src="../js/popper-1.12.9.min.js" crossorigin="anonymous"></script>
@@ -148,7 +149,7 @@ header("Cache-Control: no-cache, must-revalidate");
                 checked = false;
                 $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
             }
-
+            
             if ($('#url_conversion').val() == "" || $('#taux_decouvert').val() == "") {
                 checked = false;
                 $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
