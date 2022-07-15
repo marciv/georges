@@ -26,7 +26,7 @@ $dbName = $_GET['dbName'];
 
 <body>
     <div class="container">
-        <nav style="--bs-breadcrumb-divider: '>" aria-label="breadcrumb">
+        <nav style="--bs-breadcrumb-divider: >" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Accueil</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?php echo $dbName; ?></li>
@@ -239,9 +239,9 @@ $dbName = $_GET['dbName'];
                 last_part = str.substring(str.length - 1);
                 return last_part;
             }
+            
 
-
-            let dbData = <?= json_encode($george->get_data_by_abtest()) ?>;
+            let dbData = <?= json_encode($george->get_data()) ?>;
 
             let SetName = [];
             let txConversionSetCount = [];
@@ -262,7 +262,7 @@ $dbName = $_GET['dbName'];
                 visitTabletSetCount.push(element.nb_visit_tablet);
             });
 
-
+            
             draw();
             /**
              * Draw Chart
@@ -362,7 +362,7 @@ $dbName = $_GET['dbName'];
                             borderWidth: 1,
                         }
                     ]
-
+                
                 };
 
                 const config = {

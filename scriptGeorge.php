@@ -7,7 +7,7 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
 ?>
         <code>
             <pre>
-                <?php print_r($george->get_data_debug($_GET['http_referer'])); ?>
+                <?php print_r($george->get_data($_GET['http_referer'])); ?>
             </pre>
         </code>
     <?php
@@ -15,7 +15,7 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
     ?>
         <code>
             <pre>
-                <?php print_r($george->get_data_debug()); ?>
+                <?php print_r($george->get_data()); ?>
             </pre>
         </code>
 <?php
@@ -60,7 +60,7 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
 
                     if (status != "1" || status != 1) {
                         $.post("../../../library/George/switchGeorge.php?action=addConversion", {
-                            conversion_path: http_referer,
+                            referer: http_referer,
                             path: window.location.pathname
                         });
                     }
