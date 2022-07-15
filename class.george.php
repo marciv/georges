@@ -21,9 +21,15 @@ class George
     public $status;
     /**
      *
-     * @var array<string>
+     * @var array
      */
-    public $data;
+    public $dataDB;
+
+    /**
+     *
+     * @var array
+     */
+    public $parameters;
     /**
      *
      * @var string
@@ -77,6 +83,41 @@ class George
         if (!empty($name)) {
             $this->test = $name;
             $this->set_visit_data();
+
+            $this->dataDB = $this->get_data();
+            $this->parameters = $this->get_parameters();
+
+            if (empty($this->dataDB) || empty($this->parameters)) {
+                return;
+            }
+
+            $this->set_option(
+                array(
+                    "discovery_rate" => $this->parameters['discovery_rate'] ?? 0.1,
+                    "default_view" => $this->parameters['default_view'] ?? $this->test,
+                )
+            );
+
+
+            /* dirty bug listvariation fix */
+            unset($this->parameters['listVariation']);
+            foreach ($this->dataDB as $k => $v) {
+                $this->parameters['listVariation'][] = [
+                    'name' => $v['variation'],
+                    'variation' => $v['variation'],
+                    'uri' => $v['uri']
+                ];
+            }
+
+            foreach ($this->parameters['listVariation'] as $v) { //On parcours la liste des variations disponible 
+                $this->add_variation( //Set variation in this list
+                    array(
+                        $v['name'] => array( //Name variation
+                            "uri" => $v['uri'], //Link variation
+                        )
+                    )
+                );
+            }
         }
     }
 
@@ -91,77 +132,37 @@ class George
      *
      * @return void
      */
-    public function initialize(): void
+    public function start(): void
     {
+        if (!empty($this->dataDB) && !empty($this->parameters)) {
+            $newUrl = $this->_getRequestUrl();
+            $parametersArray = $this->_getParametersfromUrl($newUrl);
 
-        $newUrl = $this->_getRequestUrl();
-        $variationName = $this->_getVariationNamefromUrl($newUrl);
-        $parametersArray = $this->_getParametersfromUrl($newUrl);
-        $newURI = $this->_getUrifromUrl($newUrl);
+            if ($this->parameters['status'] != 1) {
 
-        if (empty($this->test)) {
-            return;
-        }
-
-        $data = $this->get_data();
-        if (empty($data)) {
-            return;
-        }
-
-        // options
-        //Set Option
-        $this->set_option(
-            array(
-                "discovery_rate" => $data[0]['discovery_rate'] ?? 0.1,
-                "default_view" => $data[0]['default_view'] ?? $newURI,
-            )
-        );
-        $this->status = $data[0]['status'];
-
-        if ((@$data[0]['uri'] == $newURI) && ($this->status != 1)) {
-
-            if (empty($parametersArray)) {
-                $UrlParameters = "?http_referer=" . $variationName;
-            } else {
-                $UrlParameters = "?http_referer=" . $variationName . '&' . http_build_query($parametersArray);
-            }
-
-            /* dirty bug listvariation fix */
-            unset($data[0]['listVariation']);
-            foreach ($data as $k => $v) {
-                $data[0]['listVariation'][] = [
-                    'name' => $v['variation'],
-                    'variation' => $v['variation'],
-                    'uri' => $v['uri']
-                ];
-            }
-            foreach ($data[0]['listVariation'] as $v) { //On parcours la liste des variations disponible 
-                $this->add_variation( //Set variation in this list
-                    array(
-                        $v['name'] => array( //Name variation
-                            "uri" => $v['uri'], //Link variation
-                        )
-                    )
-                );
-            }
-
-            $this->calculate($data); // On ajoute à la variation actuel
-            // throw new \Exception("stop");
-            echo '<li><h1>render uri ' . $this->render("uri") . $UrlParameters . '</h1>';
-            if ($variationName != $this->selected_view_name) {
-                if (!headers_sent()) {
-                    $hostURL = (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST'];
-                    $requestScheme = "https";
-                    if ($hostURL == "localhost") {
-                        $requestScheme = "http";
-                    }
-                    // Throw new \Exception("Redirect php to ".$this->render("uri"));
-                    header('Location: ' . $requestScheme . '://' . $hostURL . $this->render("uri") . $UrlParameters, false);
-                    exit;
+                if (empty($parametersArray)) {
+                    $UrlParameters = "?http_referer=" . $this->test;
                 } else {
-                    // Throw new \Exception("Redirect javascript to  ".$this->render("uri"));
-                    echo '<script>window.location="https://"+window.location.host+"' . $this->render("uri") . $UrlParameters . '"</script>';
-                    exit;
+                    $UrlParameters = "?http_referer=" . $this->test . '&' . http_build_query($parametersArray);
+                }
+
+
+
+                $this->calculate(); // On ajoute à la variation actuel
+                // throw new \Exception("stop");
+                echo '<li><h1>render uri ' . $this->render("uri") . $UrlParameters . '</h1>';
+                if ($this->test != $this->selected_view_name) {
+                    if (!headers_sent()) {
+                        $hostURL = $this->_getHostUrl();
+                        $requestScheme = $this->_getSchemeRequest();
+                        // Throw new \Exception("Redirect php to ".$this->render("uri"));
+                        header('Location: ' . $requestScheme . '://' . $hostURL . $this->render("uri") . $UrlParameters, false);
+                        exit;
+                    } else {
+                        // Throw new \Exception("Redirect javascript to  ".$this->render("uri"));
+                        echo '<script>window.location="https://"+window.location.host+"' . $this->render("uri") . $UrlParameters . '"</script>';
+                        exit;
+                    }
                 }
             }
         }
@@ -169,10 +170,30 @@ class George
 
     static function _getVariationNamefromUrl($url)
     {
-
         $newURI = parse_url($url, PHP_URL_PATH);
         $newURI = str_replace('index.php', '', $newURI);
         return trim(str_replace("/", "_",  $newURI), "_");
+    }
+
+    static function _getHostUrl()
+    {
+        return (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST'];
+    }
+
+    static function _getSchemeRequest()
+    {
+        $requestScheme = "https";
+        if ($_SERVER['HTTP_X_FORWARDED_HOST'] == "localhost") {
+            $requestScheme = "http";
+        } else if ($_SERVER['HTTP_HOST'] == "localhost") {
+            $requestScheme = "http";
+        }
+        return $requestScheme;
+    }
+
+    static function _getUrlfromVariationName($VariationName)
+    {
+        return "/" . str_replace("_", "/",  $VariationName) . "/";
     }
 
     static function _getParametersfromUrl($url)
@@ -326,8 +347,8 @@ class George
         $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
         $data = array(
-            'uri' => "/" . str_replace("_", "/", $this->selected_view_name) . "/",
-            'variation' => $this->selected_view_name,
+            'uri' => $this->_getUrlfromVariationName($this->selected_view_name),
+            'variation' => $this->_getVariationNamefromUrl($this->selected_view_name),
             'nb_visit' => 1,
             'nb_visit_mobile' => $this->visit['device_type'] == "mobile" ? 1 : 0,
             'nb_visit_desktop' => $this->visit['device_type'] == "computer" ? 1 : 0,
@@ -342,9 +363,9 @@ class George
         // print_r($data);exit;
         @$result = @$db->table('data_set')->where(
             array(
-                'uri' => "/" . str_replace("_", "/", $this->selected_view_name) . "/",
+                'uri' => $this->_getUrlfromVariationName($this->selected_view_name),
                 // $this->option['tracking_var'] => $_REQUEST[$this->option['tracking_var']],
-                'variation' => $this->selected_view_name
+                'variation' => $this->_getVariationNamefromUrl($this->selected_view_name)
             )
         )->all();
 
@@ -378,7 +399,7 @@ class George
     {
         $data = array(
             'uri' => $path,
-            'variation' => trim(str_replace("/", "_", $path), "_")
+            'variation' => $this->_getVariationNamefromUrl($path)
         );
         // foreach ($_SESSION['VAR'] as $k => $v) {
         //     $data[$k] = $v;
@@ -418,8 +439,7 @@ class George
         $this->nb_visit = 0;
         $max_conversion_rate = 0;
         foreach ($data as $k => $v) {
-
-            if (empty($this->variation[$v['variation']])) {
+            if (empty(@$this->variation[$v['variation']])) {
                 unset($data[$k]);
                 continue;
             }
@@ -448,7 +468,7 @@ class George
      *
      * @return bool
      */
-    private function calculate($data): bool
+    private function calculate(): bool
     {
         global $_REQUEST;
 
@@ -461,20 +481,21 @@ class George
 
         // select view
         // get tracking data
-        if (empty($data)) {
-            $data = $this->get_data();
+        if (empty($this->dataDB)) {
+            $this->dataDB = $this->get_data();
         }
 
 
-        if ($data && $data !== false) {
-            $data = $this->calculate_conversion($data);
-            var_dump($data);
 
+        if ($this->dataDB && $this->dataDB !== false) {
+            $data = $this->calculate_conversion($this->dataDB);
+            var_dump($data);
             if (empty($data) or $data === false) {
                 $best_view_name = $this->option['default_view'];
             } else {
                 $best_view = array_shift($data);
                 $best_view_name = $best_view['variation'];
+
                 if (!$best_view['nb_conversion'] > 0) {
                     $best_view_name = $this->option['default_view'];
                 }
@@ -498,6 +519,7 @@ class George
                 $this->selected_view = $this->variation[$this->selected_view_name];
             } else {
                 echo 'exploit';
+
                 $this->selected_view = $this->variation[$best_view_name];
                 $this->selected_view_name = $best_view_name;
                 // echo ' '.$best_view_name;					
@@ -625,6 +647,26 @@ class George
         }
     }
 
+
+    public function updateAbTest(array $dataUpdated): bool
+    {
+        if ($this->_checkDBexist() && !empty($dataUpdated)) {
+            $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
+
+            try {
+                var_dump($dataUpdated);
+
+                $db->table('data_parameters')->update($dataUpdated['id'], $dataUpdated);
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+
     /**
      * Create DB for ABTEST
      *
@@ -633,38 +675,26 @@ class George
      * @param array<string> $urls_variation
      * @return bool
      */
-    public function registerInDB(string $url_conversion, string $discovery_rate, array $urls_variation): bool
+    public function registerInDB(string $discovery_rate, array $urls_variation, string $nameAbtest): bool
     {
         if (!$this->_checkDBexist()) {
             //Create DB for principal
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
             $date_time = new \DateTime();
-            $data = array(
-                'uri' => $url_conversion,
-                'variation' => $this->test,
+
+            $data_parameters = array(
+                'name' => $nameAbtest,
                 'listVariation' => $urls_variation,
                 'discovery_rate' => $discovery_rate,
                 'default_view' => $this->test,
-                'nb_visit' => 0,
-                'nb_visit_mobile' => 0,
-                'nb_visit_desktop' => 0,
-                'nb_visit_tablet' => 0,
                 'status' => 0,
-                'nb_conversion' => 0,
-                'tx_conversion' => 0,
-                'nb_conversion_mobile' => 0,
-                'nb_conversion_tablet' => 0,
-                'nb_conversion_desktop' => 0,
-                'date_time' => $date_time->format('d/m/Y H:i'),
+                'date_time' => $date_time->format('d/m/Y H:i')
             );
 
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-            // exit;
-            $db->table('data_set')->insert(
-                $data
+            $db->table('data_parameters')->insert(
+                $data_parameters
             );
+
             //Create DB for variation
             foreach ($urls_variation as $v => $e) {
                 $dataVariation = array(
@@ -686,65 +716,6 @@ class George
                 );
             }
             return true;
-        } else {
-            return false;
-        }
-    }
-    /**
-     * Change State of ABTEST
-     *
-     * @return bool
-     */
-    public function changeStatus(): bool
-    {
-        if ($this->_checkDBexist()) {
-            $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
-
-            // print_r($data);exit;
-            $result = $this->get_data($this->test);
-
-            $data = $result[0];
-
-            if ($result[0]['status'] == 0) {
-                $data['status'] = 1; //Pause
-            } else {
-                $data['status'] = 0; //Resume
-            }
-
-            try {
-                $db->table('data_set')->update($result[0]['id'], $data);
-                return true;
-            } catch (\Exception $e) {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Change discovery rate of ABTEST
-     *
-     * @param string $discovery_rate
-     * @return boolean
-     */
-    public function changeDiscoveryRate(string $discovery_rate): bool
-    {
-        if ($this->_checkDBexist()) {
-            $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
-
-            $result = $this->get_data($this->test);
-
-            $data = $result[0];
-
-            $data['discovery_rate'] = $discovery_rate;
-
-            try {
-                $db->table('data_set')->update($result[0]['id'], $data);
-                return true;
-            } catch (\Exception $e) {
-                return false;
-            }
         } else {
             return false;
         }
@@ -777,7 +748,7 @@ class George
                 $db->table('data_set')->update($result[0]['id'], $data);
                 $dataVariation = array(
                     'uri' => $variation,
-                    'variation' => str_replace("/", "_", trim(parse_url($variation, PHP_URL_PATH), "/")),
+                    'variation' => $this->_getVariationNamefromUrl($variation),
                     'nb_visit' => 0,
                     'nb_visit_mobile' => 0,
                     'nb_visit_desktop' => 0,
@@ -820,22 +791,41 @@ class George
      *
      * @return array
      */
-    public function get_data($Name = null, $variation = null)
+    public function get_data($nameDatabase = null, $variation = null)
     {
         $nameDatabase = $nameDatabase ?? $this->test;
-        if ($this->_checkDBexist()) {
+
+        if ($this->_checkDBexist($nameDatabase)) {
             $db = new FlatDB(dirname(__FILE__) . '/database', $nameDatabase);
             if (!empty($variation)) {
                 $result = @$db->table('data_set')->where(
                     array(
-                        'variation' => $nameDatabase
+                        'variation' => $variation
                     )
                 )->all();
             } else {
                 $result = $db->table('data_set')->all();
             }
         }
+
         return $result ?? null;
+    }
+
+    /**
+     * Get parameter AB test data
+     *
+     * @return array
+     */
+    public function get_parameters($nameDatabase = null)
+    {
+        $nameDatabase = $nameDatabase ?? $this->test;
+
+        if ($this->_checkDBexist($nameDatabase)) {
+            $db = new FlatDB(dirname(__FILE__) . '/database', $nameDatabase);
+            $result = @$db->table('data_parameters')->all();
+        }
+
+        return $result[0] ?? null;
     }
 
 
@@ -858,6 +848,7 @@ class George
 
 
         foreach ($allDb as $oneDB) {
+            $parameters = $this->get_parameters($oneDB[0]['variation']);
             $t = "";
             if ($statusSearch == "archived") {
                 $t .= '<div class="card card-archived">';
@@ -866,20 +857,20 @@ class George
             }
             $t .=   '<div class="cadre-text p-3 row">
                         <div class="col-12 col-md-4 mt-2">
-                            <p><u>Date</u> : <b>' . $oneDB[0]['date_time'] . '</b></p>';
-            if ($oneDB[0]['status'] == 0 && $statusSearch != "archived") {
+                            <p><u>Date</u> : <b>' . $parameters['date_time'] . '</b></p>';
+            if ($parameters['status'] == 0 && $statusSearch != "archived") {
                 $t .=           "<p><u>Status</u> : <b class='text-primary'>En cours</b></p>";
             } else if ($statusSearch == "archived") {
                 $t .=           "<p><u>Status</u> : <b class='text-warning'>Archived</b></p>";
             } else {
                 $t .=           "<p><u>Status</u> : <b class='text-warning'>En pause</b></p>";
             }
-            $t .=           '<p><u>Discovery Rate</u> : <b>' . $oneDB[0]['discovery_rate'] * 100 . '%</b></p>';
+            $t .=           '<p><u>Discovery Rate</u> : <b>' . $parameters['discovery_rate'] * 100 . '%</b></p>';
             $t .=           "<div class='d-flex justify-content-evenly'>";
             if ($statusSearch != "archived") {
                 $t .=               "<a class='btn btn-outline-danger' href='switchGeorge.php?archived=false&action=delete&db=" . $oneDB[0]['variation'] . "'>Delete</a>";
             }
-            if ($oneDB[0]['status'] == 0 && $statusSearch != "archived") {
+            if ($parameters['status'] == 0 && $statusSearch != "archived") {
                 $t .=               "<a class='btn btn-outline-warning ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Pause</a>";
             } else if ($statusSearch != "archived") {
                 $t .=               "<a class='btn btn-outline-primary ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Reprendre</a>";
@@ -914,7 +905,7 @@ class George
                 $t .=       '</div>';
             }
             $t .= '</div>';
-            if ($oneDB[0]['status'] == 0 && $statusSearch != "archived") {
+            if ($parameters['status'] == 0 && $statusSearch != "archived") {
                 $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
             } else if ($statusSearch == "archived") {
                 $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="#"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
@@ -923,11 +914,11 @@ class George
             }
             $t .= "</div>";
 
-            if ($oneDB[0]['status'] == 0 && !$statusSearch == "archived") {
+            if ($parameters['status'] == 0 && !$statusSearch == "archived") {
                 $play .= $t;
             }
 
-            if ($oneDB[0]['status'] == 1 && !$statusSearch == "archived") {
+            if ($parameters['status'] == 1 && !$statusSearch == "archived") {
                 $pause .= $t;
             }
 
@@ -975,15 +966,5 @@ class George
             }
         }
         return $ret;
-    }
-
-    /**
-     * Display data for one ABTest
-     * @return array
-     */
-    public function get_abtest(): array
-    {
-        $abtest = $this->get_data();
-        return !empty($abtest) ? $abtest : null;
     }
 }

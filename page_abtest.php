@@ -36,30 +36,26 @@ $dbName = $_GET['dbName'];
     <?php
     if (!empty($dbName)) {
         $george = new George($dbName);
-        $data = $george->get_abtest();
-
-        $abtest = $george->_array_msort($data, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC));
-
-        $state = $abtest[0]['status'] == 0 ? "En cours" : "En pause";
+        $data = $george->dataDB;
+        $parameters = $george->parameters;
+        $state = $parameters['status'] == 0 ? "En cours" : "En pause";
+        $abtest = @$george->_array_msort($data, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC));
     ?>
         <div class="container">
             <div class="headerCard">
-                <div class="date_crea text-center">Date de création : <?= $abtest[0]['date_time']; ?></div>
+                <div class="date_crea text-center">Date de création : <?= $parameters['date_time']; ?></div>
                 <div class="discovery_rate text-center d-flex align-items-center justify-content-between">
-                    <p><span class="text-info"><?= $state; ?></span> | Taux de découverte : <?= $abtest[0]['discovery_rate'] * 100; ?>%</p>
+                    <p><span class="text-info"><?= $state; ?></span> | Taux de découverte : <?= $parameters['discovery_rate'] * 100; ?>%</p>
                     <div class="dropdown">
                         <p class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</p>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item text-info" href="switchGeorge.php?action=changeState&db=<?= $abtest[0]['variation']; ?>">Pause/Play</a>
-                            <a class="dropdown-item text-danger" href="switchGeorge.php?archived=false&action=delete&db=<?= $abtest[0]['variation'] ?>">/!\ Supprimer</a>
+                            <a class="dropdown-item text-info" href="switchGeorge.php?action=changeState&db=<?= $data[0]['variation']; ?>">Pause/Play</a>
+                            <a class="dropdown-item text-danger" href="switchGeorge.php?archived=false&action=delete&db=<?= $data[0]['variation']; ?>">/!\ Supprimer</a>
                             <hr />
                             <a type="button" data-toggle="modal" data-target="#updateDiscoveryRate" class="dropdown-item text-secondary">Edit Discovery Rate</a>
                             <a type="button" data-toggle="modal" data-target="#addVariation" class="dropdown-item text-secondary">Add Variation Rate</a>
                         </div>
                     </div>
-                </div>
-                <div class="text-center">
-                    <b class="text-success">WINNER : <?= $abtest[0]['uri']; ?></b>
                 </div>
             </div>
 
@@ -162,10 +158,10 @@ $dbName = $_GET['dbName'];
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form method="post" action="switchGeorge.php?action=changeDiscoveryRate&db=<?= $abtest[0]['variation']; ?>">
+                        <form method="post" action="switchGeorge.php?action=changeDiscoveryRate&db=<?= $data[0]['variation']; ?>">
                             <div class="modal-body">
                                 <div class="input-group mb-3">
-                                    <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" min="0.01" step="0.01" max="0.25" value="<?= $abtest[0]['discovery_rate'] ?>">
+                                    <input type="number" class="form-control" name="discovery_rate" id="discovery_rate" min="0.01" step="0.01" max="0.25" value="<?= $parameters['discovery_rate'] ?>">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -187,7 +183,7 @@ $dbName = $_GET['dbName'];
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form method="post" onsubmit="return checkVariation();" action="switchGeorge.php?action=addVariationToAbtest&db=<?= $abtest[0]['variation']; ?>">
+                        <form method="post" onsubmit="return checkVariation();" action="switchGeorge.php?action=addVariationToAbtest&db=<?= $data[0]['variation']; ?>">
                             <div class="modal-body">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" name="variation" id="variation" placeholder="/test/lan/XX/">
@@ -239,7 +235,7 @@ $dbName = $_GET['dbName'];
                 last_part = str.substring(str.length - 1);
                 return last_part;
             }
-            
+
 
             let dbData = <?= json_encode($george->get_data()) ?>;
 
@@ -254,15 +250,17 @@ $dbName = $_GET['dbName'];
 
 
             dbData.forEach(element => {
-                SetName.push(element.uri);
-                txConversionSetCount.push(element.tx_conversion);
-                conversionSetCount.push(element.nb_conversion);
-                visitDesktopSetCount.push(element.nb_visit_desktop);
-                visitMobileSetCount.push(element.nb_visit_mobile);
-                visitTabletSetCount.push(element.nb_visit_tablet);
+                if (element.uri != null) {
+                    SetName.push(element.uri);
+                    txConversionSetCount.push(element.tx_conversion);
+                    conversionSetCount.push(element.nb_conversion);
+                    visitDesktopSetCount.push(element.nb_visit_desktop);
+                    visitMobileSetCount.push(element.nb_visit_mobile);
+                    visitTabletSetCount.push(element.nb_visit_tablet);
+                }
             });
 
-            
+
             draw();
             /**
              * Draw Chart
@@ -362,7 +360,7 @@ $dbName = $_GET['dbName'];
                             borderWidth: 1,
                         }
                     ]
-                
+
                 };
 
                 const config = {

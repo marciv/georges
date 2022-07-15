@@ -7,7 +7,8 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
 ?>
         <code>
             <pre>
-                <?php print_r($george->get_data($_GET['http_referer'])); ?>
+                <?php print_r($george->get_parameters($_GET['http_referer']));
+                print_r($george->get_data($_GET['http_referer'])); ?>
             </pre>
         </code>
     <?php
@@ -15,7 +16,8 @@ if (isset($_GET['debug']) && $_GET['debug'] == true) {
     ?>
         <code>
             <pre>
-                <?php print_r($george->get_data()); ?>
+                <?php print_r($george->get_parameters($_GET['http_referer']));
+                print_r($george->get_data()); ?>
             </pre>
         </code>
 <?php

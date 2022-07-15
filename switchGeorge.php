@@ -11,18 +11,40 @@ if (isset($_GET['action'])) {
      */
     if ($_GET['action'] == "changeState") {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
-        if ($george->changeStatus()) {
-            header('Location: index.php?success=true&message=Status de l\'ABTEST changé');
+        $parameters = $george->parameters; // On récupère les paramètres de la bdd
+
+        if (empty($parameters)) {
+            header('Location: index.php?success=false&message=Une erreur est survenue avec ' . $_GET['db']);
+            exit;
+        }
+
+        if ($parameters['status'] == "1") {
+            $parameters['status'] = "0";
         } else {
-            header('Location: index.php?success=false&message=Une erreur est survenue');
+            $parameters['status'] = "1";
+        }
+
+        if ($george->updateAbTest($parameters)) {
+            header('Location: index.php?success=true&message=Status de l\'ABTEST ' . $_GET['db'] . ' changé');
+        } else {
+            header('Location: index.php?success=false&message=Une erreur est survenue avec ' . $_GET['db']);
         }
         exit;
     }
 
     if ($_GET['action'] == "changeDiscoveryRate") {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
-        if ($george->changeDiscoveryRate($_POST['taux_decouvert'])) {
-            header('Location: index.php?success=true&message=Discovery Rate de l\'ABTEST changé');
+        $parameters = $george->parameters; // On récupère les paramètres de la bdd
+
+        if (empty($parameters)) {
+            header('Location: index.php?success=false&message=Une erreur est survenue avec ' . $_GET['db']);
+            exit;
+        }
+
+        $parameters['discovery_rate'] = $_POST['discovery_rate'];
+
+        if ($george->updateAbTest($parameters)) {
+            header('Location: index.php?success=true&message=Discovery Rate de l\'ABTEST ' . $_GET['db'] . ' changé');
         } else {
             header('Location: index.php?success=false&message=Une erreur est survenue');
         }
@@ -73,13 +95,16 @@ if (isset($_GET['action'])) {
         $urls_variation = []; // Stockage des URLS 
 
         $nameDB = str_replace("/", "_", trim(parse_url($url_conversion, PHP_URL_PATH), "/"));
+        $nameABtest = $_POST['nameABtest'] ?? $nameDB;
+
+        array_push($urls_variation, ["uri" => $url_conversion, "name" => str_replace("/", "_", trim(parse_url($url_conversion, PHP_URL_PATH), "/")),  "variation" =>  $url_conversion]);
 
         foreach ($_POST['url_variations'] as $url) {
             array_push($urls_variation, ["uri" => parse_url($url, PHP_URL_PATH), "name" => str_replace("/", "_", trim(parse_url($url, PHP_URL_PATH), "/")),  "variation" =>  $url]);
         }
 
         $george = new george($nameDB);
-        if ($george->registerInDB(parse_url($url_conversion, PHP_URL_PATH), $discovery_rate, $urls_variation)) { //On crée une nouvelle BDD
+        if ($george->registerInDB($discovery_rate, $urls_variation, $nameABtest)) { //On crée une nouvelle BDD
             header('Location: index.php?success=true&message=ABTEST créé avec succès');
         } else {
             header('Location: index.php?success=false&message=Erreur sur la création de l\'ABTEST');
@@ -91,15 +116,13 @@ if (isset($_GET['action'])) {
      * $_POST['path'] = URL LP
      */
     if ($_GET['action'] == "addConversion") {
-
-        
-        $testUrl = (!empty($_POST['referer']))?$_POST['referer']:$_POST['path'];
-        $variationName = George::_getVariationNamefromUrl($testUrl);        
+        $testUrl = (!empty($_POST['referer'])) ? $_POST['referer'] : $_POST['path'];
+        $variationName = George::_getVariationNamefromUrl($testUrl);
         echo $variationName;
 
         if ($variationName != "ref.php" || $variationName != "/") {
             $george = new george($variationName); // On vérifie si une bdd avec le nom existe
-            $data = @($george->get_data($variationName))[0];            
+            $data = @($george->get_data($variationName))[0];
             $myfile = fopen("log.txt", "a") or die("Unable to open file!");
             $start = new \DateTime();
             $txt = "";
@@ -124,7 +147,7 @@ if (isset($_GET['action'])) {
             fwrite($myfile, $txt);
             fclose($myfile);
         }
-        echo @$txt;        
+        echo @$txt;
     }
 
     /**
