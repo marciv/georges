@@ -146,8 +146,6 @@ class George
                     $UrlParameters = "?http_referer=" . $this->test . '&' . http_build_query($parametersArray);
                 }
 
-
-
                 $this->calculate(); // On ajoute à la variation actuel
                 // throw new \Exception("stop");
                 echo '<li><h1>render uri ' . $this->render("uri") . $UrlParameters . '</h1>';
@@ -527,8 +525,6 @@ class George
             echo '<li>$this->selected_view_name  : ' . $this->selected_view_name;
         }
 
-
-
         $this->save_visit();
         return true;
     }
@@ -584,40 +580,28 @@ class George
      * Get list of all DB in directory database
      * @return array<array>
      */
-    private function show_allData(): array
+    private function show_allData(bool $archived = false): array
     {
-        $dirs = scandir("database"); //On récupère le nom de toutes les DB disponibles
-        unset($dirs[array_search(".", $dirs)]); //On Supprime les deux premiers éléments du tableau
-        unset($dirs[array_search("..", $dirs)]); //On Supprime les deux premiers éléments du tableau
-        unset($dirs[array_search("archived", $dirs)]); //On affiche pas les DB archivées
+        if ($archived) {
+            $dirs = scandir("database/archived"); //On récupère le nom de toutes les DB disponibles
+            unset($dirs[array_search(".", $dirs)]); //On Supprime les deux premiers éléments du tableau
+            unset($dirs[array_search("..", $dirs)]); //On Supprime les deux premiers éléments du tableau
+        } else {
+            $dirs = scandir("database"); //On récupère le nom de toutes les DB disponibles
+            unset($dirs[array_search(".", $dirs)]); //On Supprime les deux premiers éléments du tableau
+            unset($dirs[array_search("..", $dirs)]); //On Supprime les deux premiers éléments du tableau
+            unset($dirs[array_search("archived", $dirs)]); //On affiche pas les DB archivées
 
-        $ListDB = [];
-
-
-        foreach ($dirs as $db) {
-            @$db = new FlatDB(dirname(__FILE__) . "/database", $db);
-            @$result = @$db->table('data_set')->all();
-
-            if ($result !== false) {
-                array_push($ListDB, $result);
-            }
         }
-        return $ListDB;
-    }
-
-    /**
-     * Get list of all DB in directory database archived
-     * @return array<array>
-     */
-    private function show_archivedData(): array
-    {
-        $dirs = scandir("database/archived"); //On récupère le nom de toutes les DB disponibles
-        unset($dirs[array_search(".", $dirs)]); //On Supprime les deux premiers éléments du tableau
-        unset($dirs[array_search("..", $dirs)]); //On Supprime les deux premiers éléments du tableau
 
         $ListDB = [];
+
         foreach ($dirs as $db) {
-            @$db = new FlatDB(dirname(__FILE__) . "/database/archived", $db);
+            if ($archived) {
+                @$db = new FlatDB(dirname(__FILE__) . "/database/archived", $db);
+            } else {
+                @$db = new FlatDB(dirname(__FILE__) . "/database", $db);
+            }
             @$result = @$db->table('data_set')->all();
 
             if ($result !== false) {
@@ -655,7 +639,6 @@ class George
 
             try {
                 var_dump($dataUpdated);
-
                 $db->table('data_parameters')->update($dataUpdated['id'], $dataUpdated);
                 return true;
             } catch (\Exception $e) {
@@ -675,7 +658,7 @@ class George
      * @param array<string> $urls_variation
      * @return bool
      */
-    public function registerInDB(string $discovery_rate, array $urls_variation, string $nameAbtest): bool
+    public function registerInDB(string $discovery_rate, array $urls_variation, string $nameAbtest, string $description): bool
     {
         if (!$this->_checkDBexist()) {
             //Create DB for principal
@@ -684,6 +667,7 @@ class George
 
             $data_parameters = array(
                 'name' => $nameAbtest,
+                'description' => $description,
                 'listVariation' => $urls_variation,
                 'discovery_rate' => $discovery_rate,
                 'default_view' => $this->test,
@@ -837,7 +821,7 @@ class George
     public function draw_allData(string $statusSearch = ""): string
     {
         if ($statusSearch == "archived") {
-            $allDb = $this->show_archivedData();
+            $allDb = $this->show_allData(true);
         } else {
             $allDb = $this->show_allData();
         }
@@ -906,11 +890,11 @@ class George
             }
             $t .= '</div>';
             if ($parameters['status'] == 0 && $statusSearch != "archived") {
-                $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
+                $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . $parameters['name'] . '</h5></a></div>';
             } else if ($statusSearch == "archived") {
-                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="#"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
+                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="#"><h5>' . $parameters['name']  . '</h5></a></div>';
             } else {
-                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . trim($oneDB[0]['uri'], '/')  . '</h5></a></div>';
+                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . $parameters['name']  . '</h5></a></div>';
             }
             $t .= "</div>";
 

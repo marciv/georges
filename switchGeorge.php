@@ -96,6 +96,8 @@ if (isset($_GET['action'])) {
 
         $nameDB = str_replace("/", "_", trim(parse_url($url_conversion, PHP_URL_PATH), "/"));
         $nameABtest = $_POST['nameABtest'] ?? $nameDB;
+        $description = $_POST['description'];
+
 
         array_push($urls_variation, ["uri" => $url_conversion, "name" => str_replace("/", "_", trim(parse_url($url_conversion, PHP_URL_PATH), "/")),  "variation" =>  $url_conversion]);
 
@@ -104,7 +106,7 @@ if (isset($_GET['action'])) {
         }
 
         $george = new george($nameDB);
-        if ($george->registerInDB($discovery_rate, $urls_variation, $nameABtest)) { //On crée une nouvelle BDD
+        if ($george->registerInDB($discovery_rate, $urls_variation, $nameABtest, $description)) { //On crée une nouvelle BDD
             header('Location: index.php?success=true&message=ABTEST créé avec succès');
         } else {
             header('Location: index.php?success=false&message=Erreur sur la création de l\'ABTEST');

@@ -50,28 +50,59 @@ header("Cache-Control: no-cache, must-revalidate");
         <h1 class="mb-3 text-center">George</h1>
 
         <form id="formData" onsubmit="return checkInput();" method="POST" action="switchGeorge.php?action=createDB">
-            <div class="form-group">
-                <label for="urlPrincipal">Main URL</label>
-                <input type="text" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
-                <small id="urlPrincipal" class="form-text text-muted">Main url must start and end with "/".</small>
-            </div>
-            <div class="form-group">
-                <label for="DiscoveryRate">Discovery rate</label>
-                <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20" min="0.01" step="0.01" max="0.25">
-            </div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <span class="toSection" target="step-one">Étape n°1</span>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="toSection" target="step-two">Étape n°2</span>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="toSection" target="step-three">Étape n°3</span>
+                    </li>
+                </ol>
+            </nav>
+            <section id="step-one" target="step-two" style="display:block">
+                <div class="form-group">
+                    <label for="DiscoveryRate">Name ABTest</label>
+                    <input type="text" class="form-control" name="nameABtest" id="nameABtest" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="DiscoveryRate">Description</label>
+                    <textarea class="form-control" name="description" id="description"></textarea>
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <span class="next btn btn-outline-primary">Suivant</span>
+                </div>
+            </section>
+            <section id="step-two" target="step-three" style="display:none">
+                <div class="form-group">
+                    <label for="urlPrincipal">Main URL</label>
+                    <input type="text" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
+                    <small id="urlPrincipal" class="form-text text-muted">Main url must start and end with "/".</small>
+                </div>
+                <div class="form-group">
+                    <label for="DiscoveryRate">Discovery rate</label>
+                    <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20" min="0.01" step="0.01" max="0.25">
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <span class="next btn btn-outline-primary">Suivant</span>
+                </div>
+            </section>
 
-            <div class="form-group">
-                <label for="urlPrincipal">Variation URL</label>
-                <input type="text" class="form-control" name="url_variations[]" id="url_variations[]" placeholder="/test/lan/XX/">
-                <small id="urlPrincipal" class="form-text text-muted">Variation url must start and end with "/".</small>
-            </div>
-
-            <div id="anotherInput" class="anotherInput"></div>
-            <div class="d-flex align-items-center justify-content-center">
-                <button type="button" id="addInput" class="btn btn-outline-info btn-rounded mr-3">+ Add variation</button>
-                <button type="submit" class="btn btn-outline-primary">Start AB Test</button>
-            </div>
-
+            <section id="step-three" style="display:none">
+                <div class="form-group">
+                    <label for="urlPrincipal">Variation URL</label>
+                    <input type="text" class="form-control" name="url_variations[]" id="url_variations[]" placeholder="/test/lan/XX/">
+                    <small id="urlPrincipal" class="form-text text-muted">Variation url must start and end with "/".</small>
+                </div>
+                <div id="anotherInput" class="anotherInput"></div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <button type="button" id="addInput" class="btn btn-outline-info btn-rounded mr-3">+ Add variation</button>
+                    <button type="submit" class="btn btn-outline-primary">Start AB Test</button>
+                </div>
+            </section>
         </form>
 
         <p class="text-center message-contenu"></p>
@@ -116,6 +147,23 @@ header("Cache-Control: no-cache, must-revalidate");
         });
     </script>
     <script>
+        $(".next").on("click", function() {
+            section = $('section:visible');
+            sectionId = section.attr('id');
+            targetId = section.attr('target');
+
+            $("#" + sectionId).fadeToggle(400, "swing",
+                function() {
+                    $("#" + targetId).fadeToggle("slow");
+                });
+        });
+
+        $(".toSection").on("click", function() {
+            $("#" + $('section:visible').attr('id')).fadeToggle("swing", );
+            $("#" + $(this).attr('target')).fadeToggle("swing");
+        });
+
+
         //Refresh avec alert
         if (location.search != "") {
             setTimeout(function() {

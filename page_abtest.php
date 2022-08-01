@@ -5,42 +5,41 @@ require "../../config.php";
 use library\George as george;
 
 $dbName = $_GET['dbName'];
+if (!empty($dbName)) {
+    $george = new George($dbName);
+    $data = $george->dataDB;
+    $parameters = $george->parameters;
+    $state = $parameters['status'] == 0 ? "En cours" : "En pause";
+    $abtest = @$george->_array_msort($data, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC));
+
 ?>
-<!DOCTYPE html>
-<html lang="fr">
+    <!DOCTYPE html>
+    <html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex,nofollow">
-    <link rel="icon" href="css/rocket.png">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="noindex,nofollow">
+        <link rel="icon" href="css/rocket.png">
 
-    <title>ABTest <?php echo $dbName; ?></title>
-    <style>
-        <?php @include_once "css/bootstrap.min.css"; ?>
-    </style>
+        <title>ABTest <?php echo $parameters['name']; ?></title>
+        <style>
+            <?php @include_once "css/bootstrap.min.css"; ?>
+        </style>
 
-    <link href="./css/style_abtest.css" rel="stylesheet">
-</head>
+        <link href="./css/style_abtest.css" rel="stylesheet">
+    </head>
 
-<body>
-    <div class="container">
-        <nav style="--bs-breadcrumb-divider: >" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Accueil</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><?php echo $dbName; ?></li>
-            </ol>
-        </nav>
-    </div>
-    <?php
-    if (!empty($dbName)) {
-        $george = new George($dbName);
-        $data = $george->dataDB;
-        $parameters = $george->parameters;
-        $state = $parameters['status'] == 0 ? "En cours" : "En pause";
-        $abtest = @$george->_array_msort($data, array('tx_conversion' => SORT_DESC, 'nb_visit' => SORT_DESC));
-    ?>
+    <body>
+        <div class="container">
+            <nav style="--bs-breadcrumb-divider: >" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.php">Accueil</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><?php echo $parameters['name'];; ?></li>
+                </ol>
+            </nav>
+        </div>
         <div class="container">
             <div class="headerCard">
                 <div class="date_crea text-center">Date de création : <?= $parameters['date_time']; ?></div>
@@ -56,6 +55,9 @@ $dbName = $_GET['dbName'];
                             <a type="button" data-toggle="modal" data-target="#addVariation" class="dropdown-item text-secondary">Add Variation Rate</a>
                         </div>
                     </div>
+                </div>
+                <div class="description">
+                    <?= $parameters['description'] ?>
                 </div>
             </div>
 
@@ -383,6 +385,6 @@ $dbName = $_GET['dbName'];
                 }
             });
         </script>
-</body>
+    </body>
 
-</html>
+    </html>
