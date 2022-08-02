@@ -7666,3 +7666,27 @@ IP : ::1
 CONVERSION SAVE : SUCCESSS
 END : 01/08/2022 09:08:48
 ===================================
+START : 02/08/2022 10:59:44
+Variation : /1root/test/lan/08/
+Main Variation : /1root/test/lan/08/
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 02/08/2022 10:59:44
+===================================
+START : 02/08/2022 11:23:05
+Variation : /1root/test/lan/09/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 02/08/2022 11:23:05
+===================================
+START : 02/08/2022 12:38:58
+Variation : /1root/test/lan/08/
+Main Variation : /1root/test/lan/08/
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 02/08/2022 12:38:58
+===================================

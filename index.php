@@ -46,6 +46,9 @@ header("Cache-Control: no-cache, must-revalidate");
         }
     }
     ?>
+    <form id="formData" onsubmit="return checkInput();" method="POST" action="switchGeorge.php?action=generateABTEST">
+        <button type="submit">Generate ABTEST test</button>
+    </form>
     <div class="main-george">
         <h1 class="mb-3 text-center">George</h1>
 
@@ -53,23 +56,26 @@ header("Cache-Control: no-cache, must-revalidate");
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <span class="toSection" target="step-one">Étape n°1</span>
+                        <span class="toSection" target="step-one">Name</span>
                     </li>
                     <li class="breadcrumb-item">
-                        <span class="toSection" target="step-two">Étape n°2</span>
+                        <span class="toSection" target="step-two">Settings</span>
                     </li>
                     <li class="breadcrumb-item">
-                        <span class="toSection" target="step-three">Étape n°3</span>
+                        <span class="toSection" target="step-three">Filtres</span>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="toSection" target="step-for">URL</span>
                     </li>
                 </ol>
             </nav>
-            <section id="step-one" target="step-two" style="display:block">
+            <section id="step-one" target="step-two">
                 <div class="form-group">
-                    <label for="DiscoveryRate">Name ABTest</label>
+                    <label for="nameABtest">Name ABTest</label>
                     <input type="text" class="form-control" name="nameABtest" id="nameABtest" placeholder="">
                 </div>
                 <div class="form-group">
-                    <label for="DiscoveryRate">Description</label>
+                    <label for="description">Description</label>
                     <textarea class="form-control" name="description" id="description"></textarea>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
@@ -78,11 +84,6 @@ header("Cache-Control: no-cache, must-revalidate");
             </section>
             <section id="step-two" target="step-three" style="display:none">
                 <div class="form-group">
-                    <label for="urlPrincipal">Main URL</label>
-                    <input type="text" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
-                    <small id="urlPrincipal" class="form-text text-muted">Main url must start and end with "/".</small>
-                </div>
-                <div class="form-group">
                     <label for="DiscoveryRate">Discovery rate</label>
                     <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20" min="0.01" step="0.01" max="0.25">
                 </div>
@@ -90,8 +91,55 @@ header("Cache-Control: no-cache, must-revalidate");
                     <span class="next btn btn-outline-primary">Suivant</span>
                 </div>
             </section>
+            <section id="step-three" target="step-for" style="display:none">
+                <div class="form-group">
+                    <label for="inputState">Devices</label>
+                    <select class="form-control" name="device_type" id="device_type">
+                        <option value="0" selected>Devices...</option>
+                        <option value="computer">Computer</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="tablet">Tablet</option>
+                    </select>
+                </div>
+                <!-- 
+                <select class="form-select" name="browser" id="browser">
+                    <option value="0" selected>Browser</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select> -->
 
-            <section id="step-three" style="display:none">
+                <div class="form-group">
+                    <label for="utm_source">Utm_source</label>
+                    <input type="text" class="form-control" name="utm_source" placeholder="laisser vide si null" id="utm_source">
+                </div>
+
+                <div class="form-group">
+                    <label for="utm_content">Utm_content</label>
+                    <input type="text" class="form-control" name="utm_content" placeholder="laisser vide si null" id="utm_content">
+                </div>
+
+                <div class="form-group">
+                    <label for="utm_campaign">Utm_campaign</label>
+                    <input type="text" class="form-control" name="utm_campaign" placeholder="laisser vide si null" id="utm_campaign">
+                </div>
+
+                <div class="form-group">
+                    <label for="utm_term">Utm_term</label>
+                    <input type="text" class="form-control" name="utm_term" placeholder="laisser vide si null" id="utm_term">
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center">
+                    <span class="next btn btn-outline-primary">Suivant</span>
+                </div>
+            </section>
+
+            <section id="step-for" style="display:none">
+                <div class="form-group">
+                    <label for="urlPrincipal">Main URL</label>
+                    <input type="text" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
+                    <small id="urlPrincipal" class="form-text text-muted">Main url must start and end with "/".</small>
+                </div>
                 <div class="form-group">
                     <label for="urlPrincipal">Variation URL</label>
                     <input type="text" class="form-control" name="url_variations[]" id="url_variations[]" placeholder="/test/lan/XX/">
@@ -146,96 +194,7 @@ header("Cache-Control: no-cache, must-revalidate");
             }
         });
     </script>
-    <script>
-        $(".next").on("click", function() {
-            section = $('section:visible');
-            sectionId = section.attr('id');
-            targetId = section.attr('target');
-
-            $("#" + sectionId).fadeToggle(400, "swing",
-                function() {
-                    $("#" + targetId).fadeToggle("slow");
-                });
-        });
-
-        $(".toSection").on("click", function() {
-            $("#" + $('section:visible').attr('id')).fadeToggle("swing", );
-            $("#" + $(this).attr('target')).fadeToggle("swing");
-        });
-
-
-        //Refresh avec alert
-        if (location.search != "") {
-            setTimeout(function() {
-                window.location.href = "index.php";
-            }, 2000);
-        }
-
-        function checkInput(e) {
-            let checked = true;
-            let url_variations = $('input[name="url_variations[]"]');
-
-            url_variations.each(function() {
-                if ($(this).val() == "") {
-                    checked = false;
-                }
-
-                if (first($(this).val()) != "/" || last($(this).val()) != "/") {
-                    alert("URL Variation must start and end with /");
-                    $(this).css("background-color", "rgba(253, 111, 111, 0.3)");
-                    checked = false;
-                }
-
-            });
-
-
-            if (first($('#url_conversion').val()) != "/" || last($('#url_conversion').val()) != "/") {
-                alert("URL Conversion must start and end with /");
-                checked = false;
-                $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
-            }
-
-            if ($('#url_conversion').val() == "" || $('#taux_decouvert').val() == "") {
-                checked = false;
-                $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
-                $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
-            }
-            if ($('#taux_decouvert').val() > 0.25) {
-                alert("Discovery Rate must be less than 0.25");
-                checked = false;
-                $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
-            }
-
-            if (checked) {
-                return true;
-            } else {
-                event.preventDefault();
-                setTimeout(function() {
-                    $('.message-contenu').text("");
-                }, 4000);
-                return false;
-            }
-        }
-
-        function first(str) {
-            first_part = str.substring(0, 1);
-            return first_part;
-        }
-
-        function last(str) {
-            last_part = str.substring(str.length - 1);
-            return last_part;
-        }
-
-        $("#addInput").click(function() {
-            $('.anotherInput').append(`
-            <div class="form-group">
-                <label for="urlPrincipal">Variation url</label>
-                <input type="text" class="form-control" name="url_variations[]" id="url_variations[]" placeholder="/test/lan/XX/">
-                <small id="urlPrincipal" class="form-text text-muted">Variation url must start and end with "/".</small>
-            </div>`);
-        });
-    </script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

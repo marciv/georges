@@ -14,14 +14,17 @@ a {
 a:hover {
   color: white;
 }
-.main {
-  text-align: center;
-  max-width: 600px;
+.main-george {
   width: 100%;
+  max-width: 600px;
+  margin-bottom: 25px;
+  border-radius: 15px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 20px 50px;
 }
 
-.main h1 {
-  font-size: 125px;
+.main-george h1 {
+  font-size: 35px;
   font-family: Nunito;
 }
 
@@ -42,12 +45,6 @@ a:hover {
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
-}
-
-.main-george {
-  border-radius: 15px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  padding: 20px 50px;
 }
 
 .roundedCardText {

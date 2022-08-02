@@ -56,11 +56,11 @@ class George
      * @var array<string>
      */
     public $option;
-    // /**
-    //  *
-    //  * @var array<string>
-    //  */
-    // private $filter;
+    /**
+     *
+     * @var array<string>
+     */
+    public $filters;
     /**
      *
      * @var array<mixed>
@@ -98,6 +98,14 @@ class George
                 )
             );
 
+            // $this->set_filter($this->parameters['filters']);
+            foreach ($this->parameters['filters'] as $v => $d) {
+                $this->set_filter(
+                    array(
+                        $v => $d,
+                    )
+                );
+            }
 
             /* dirty bug listvariation fix */
             unset($this->parameters['listVariation']);
@@ -145,6 +153,7 @@ class George
                 } else {
                     $UrlParameters = "?http_referer=" . $this->test . '&' . http_build_query($parametersArray);
                 }
+
 
                 $this->calculate(); // On ajoute à la variation actuel
                 // throw new \Exception("stop");
@@ -261,51 +270,51 @@ class George
         }
     }
 
-    // /**
-    //  * Set Filter
-    //  *
-    //  * @param array<string> $filters_array
-    //  * @return void
-    //  */
-    // private function set_filter(array $filters_array): void
-    // {
-    //     foreach ($filters_array as $k => $d) {
-    //         @$this->filter[$k] = $d;
-    //     }
-    // }
+    /**
+     * Set Filter
+     *
+     * @param array<string> $filters_array
+     * @return void
+     */
+    private function set_filter(array $filters_array): void
+    {
+        foreach ($filters_array as $k => $d) {
+            @$this->filters[$k] = $d;
+        }
+    }
 
 
-    // /**
-    //  * Check filter
-    //  *
-    //  * @return boolean
-    //  */
-    // private function check_filters(): bool
-    // {
-    //     if (!empty($this->filters['device_type']) and $this->filters['device_type'] != $this->visit['device_type']) {
-    //         return false;
-    //     }
-    //     if (!empty($this->filters['browser']) and $this->filters['browser'] != $this->visit['browser']) {
-    //         return false;
-    //     }
-    //     if (!empty($this->filters['plateform']) and $this->filters['plateform'] != $this->visit['plateform']) {
-    //         return false;
-    //     }
-    //     if (!empty($this->filters['utm_source']) and $this->filters['utm_source'] != $this->visit['utm_source']) {
-    //         return false;
-    //     }
-    //     if (!empty($this->filters['utm_content']) and $this->filters['utm_content'] != $this->visit['utm_content']) {
-    //         return false;
-    //     }
-    //     if (!empty($this->filters['utm_campaign']) and $this->filters['utm_campaign'] != $this->visit['utm_campaign']) {
-    //         return false;
-    //     }
-    //     if (!empty($this->filters['utm_term']) and $this->filters['utm_term'] != $this->visit['utm_term']) {
-    //         return false;
-    //     }
+    /**
+     * Check filter
+     *
+     * @return boolean
+     */
+    public function check_filters(): bool
+    {
+        if (!empty($this->filters['device_type']) and $this->filters['device_type'] != $this->visit['device_type']) {
+            return false;
+        }
+        if (!empty($this->filters['browser']) and $this->filters['browser'] != $this->visit['browser']) {
+            return false;
+        }
+        if (!empty($this->filters['plateform']) and $this->filters['plateform'] != $this->visit['plateform']) {
+            return false;
+        }
+        if (!empty($this->filters['utm_source']) and $this->filters['utm_source'] != $this->visit['utm_source']) {
+            return false;
+        }
+        if (!empty($this->filters['utm_content']) and $this->filters['utm_content'] != $this->visit['utm_content']) {
+            return false;
+        }
+        if (!empty($this->filters['utm_campaign']) and $this->filters['utm_campaign'] != $this->visit['utm_campaign']) {
+            return false;
+        }
+        if (!empty($this->filters['utm_term']) and $this->filters['utm_term'] != $this->visit['utm_term']) {
+            return false;
+        }
 
-    //     return true;
-    // }
+        return true;
+    }
 
 
     /**
@@ -473,9 +482,9 @@ class George
         $this->selected_view = @$this->variation[$this->option['default_view']];
         $this->selected_view_name = @$this->option['default_view'];
 
-        // if (!empty($this->filter['utm_source']) and $this->filter['utm_source'] != $this->visit['utm_source']) {
-        //     return false;
-        // }
+        if (!$this->check_filters()) {
+            return false;
+        }
 
         // select view
         // get tracking data
@@ -638,7 +647,6 @@ class George
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
             try {
-                var_dump($dataUpdated);
                 $db->table('data_parameters')->update($dataUpdated['id'], $dataUpdated);
                 return true;
             } catch (\Exception $e) {
@@ -658,7 +666,7 @@ class George
      * @param array<string> $urls_variation
      * @return bool
      */
-    public function registerInDB(string $discovery_rate, array $urls_variation, string $nameAbtest, string $description): bool
+    public function registerInDB(string $discovery_rate, array $filters, array $urls_variation, string $nameAbtest, string $description): bool
     {
         if (!$this->_checkDBexist()) {
             //Create DB for principal
@@ -668,6 +676,7 @@ class George
             $data_parameters = array(
                 'name' => $nameAbtest,
                 'description' => $description,
+                'filters' => $filters,
                 'listVariation' => $urls_variation,
                 'discovery_rate' => $discovery_rate,
                 'default_view' => $this->test,
@@ -894,7 +903,7 @@ class George
             } else if ($statusSearch == "archived") {
                 $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="#"><h5>' . $parameters['name']  . '</h5></a></div>';
             } else {
-                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . $parameters['name']  . '</h5></a></div>';
+                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . empty($parameters['name']) ? $oneDB[0]['variation'] : $parameters['name'] . '</h5></a></div>';
             }
             $t .= "</div>";
 
