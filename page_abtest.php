@@ -42,15 +42,29 @@ if (!empty($dbName)) {
         </div>
         <div class="container">
             <div class="headerCard">
+                <h1 class="text-center"><?= $parameters['name'] ?></h1>
                 <div class="date_crea text-center">Date de création : <?= $parameters['date_time']; ?></div>
-                <div class="discovery_rate text-center d-flex align-items-center justify-content-between">
-                    <p><span class="text-info"><?= $state; ?></span> | Taux de découverte : <?= $parameters['discovery_rate'] * 100; ?>%</p>
+                <div class="d-flex justify-content-between">
+                    <section class="d-flex align-items-center">
+                        <div class="card rounded text-center">
+                            <span class=" text-info"><?= $state; ?></span>
+                            <span class="discovery_rate">Taux de découverte : <b><?= $parameters['discovery_rate'] * 100; ?>%</b></span>
+                        </div>
+                        <div class="card rounded">
+                            <span><?= !empty($parameters['filters']['device_type']) ? "<b>Devices : </b>" . $parameters['filters']['device_type'] : "" ?></span>
+                            <span><?= !empty($parameters['filters']['utm_source']) ? "<b>utm_source : </b>" . $parameters['filters']['utm_source'] : "" ?></span>
+                            <span><?= !empty($parameters['filters']['utm_content']) ? "<b>utm_content : </b>" . $parameters['filters']['utm_content'] : "" ?></span>
+                            <span><?= !empty($parameters['filters']['utm_campaign']) ? "<b>utm_campaign : </b>" . $parameters['filters']['utm_campaign'] : "" ?></span>
+                            <span><?= !empty($parameters['filters']['utm_term']) ? "<b>utm_term : </b>" . $parameters['filters']['utm_term'] : "" ?></span>
+                        </div>
+                    </section>
                     <div class="dropdown">
                         <p class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</p>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item text-info" href="switchGeorge.php?action=changeState&db=<?= $data[0]['variation']; ?>">Pause/Play</a>
                             <a class="dropdown-item text-danger" href="switchGeorge.php?archived=false&action=delete&db=<?= $data[0]['variation']; ?>">/!\ Supprimer</a>
                             <hr />
+                            <a type="button" data-toggle="modal" data-target="#updateFilter" class="dropdown-item text-secondary">Edit Filter</a>
                             <a type="button" data-toggle="modal" data-target="#updateDiscoveryRate" class="dropdown-item text-secondary">Edit Discovery Rate</a>
                             <a type="button" data-toggle="modal" data-target="#addVariation" class="dropdown-item text-secondary">Add Variation Rate</a>
                         </div>
@@ -68,7 +82,8 @@ if (!empty($dbName)) {
                 foreach ($abtest as $key => $value) {
                 ?>
                     <div class="card col-12 col-sm-6">
-                        <h2 class="text-center"><?= $value['variation']; ?></h2>
+                        <h2 class="text-center"><?= $value['name']; ?></h2>
+                        <h6 class="text-center text-muted"><?= $value['uri']; ?></h6>
                         <p>Nombre visiteur(s) : <b>D(<?= $value['nb_visit_desktop']; ?>)</b> | <b>M(<?= $value['nb_visit_mobile']; ?>)</b> | <b>T(<?= $value['nb_visit_tablet']; ?>)</b></p>
                         <div class="row justify-content-center align-items-center">
                             <div class="col-12 col-sm-6">
@@ -187,8 +202,68 @@ if (!empty($dbName)) {
                         </div>
                         <form method="post" onsubmit="return checkVariation();" action="switchGeorge.php?action=addVariationToAbtest&db=<?= $data[0]['variation']; ?>">
                             <div class="modal-body">
-                                <div class="input-group mb-3">
+
+                                <div class="form-group">
+                                    <label for="name_variation">Name</label>
+                                    <input type="text" class="form-control" name="name_variation" id="name_variation">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="variation">Url </label>
                                     <input type="text" class="form-control" name="variation" id="variation" placeholder="/test/lan/XX/">
+                                    <small class="form-text text-muted">Variation url must start and end with "/".</small>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="return e.preventDefault();" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL EDIT FILTER DATA -->
+            <div class="modal fade" id="updateFilter" tabindex="-1" role="dialog" aria-labelledby="updateFilter" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addVariationTitle">Modification du filtre</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="switchGeorge.php?action=editFilter&db=<?= $data[0]['variation']; ?>">
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="inputState">Devices</label>
+                                    <select class="form-control" name="device_type" id="device_type">
+                                        <option value="<?= $parameters['filters']['device_type'] ?>" selected><?= $parameters['filters']['device_type'] ?></option>
+                                        <option value="computer">Computer</option>
+                                        <option value="mobile">Mobile</option>
+                                        <option value="tablet">Tablet</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="utm_source">Utm_source</label>
+                                    <input type="text" class="form-control" name="utm_source" placeholder="laisser vide si null" id="utm_source" value="<?= $parameters['filters']['utm_source'] ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="utm_content">Utm_content</label>
+                                    <input type="text" class="form-control" name="utm_content" placeholder="laisser vide si null" id="utm_content" value="<?= $parameters['filters']['utm_content'] ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="utm_campaign">Utm_campaign</label>
+                                    <input type="text" class="form-control" name="utm_campaign" placeholder="laisser vide si null" id="utm_campaign" value="<?= $parameters['filters']['utm_campaign'] ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="utm_term">Utm_term</label>
+                                    <input type="text" class="form-control" name="utm_term" placeholder="laisser vide si null" id="utm_term" value="<?= $parameters['filters']['utm_term'] ?>">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -253,7 +328,7 @@ if (!empty($dbName)) {
 
             dbData.forEach(element => {
                 if (element.uri != null) {
-                    SetName.push(element.uri);
+                    SetName.push(element.name);
                     txConversionSetCount.push(element.tx_conversion);
                     conversionSetCount.push(element.nb_conversion);
                     visitDesktopSetCount.push(element.nb_visit_desktop);

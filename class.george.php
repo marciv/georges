@@ -111,7 +111,7 @@ class George
             unset($this->parameters['listVariation']);
             foreach ($this->dataDB as $k => $v) {
                 $this->parameters['listVariation'][] = [
-                    'name' => $v['variation'],
+                    'name' => $v['name'],
                     'variation' => $v['variation'],
                     'uri' => $v['uri']
                 ];
@@ -120,7 +120,7 @@ class George
             foreach ($this->parameters['listVariation'] as $v) { //On parcours la liste des variations disponible 
                 $this->add_variation( //Set variation in this list
                     array(
-                        $v['name'] => array( //Name variation
+                        $v['variation'] => array( //Name variation
                             "uri" => $v['uri'], //Link variation
                         )
                     )
@@ -354,6 +354,7 @@ class George
         $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
         $data = array(
+            'name' => $this->_getVariationNamefromUrl($this->selected_view_name),
             'uri' => $this->_getUrlfromVariationName($this->selected_view_name),
             'variation' => $this->_getVariationNamefromUrl($this->selected_view_name),
             'nb_visit' => 1,
@@ -367,7 +368,8 @@ class George
             'nb_conversion_desktop' => 0
         );
 
-        // print_r($data);exit;
+        // print_r($data);
+        // exit;
         @$result = @$db->table('data_set')->where(
             array(
                 'uri' => $this->_getUrlfromVariationName($this->selected_view_name),
@@ -647,7 +649,7 @@ class George
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
             try {
-                $db->table('data_parameters')->update($dataUpdated['id'], $dataUpdated);
+                $db->table('data_parameters')->update(1, $dataUpdated);
                 return true;
             } catch (\Exception $e) {
                 return false;
@@ -691,8 +693,9 @@ class George
             //Create DB for variation
             foreach ($urls_variation as $v => $e) {
                 $dataVariation = array(
+                    'name' => $e['name'],
                     'uri' => $e['uri'],
-                    'variation' => $e['name'],
+                    'variation' => $e['variation'],
                     'nb_visit' => 0,
                     'nb_visit_mobile' => 0,
                     'nb_visit_desktop' => 0,
@@ -720,26 +723,27 @@ class George
      * @param string $variation
      * @return boolean
      */
-    public function addVariationToAbtest(string $variation): bool
+    public function addVariationToAbtest(string $variation, string $name = ""): bool
     {
         if ($this->_checkDBexist()) {
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
 
             // print_r($data);exit;
-            $result = $this->get_data($this->test);
+            $parameters = $this->get_parameters($this->test);
 
-            $data = $result[0];
+            $data = $parameters;
 
             $data['listVariation'][] = array(
                 "uri" => parse_url($variation, PHP_URL_PATH),
-                "name" => str_replace("/", "_", trim(parse_url($variation, PHP_URL_PATH), "/")),
-                "variation" =>  $variation
+                "name" => !empty($name) ? $name : $this->_getVariationNamefromUrl($variation),
+                "variation" =>  $this->_getVariationNamefromUrl($variation)
             );
 
 
             try {
-                $db->table('data_set')->update($result[0]['id'], $data);
+                $db->table('data_parameters')->update(1, $data);
                 $dataVariation = array(
+                    'name' => $name,
                     'uri' => $variation,
                     'variation' => $this->_getVariationNamefromUrl($variation),
                     'nb_visit' => 0,
@@ -873,7 +877,7 @@ class George
             $t .=   '<div class="col-12 col-md-8">';
             foreach ($oneDB as $index => $entry) {
                 $t .=   '<div class="col-12 mt-2">';
-                $t .=       '<p><u>Variation</u> : ' . trim($entry['uri'], "/") . '</p>';
+                $t .=       '<p><u>Variation</u> : ' . $entry['name'] . '</p>';
                 $t .=       '<div class="row justify-content-center text-center mx-auto">';
                 $t .=           '<div class="col-12 col-sm-6 col-md-4">
                                     <div class="roundedCardText mx-auto">
