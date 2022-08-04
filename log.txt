@@ -7621,3 +7621,72 @@ IP : ::1
 CONVERSION SAVE : SUCCESSS
 END : 15/07/2022 17:36:54
 ===================================
+START : 15/07/2022 18:01:31
+Variation : /1root/test/lan/09/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 15/07/2022 18:01:31
+===================================
+START : 15/07/2022 18:01:51
+Variation : /1root/test/lan/08/
+Main Variation : /1root/test/lan/08/
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 15/07/2022 18:01:51
+===================================
+DATE : 01/08/2022 08:33:17
+Variation : /1root/ras/lan/07/
+TYPE DEVICE : computer
+CONVERSION SAVE : FAILED
+===================================
+START : 01/08/2022 08:58:32
+Variation : /1root/test/lan/08/
+Main Variation : /1root/test/lan/08/
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 01/08/2022 08:58:32
+===================================
+START : 01/08/2022 08:58:53
+Variation : /1root/test/lan/09/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 01/08/2022 08:58:53
+===================================
+START : 01/08/2022 09:08:48
+Variation : /1root/test/lan/07/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 01/08/2022 09:08:48
+===================================
+START : 02/08/2022 10:59:44
+Variation : /1root/test/lan/08/
+Main Variation : /1root/test/lan/08/
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 02/08/2022 10:59:44
+===================================
+START : 02/08/2022 11:23:05
+Variation : /1root/test/lan/09/
+Main Variation : 1root_test_lan_08
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 02/08/2022 11:23:05
+===================================
+START : 02/08/2022 12:38:58
+Variation : /1root/test/lan/08/
+Main Variation : /1root/test/lan/08/
+TYPE DEVICE : computer
+IP : ::1
+CONVERSION SAVE : SUCCESSS
+END : 02/08/2022 12:38:58
+===================================
