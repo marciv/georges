@@ -19,6 +19,13 @@ $(window).on('load', function () {
             });
     });
 
+    $('.addVariation').on('click', function () {
+        $('.more_variation').fadeIn();
+        $('.addVariation').fadeOut();
+
+
+    })
+
 
     //Refresh avec alert
     if (location.search != "") {
@@ -26,52 +33,55 @@ $(window).on('load', function () {
             window.location.href = "index.php";
         }, 2000);
     }
-
-    function checkInput(e) {
+    $("#formData").on("submit", function (e) {
         let checked = true;
-        let url_variations = $('input[name="url_variations[]"]');
+        let inputs = $(e).find('input');
 
-        url_variations.each(function () {
-            if ($(this).val() == "") {
-                checked = false;
-            }
+        //Second Variation 
+        if ($('#variation_two').val() != "" && (first($('#variation_two').val()) != "/" || last($('#variation_two').val()) != "/")) {
+            alert("URL Variation 2 must start and end with /");
+            checked = false;
+            $('#variation_two').css("background-color", "rgba(255, 1, 1, 0.049)");
+        }
 
-            if (first($(this).val()) != "/" || last($(this).val()) != "/") {
-                alert("URL Variation must start and end with /");
-                $(this).css("background-color", "rgba(253, 111, 111, 0.3)");
-                checked = false;
-            }
+        //First Variation
+        if (first($('#variation_one').val()) != "/" || last($('#variation_one').val()) != "/") {
+            alert("URL Variation 1 must start and end with /");
+            checked = false;
+            $('#variation_one').css("background-color", "rgba(255, 1, 1, 0.049)");
+        }
+        if ($('#variation_one').val() == "") {
+            checked = false;
+            $('#variation_one').css("background-color", "rgba(255, 1, 1, 0.049)");
+        }
 
-        });
-
-
+        //Main
         if (first($('#url_conversion').val()) != "/" || last($('#url_conversion').val()) != "/") {
-            alert("URL Conversion must start and end with /");
+            alert("Main URL must start and end with /");
             checked = false;
-            $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
+            $('#url_conversion').css("background-color", "rgba(255, 1, 1, 0.049)");
         }
 
-        if ($('#url_conversion').val() == "" || $('#taux_decouvert').val() == "") {
+        if ($('#url_conversion').val() == "") {
             checked = false;
-            $('#url_conversion').css("background-color", "rgba(253, 111, 111, 0.3)");
-            $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
+            $('#url_conversion').css("background-color", "rgba(255, 1, 1, 0.049)");
         }
-        if ($('#taux_decouvert').val() > 0.25) {
-            alert("Discovery Rate must be less than 0.25");
+        if ($('#taux_decouvert').val() > 0.25 || $('#taux_decouvert').val() == "") {
+            alert("Discovery Rate must be less than 0.25 or not empty");
             checked = false;
-            $('#taux_decouvert').css("background-color", "rgba(253, 111, 111, 0.3)");
+            $('#taux_decouvert').css("background-color", "rgba(255, 1, 1, 0.049)");
         }
 
         if (checked) {
             return true;
         } else {
-            event.preventDefault();
+            e.preventDefault();
             setTimeout(function () {
                 $('.message-contenu').text("");
             }, 4000);
             return false;
         }
-    }
+    });
 
     function first(str) {
         first_part = str.substring(0, 1);
@@ -82,13 +92,4 @@ $(window).on('load', function () {
         last_part = str.substring(str.length - 1);
         return last_part;
     }
-
-    $("#addInput").click(function () {
-        $('.anotherInput').append(`
-        <div class="form-group">
-            <label for="urlPrincipal">Variation url</label>
-            <input type="text" class="form-control" name="url_variations[]" id="url_variations[]" placeholder="/test/lan/XX/">
-            <small id="urlPrincipal" class="form-text text-muted">Variation url must start and end with "/".</small>
-        </div>`);
-    });
 });
