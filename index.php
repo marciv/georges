@@ -69,6 +69,7 @@ header("Cache-Control: no-cache, must-revalidate");
                     </li>
                 </ol>
             </nav>
+            <small class="form-text  text-danger">Fill all input with (*)</small>
             <section id="step-one" target="step-two">
                 <div class="form-group">
                     <label for="nameABtest">Name ABTest</label>
@@ -84,12 +85,16 @@ header("Cache-Control: no-cache, must-revalidate");
             </section>
             <section id="step-two" target="step-three" style="display:none">
                 <div class="form-group">
-                    <label for="urlPrincipal">Main URL</label>
+                    <label for="name_main_url">Main URL Name</label>
+                    <input type="text" class="form-control" name="name_main_url" id="name_main_url">
+                </div>
+                <div class="form-group">
+                    <label for="urlPrincipal">Main URL <sup>*</sup></label>
                     <input type="text" class="form-control" name="url_conversion" id="url_conversion" placeholder="/test/lan/08/">
                     <small id="urlPrincipal" class="form-text text-muted">Main url must start and end with "/".</small>
                 </div>
                 <div class="form-group">
-                    <label for="DiscoveryRate">Discovery rate</label>
+                    <label for="DiscoveryRate">Discovery rate <sup>*</sup></label>
                     <input type="number" class="form-control" name="taux_decouvert" id="taux_decouvert" placeholder="0.0" value="0.20" min="0.01" step="0.01" max="0.25">
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
@@ -104,7 +109,7 @@ header("Cache-Control: no-cache, must-revalidate");
                     <input type="text" class="form-control" name="name_variation_one" id="name_variation_one">
                 </div>
                 <div class="form-group">
-                    <label for="variation_one">Url </label>
+                    <label for="variation_one">Url <sup>*</sup></label>
                     <input type="text" class="form-control" name="variation_one" id="variation_one" placeholder="/test/lan/XX/">
                     <small class="form-text text-muted">Variation url must start and end with "/".</small>
                 </div>
@@ -121,7 +126,7 @@ header("Cache-Control: no-cache, must-revalidate");
                         <small class="form-text text-muted">Variation url must start and end with "/".</small>
                     </div>
                 </div>
-                <small class="form-text text-muted">*if you want to add another variation, do it once the abtest is created</small>
+                <small class="form-text text-muted"><sup>*</sup>if you want to add another variation, do it once the abtest is created</small>
 
                 <div class="mt-2 d-flex align-items-center justify-content-center">
                     <span class="addVariation btn btn-outline-secondary">Add Variation</span>

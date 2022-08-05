@@ -50,13 +50,19 @@ if (!empty($dbName)) {
                             <span class=" text-info"><?= $state; ?></span>
                             <span class="discovery_rate">Taux de découverte : <b><?= $parameters['discovery_rate'] * 100; ?>%</b></span>
                         </div>
-                        <div class="card rounded">
-                            <span><?= !empty($parameters['filters']['device_type']) ? "<b>Devices : </b>" . $parameters['filters']['device_type'] : "" ?></span>
-                            <span><?= !empty($parameters['filters']['utm_source']) ? "<b>utm_source : </b>" . $parameters['filters']['utm_source'] : "" ?></span>
-                            <span><?= !empty($parameters['filters']['utm_content']) ? "<b>utm_content : </b>" . $parameters['filters']['utm_content'] : "" ?></span>
-                            <span><?= !empty($parameters['filters']['utm_campaign']) ? "<b>utm_campaign : </b>" . $parameters['filters']['utm_campaign'] : "" ?></span>
-                            <span><?= !empty($parameters['filters']['utm_term']) ? "<b>utm_term : </b>" . $parameters['filters']['utm_term'] : "" ?></span>
-                        </div>
+                        <?php if (
+                            $parameters['filters']['device_type'] == 0 && empty($parameters['filters']['utm_source']) && empty($parameters['filters']['utm_content'])
+                            && empty($parameters['filters']['utm_campaign']) && empty($parameters['filters']['utm_term'])
+                        ) {
+                        } else { ?>
+                            <div class="card rounded">
+                                <span><?= !empty($parameters['filters']['device_type']) ? "<b>Devices : </b>" . $parameters['filters']['device_type'] : "" ?></span>
+                                <span><?= !empty($parameters['filters']['utm_source']) ? "<b>utm_source : </b>" . $parameters['filters']['utm_source'] : "" ?></span>
+                                <span><?= !empty($parameters['filters']['utm_content']) ? "<b>utm_content : </b>" . $parameters['filters']['utm_content'] : "" ?></span>
+                                <span><?= !empty($parameters['filters']['utm_campaign']) ? "<b>utm_campaign : </b>" . $parameters['filters']['utm_campaign'] : "" ?></span>
+                                <span><?= !empty($parameters['filters']['utm_term']) ? "<b>utm_term : </b>" . $parameters['filters']['utm_term'] : "" ?></span>
+                            </div>
+                        <?php } ?>
                     </section>
                     <div class="dropdown">
                         <p class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</p>
@@ -209,7 +215,7 @@ if (!empty($dbName)) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="variation">Url </label>
+                                    <label for="variation">Url * </label>
                                     <input type="text" class="form-control" name="variation" id="variation" placeholder="/test/lan/XX/">
                                     <small class="form-text text-muted">Variation url must start and end with "/".</small>
                                 </div>
@@ -239,7 +245,7 @@ if (!empty($dbName)) {
                                 <div class="form-group">
                                     <label for="inputState">Devices</label>
                                     <select class="form-control" name="device_type" id="device_type">
-                                        <option value="<?= $parameters['filters']['device_type'] ?>" selected><?= $parameters['filters']['device_type'] ?></option>
+                                        <option value="<?= $parameters['filters']['device_type'] ?>" selected><?= $parameters['filters']['device_type'] == "0" ? "Aucun" : $parameters['filters']['device_type'] ?></option>
                                         <option value="computer">Computer</option>
                                         <option value="mobile">Mobile</option>
                                         <option value="tablet">Tablet</option>

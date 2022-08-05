@@ -100,60 +100,74 @@ if (isset($_GET['action'])) {
         exit;
     }
     /**
-     * Create ABTEST
-     * $_POST['url_conversion'] = URL Principale
-     * $_POST['taux_decouvert'] = taux_decouvert
-     * $_POST['url_variations'] = All variations
+     * GENERATE DEV ABTEST 
      */
     if ($_GET['action'] == "generateABTEST") {
         $url_conversion = "/1root/test/lan/08/";
         $discovery_rate = 0.20;
-        $urls_variation = []; // Stockage des URLS 
 
-        $nameDB = str_replace("/", "_", trim($url_conversion, "/"));
-        $nameABtest = "ABTEST generated" ?? $nameDB;
+        $searchDB = George::_getVariationNamefromUrl($url_conversion);
+
+        $nameABtest = "ABTEST generated" ?? $searchDB;
         $description = "Abtest generate automactically";
 
         $filters = ["device_type" =>  "computer", "utm_source" => "ag3", "utm_term" => "", "utm_content" => "", "utm_campaign" => ""];
+        $urls_variation = [["uri" => $url_conversion, "name" => "Main URL",  "variation" =>  $searchDB], ["uri" => "/1root/test/lan/09/", "name" => "First Variation",  "variation" =>  "1root_test_lan_09"]]; // Stockage des URLS 
 
 
-        array_push($urls_variation, ["uri" => $url_conversion, "name" => str_replace("/", "_", trim($url_conversion, "/")),  "variation" =>  str_replace("/", "_", trim($url_conversion, "/"))]);
-
-        array_push($urls_variation, ["uri" => "/1root/test/lan/09/", "name" => "First Variation",  "variation" =>  str_replace("/", "_", trim("/1root/test/lan/09/", "/"))]);
-
-        $george = new george($nameDB);
+        $george = new george($searchDB);
         if ($george->registerInDB($discovery_rate, $filters, $urls_variation, $nameABtest, $description)) { //On crée une nouvelle BDD
             header('Location: index.php?success=true&message=ABTEST créé avec succès');
         } else {
             header('Location: index.php?success=false&message=Erreur sur la création de l\'ABTEST');
         }
     }
+    //FIN GENERATE DEV 
+    /**
+     * Create DB with POST
+     * $_POST['name'] = nameDB
+     * $_POST['discovery_rate'] = discovery_rate *
+     * $_POST['device_type'] = device_type
+     * $_POST['utm_source'] = utm_source
+     * $_POST['utm_term'] = utm_term
+     * $_POST['utm_content'] = utm_content
+     * $_POST['utm_campaign'] = utm_campaign
+     * $_POST['url_conversion'] = url_conversion *
+     * $_POST['name_variation_one'] = name_variation
+     * $_POST['variation_one'] = variation *
+     * * $_POST['name_variation_two'] = name_variation
+     * $_POST['variation_two'] = variation
+     */
 
     if ($_GET['action'] == "createDB") {
         $url_conversion = $_POST['url_conversion'];
         $discovery_rate = $_POST['taux_decouvert'];
+        $description = $_POST['description'];
+
+        $searchDB = George::_getVariationNamefromUrl($url_conversion);
+        $nameABtest = $_POST['nameABtest'] ?? $searchDB;
+
         $urls_variation = []; // Stockage des URLS 
 
-        $nameDB = str_replace("/", "_", trim($url_conversion, "/"));
-        $nameABtest = $_POST['nameABtest'] ?? $nameDB;
-        $description = $_POST['description'];
 
         $filters = ["device_type" =>  $_POST['device_type'], "utm_source" => $_POST['utm_source'], "utm_term" => $_POST['utm_term'], "utm_content" => $_POST['utm_content'], "utm_campaign" => $_POST['utm_campaign']];
 
         //Main
-        array_push($urls_variation, ["uri" => $url_conversion, "name" => str_replace("/", "_", trim($url_conversion, "/")),  "variation" =>  str_replace("/", "_", trim($url_conversion, "/"))]);
+        array_push($urls_variation, ["uri" => $url_conversion, "name" => $_POST['name_main_url'],  "variation" =>  $searchDB]);
         //First Variation
-        array_push($urls_variation, ["uri" => $_POST['variation_one'], "name" => $_POST['variation_two'] != "" ? $_POST['name_variation_one'] : str_replace("/", "_", trim($_POST['variation_one'], "/")),  "variation" =>  str_replace("/", "_", trim($_POST['variation_one'], "/"))]);
+        $variation_one_replaced = George::_getVariationNamefromUrl($_POST['variation_one']);
+        array_push($urls_variation, ["uri" => $_POST['variation_one'], "name" => $_POST['name_variation_one'] != "" ? $_POST['name_variation_one'] : $variation_one_replaced,  "variation" =>  $variation_one_replaced]);
         //Second Variation
         if (!empty($_POST['variation_two']) && $_POST['variation_two'] != "") {
-            array_push($urls_variation, ["uri" => $_POST['variation_two'], "name" => $_POST['variation_two'] != "" ? $_POST['name_variation_two'] : str_replace("/", "_", trim($_POST['variation_two'], "/")),  "variation" =>  str_replace("/", "_", trim($_POST['variation_two'], "/"))]);
+            $variation_two_replaced = George::_getVariationNamefromUrl($_POST['variation_two']);
+            array_push($urls_variation, ["uri" => $_POST['variation_two'], "name" => $_POST['name_variation_two'] != "" ? $_POST['name_variation_two'] : $variation_two_replaced,  "variation" =>  $variation_two_replaced]);
         }
 
-        $george = new george($nameDB);
+        $george = new george($searchDB);
         if ($george->registerInDB($discovery_rate, $filters, $urls_variation, $nameABtest, $description)) { //On crée une nouvelle BDD
             header('Location: index.php?success=true&message=ABTEST créé avec succès');
         } else {
-            header('Location: index.php?success=false&message=Erreur sur la création de l\'ABTEST');
+            header('Location: index.php?success=false&message=Erreur sur la création de l\'ABTEST, il doit déjà exister');
         }
     }
     /**

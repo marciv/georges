@@ -26,15 +26,6 @@ The DB will be name in following this pattern `campaign_lan_numLP`
 
 The databases are managed with the FlatDB library
 
-### Folder library
-
-This Folder contains all library require for George
-you need to install these dependencies before using george
-
-- FlatDB => DB https://github.com/onyxhat/FlatDB
-- Mobile-Detect-2.8.25 => Detection for mobile
-- class.browser.php => Detection for browser
-
 ### File page_abtest.php
 
 File for see data [nb_visit, coonversion, tx, etc...]
@@ -45,6 +36,10 @@ acces with parameter $\_GET['dbName']
 Router action function :
 
 - changeState = change state for one abtest
+- changeDiscoveryRate = change discovery rate for one abtest
+- addVariationToAbtest = add variation to one abtest
+- editFilter = edit filter for one abtest
+- generateABTEST = Generate ABTEST for developpment with filter and variation
 - delete = delete database
 - createDB = Create on ABTEST
 - addConversion = add Conversion
@@ -63,19 +58,9 @@ https://nomdomaine.fr/library/George/
 
 ### ADD ABTest
 
-Fill in URL inputs without adding parameters
+Fill all input with (*) and click on "Start AB Test"
 
-```
-URL Principale => https://www.je-renove.net/pho/lan/06/
-
-Discovery Rate => 0.20
-
-URL variation => https://www.je-renove.net/pho/lan/16/
-```
-
-Click in the Button "Start AB Test"
-
-add this to settings
+### Add this to settings
 
 // START GEORGE
 use library\George as george;
@@ -89,7 +74,6 @@ try {
         $george->start();
 
     }
-
 } catch (Exception $e) {
 echo 'erreur : ';
 echo $e->getMessage();  

@@ -84,8 +84,8 @@ class George
             $this->test = $name;
             $this->set_visit_data();
 
-            $this->dataDB = $this->get_data();
-            $this->parameters = $this->get_parameters();
+            $this->parameters = $this->get_parameters(); //Get parameters ABTEST
+            $this->dataDB = $this->get_data(); //Get data from DB
 
             if (empty($this->dataDB) || empty($this->parameters)) {
                 return;
@@ -98,7 +98,7 @@ class George
                 )
             );
 
-            // $this->set_filter($this->parameters['filters']);
+            //Add Filters 
             foreach ($this->parameters['filters'] as $v => $d) {
                 $this->set_filter(
                     array(
@@ -146,7 +146,7 @@ class George
             $newUrl = $this->_getRequestUrl();
             $parametersArray = $this->_getParametersfromUrl($newUrl);
 
-            if ($this->parameters['status'] != 1) {
+            if ($this->parameters['status'] != 1) { //Si en pause alonrs arrête là
 
                 if (empty($parametersArray)) {
                     $UrlParameters = "?http_referer=" . $this->test;
