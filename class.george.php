@@ -504,29 +504,40 @@ class George
      */
     private function calculate_conversion(array $data)
     {
+
         $this->nb_visit = 0;
         $max_conversion_rate = 0;
+
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
         foreach ($data as $k => $v) {
             if (empty(@$this->variation[$v['variation']])) {
                 unset($data[$k]);
                 continue;
             }
 
+            echo "<pre>";
+            print_r($this->variation[$v['variation']]);
+            echo "</pre>";
+
             @$conversion_rate = max(0, round($v['nb_conversion'] / $v['nb_visit'], 1));
             $data_index[] = $conversion_rate;
             $max_conversion_rate = max($conversion_rate, $max_conversion_rate);
-            @$this->nb_visit = $this->nb_visit + max(1, $v['nb_visit']);
+            @$this->nb_visit = $this->nb_visit + $v['nb_visit'];
         }
         if (empty($data)) {
             return false;
         }
 
         $this->nb_visit = max(1, $this->nb_visit);
+        // echo "<pre>";
+        // print_r($this->nb_visit);
+        // echo "</pre>";
         array_multisort($data_index, SORT_DESC, $data);
         if (!$max_conversion_rate > 0) {
             shuffle($data);
         }
-
         return $data;
     }
 
