@@ -182,11 +182,11 @@ if (isset($_GET['action'])) {
         array_push($urls_variation, ["uri" => $url_conversion, "name" => $_POST['name_main_url'],  "variation" =>  $searchDB]);
         //First Variation
         $variation_one_replaced = George::_getVariationNamefromUrl($_POST['variation_one']);
-        array_push($urls_variation, ["uri" => $_POST['variation_one'], "name" => $_POST['name_variation_one'] != "" ? $_POST['name_variation_one'] : $variation_one_replaced,  "variation" =>  $variation_one_replaced, "status" => 1]);
+        array_push($urls_variation, ["uri" => $_POST['variation_one'], "name" => $_POST['name_variation_one'] != "" ? $_POST['name_variation_one'] : $variation_one_replaced,  "variation" =>  $variation_one_replaced]);
         //Second Variation
         if (!empty($_POST['variation_two']) && $_POST['variation_two'] != "") {
             $variation_two_replaced = George::_getVariationNamefromUrl($_POST['variation_two']);
-            array_push($urls_variation, ["uri" => $_POST['variation_two'], "name" => $_POST['name_variation_two'] != "" ? $_POST['name_variation_two'] : $variation_two_replaced,  "variation" =>  $variation_two_replaced, "status" => 1]);
+            array_push($urls_variation, ["uri" => $_POST['variation_two'], "name" => $_POST['name_variation_two'] != "" ? $_POST['name_variation_two'] : $variation_two_replaced,  "variation" =>  $variation_two_replaced]);
         }
 
         $george = new george($searchDB);
