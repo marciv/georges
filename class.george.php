@@ -113,19 +113,36 @@ class George
                 $this->parameters['listVariation'][] = [
                     'name' => $v['name'],
                     'variation' => $v['variation'],
-                    'uri' => $v['uri']
+                    'uri' => $v['uri'],
+                    'status' => $v['status']
                 ];
             }
 
             foreach ($this->parameters['listVariation'] as $v) { //On parcours la liste des variations disponible 
-                $this->add_variation( //Set variation in this list
-                    array(
-                        $v['variation'] => array( //Name variation
-                            "uri" => $v['uri'], //Link variation
+                // echo "<pre>";
+                // print_r($v);
+                // echo "</pre>";
+                if ($v['status'] == 1) { //Actif
+                    $this->add_variation( //Set variation in this list
+                        array(
+                            $v['variation'] => array( //Name variation
+                                "uri" => $v['uri'], //Link variation
+                            )
                         )
-                    )
-                );
+                    );
+                }
             }
+        }
+    }
+
+    static function redirect($url): void
+    {
+        if (!headers_sent()) {
+            // echo 'php redirection';
+            header('Location: ' . $url, false);
+        } else {
+            // echo 'js redirection';
+            echo '<script>window.location="' . $url . '"</script>';
         }
     }
 
@@ -146,8 +163,7 @@ class George
             $newUrl = $this->_getRequestUrl();
             $parametersArray = $this->_getParametersfromUrl($newUrl);
 
-            if ($this->parameters['status'] != 1) { //Si en pause alonrs arrête là
-
+            if ($this->parameters['status'] == 1) { //Si en pause alors on arrête là
                 if (empty($parametersArray)) {
                     $UrlParameters = "?http_referer=" . $this->test;
                 } else {
@@ -157,11 +173,12 @@ class George
 
                 $this->calculate(); // On ajoute à la variation actuel
                 // throw new \Exception("stop");
-                echo '<li><h1>render uri ' . $this->render("uri") . $UrlParameters . '</h1>';
+                // echo '<li><h1>render uri ' . $this->render("uri") . $UrlParameters . '</h1>';
                 if ($this->test != $this->selected_view_name) {
+                    $hostURL = $this->_getHostUrl();
+                    $requestScheme = $this->_getSchemeRequest();
+                    $this->redirect('Location: ' . $requestScheme . '://' . $hostURL . $this->render("uri") . $UrlParameters);
                     if (!headers_sent()) {
-                        $hostURL = $this->_getHostUrl();
-                        $requestScheme = $this->_getSchemeRequest();
                         // Throw new \Exception("Redirect php to ".$this->render("uri"));
                         header('Location: ' . $requestScheme . '://' . $hostURL . $this->render("uri") . $UrlParameters, false);
                         exit;
@@ -436,6 +453,48 @@ class George
         }
     }
 
+    /**
+     * save log after conversion
+     *
+     * @return void
+     */
+    public function save_log(int $success, string $testUrl, string $path): void
+    {
+        $date = new \DateTime();
+        if ($success) {
+            $data = array(
+                'Date' => $date->format("d/m/Y H:i:s"),
+                'Variation' => $path,
+                'Main' => $testUrl,
+                'Devices' => $this->visit['device_type'],
+                'IP' => $this->visit['ip'],
+                'Status' => '1',
+                'Access' => $path
+            );
+        } else {
+            $data = array(
+                'Date' => $date->format("d/m/Y H:i:s"),
+                'Devices' => $this->visit['device_type'],
+                'IP' => $this->visit['ip'],
+                'Status' => '0',
+                'Access' => $path
+            );
+        }
+
+        $log = new FlatDB(dirname(__FILE__) . "/database", "log");
+        $result = $log->table('data_set')->insert(
+            $data
+        );
+    }
+
+    function get_log()
+    {
+        $log = new FlatDB(dirname(__FILE__) . "/database", "log");
+        @$result = @$log->table('data_set')->all();
+
+        return @$result;
+    }
+
 
     /**
      * Undocumented function
@@ -528,7 +587,7 @@ class George
                 $this->selected_view = $this->variation[$this->selected_view_name];
             } else {
                 echo 'exploit';
-
+                // print_r($this->variation);
                 $this->selected_view = $this->variation[$best_view_name];
                 $this->selected_view_name = $best_view_name;
                 // echo ' '.$best_view_name;					
@@ -602,6 +661,8 @@ class George
             unset($dirs[array_search(".", $dirs)]); //On Supprime les deux premiers éléments du tableau
             unset($dirs[array_search("..", $dirs)]); //On Supprime les deux premiers éléments du tableau
             unset($dirs[array_search("archived", $dirs)]); //On affiche pas les DB archivées
+            unset($dirs[array_search("log", $dirs)]); //On affiche pas les logs
+
 
         }
 
@@ -659,6 +720,21 @@ class George
         }
     }
 
+    public function updateVariationToAbtest(array $dataUpdated): bool
+    {
+        if ($this->_checkDBexist() && !empty($dataUpdated)) {
+            $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
+            try {
+                $db->table('data_set')->update($dataUpdated["id"], $dataUpdated);
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
 
     /**
      * Create DB for ABTEST
@@ -682,7 +758,7 @@ class George
                 'listVariation' => $urls_variation,
                 'discovery_rate' => $discovery_rate,
                 'default_view' => $this->test,
-                'status' => 0,
+                'status' => 1,
                 'date_time' => $date_time->format('d/m/Y H:i')
             );
 
@@ -704,7 +780,8 @@ class George
                     'tx_conversion' => 0,
                     'nb_conversion_mobile' => 0,
                     'nb_conversion_tablet' => 0,
-                    'nb_conversion_desktop' => 0
+                    'nb_conversion_desktop' => 0,
+                    'status' => 1
                 );
 
                 $db->table('data_set')->insert(
@@ -736,7 +813,8 @@ class George
             $data['listVariation'][] = array(
                 "uri" => parse_url($variation, PHP_URL_PATH),
                 "name" => !empty($name) ? $name : $this->_getVariationNamefromUrl($variation),
-                "variation" =>  $this->_getVariationNamefromUrl($variation)
+                "variation" =>  $this->_getVariationNamefromUrl($variation),
+                'status' => 1
             );
 
 
@@ -754,7 +832,8 @@ class George
                     'tx_conversion' =>  0,
                     'nb_conversion_mobile' => 0,
                     'nb_conversion_tablet' => 0,
-                    'nb_conversion_desktop' => 0
+                    'nb_conversion_desktop' => 0,
+                    'status' => 1
                 );
                 $result = $db->table('data_set')->insert(
                     $dataVariation
@@ -855,7 +934,7 @@ class George
             $t .=   '<div class="cadre-text p-3 row">
                         <div class="col-12 col-md-4 mt-2">
                             <p><u>Date</u> : <b>' . $parameters['date_time'] . '</b></p>';
-            if ($parameters['status'] == 0 && $statusSearch != "archived") {
+            if ($parameters['status'] == 1 && $statusSearch != "archived") {
                 $t .=           "<p><u>Status</u> : <b class='text-primary'>En cours</b></p>";
             } else if ($statusSearch == "archived") {
                 $t .=           "<p><u>Status</u> : <b class='text-warning'>Archived</b></p>";
@@ -867,7 +946,7 @@ class George
             if ($statusSearch != "archived") {
                 $t .=               "<a class='btn btn-outline-danger' href='switchGeorge.php?archived=false&action=delete&db=" . $oneDB[0]['variation'] . "'>Delete</a>";
             }
-            if ($parameters['status'] == 0 && $statusSearch != "archived") {
+            if ($parameters['status'] == 1 && $statusSearch != "archived") {
                 $t .=               "<a class='btn btn-outline-warning ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Pause</a>";
             } else if ($statusSearch != "archived") {
                 $t .=               "<a class='btn btn-outline-primary ml-3' href='switchGeorge.php?action=changeState&db=" . $oneDB[0]['variation'] . "'>Reprendre</a>";
@@ -876,8 +955,16 @@ class George
             $t .=       '</div>';
             $t .=   '<div class="col-12 col-md-8">';
             foreach ($oneDB as $index => $entry) {
-                $t .=   '<div class="col-12 mt-2">';
-                $t .=       '<p><u>Variation</u> : ' . $entry['name'] . '</p>';
+                if ($entry['status'] != 1) {
+                    $t .=   '<div class="col-12 mt-2 disabled">';
+                } else {
+                    $t .=   '<div class="col-12 mt-2">';
+                }
+                if (empty($entry['name'])) {
+                    $t .=       '<p><u>Variation</u> : ' . $entry['uri'] . '</p>';
+                } else {
+                    $t .=       '<p><u>Variation</u> : ' . $entry['name'] . '</p>';
+                }
                 $t .=       '<div class="row justify-content-center text-center mx-auto">';
                 $t .=           '<div class="col-12 col-sm-6 col-md-4">
                                     <div class="roundedCardText mx-auto">
@@ -902,20 +989,20 @@ class George
                 $t .=       '</div>';
             }
             $t .= '</div>';
-            if ($parameters['status'] == 0 && $statusSearch != "archived") {
+            if ($parameters['status'] == 1 && $statusSearch != "archived") {
                 $t .= '</div><div class="bottomBar bg-primary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . $parameters['name'] . '</h5></a></div>';
             } else if ($statusSearch == "archived") {
                 $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="#"><h5>' . $parameters['name']  . '</h5></a></div>';
             } else {
-                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . empty($parameters['name']) ? $oneDB[0]['variation'] : $parameters['name'] . '</h5></a></div>';
+                $t .= '</div><div class="bottomBar bg-secondary text-white text-center"><a href="page_abtest.php?dbName=' . $oneDB[0]['variation'] . '"><h5>' . $parameters['name'] . '</h5></a></div>';
             }
             $t .= "</div>";
 
-            if ($parameters['status'] == 0 && !$statusSearch == "archived") {
+            if ($parameters['status'] == 1 && !$statusSearch == "archived") {
                 $play .= $t;
             }
 
-            if ($parameters['status'] == 1 && !$statusSearch == "archived") {
+            if ($parameters['status'] == 0 && !$statusSearch == "archived") {
                 $pause .= $t;
             }
 

@@ -1,6 +1,7 @@
 <?php
 
 require "../../config.php";
+error_reporting(E_ALL);
 
 use library\George as george;
 
@@ -9,6 +10,7 @@ if (isset($_GET['action'])) {
      * Change state of ABTEST
      * $_GET['db'] = nameDB
      */
+
     if ($_GET['action'] == "changeState") {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
         $parameters = $george->parameters; // On récupère les paramètres de la bdd
@@ -25,9 +27,9 @@ if (isset($_GET['action'])) {
         }
 
         if ($george->updateAbTest($parameters)) {
-            header('Location: index.php?success=true&message=Status de l\'ABTEST ' . $_GET['db'] . ' changé');
+            george::redirect('./index.php?success=true&message=Status de l\'ABTEST ' . $_GET['db'] . ' changé');
         } else {
-            header('Location: index.php?success=false&message=Une erreur est survenue avec ' . $_GET['db']);
+            george::redirect('./index.php?success=false&message=Une erreur est survenue avec ' . $_GET['db']);
         }
         exit;
     }
@@ -37,16 +39,16 @@ if (isset($_GET['action'])) {
         $parameters = $george->parameters; // On récupère les paramètres de la bdd
 
         if (empty($parameters)) {
-            header('Location: index.php?success=false&message=Une erreur est survenue avec ' . $_GET['db']);
+            george::redirect('./index.php?success=false&message=Une erreur est survenue avec ' . $_GET['db']);
             exit;
         }
 
         $parameters['discovery_rate'] = $_POST['discovery_rate'];
 
         if ($george->updateAbTest($parameters)) {
-            header('Location: index.php?success=true&message=Discovery Rate de l\'ABTEST ' . $_GET['db'] . ' changé');
+            george::redirect('./index.php?success=true&message=Discovery Rate de l\'ABTEST ' . $_GET['db'] . ' changé');
         } else {
-            header('Location: index.php?success=false&message=Une erreur est survenue');
+            george::redirect('./index.php?success=false&message=Une erreur est survenue');
         }
         exit;
     }
@@ -55,10 +57,33 @@ if (isset($_GET['action'])) {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
         if ($george->addVariationToAbtest($_POST['variation'], $_POST['name_variation'])) {
             header('Location: index.php?success=true&message=Variation ' . $_POST['variation'] . ' ajoutée à l\'ABTEST');
+            george::redirect('./index.php?success=true&message=Variation ' . $_POST['variation'] . ' ajoutée à l\'ABTEST');
         } else {
-            header('Location: index.php?success=false&message=Une erreur est survenue');
+            george::redirect('./index.php?success=false&message=Une erreur est survenue');
         }
         exit;
+    }
+
+    if ($_GET['action'] == "updateVariationToAbtest") {
+        $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
+        $dataDB = $george->dataDB;
+        var_dump($_POST);
+
+
+        foreach ($dataDB as $variation) {
+            if ($variation['variation'] == $_GET['variation']) {
+                $variation['name'] = $_POST['name_variation'];
+                $variation['status'] = $_POST['status'];
+                var_dump($variation);
+                if ($george->updateVariationToAbtest($variation)) {
+                    header('Location: index.php?success=true&message=Variation ' . $_POST['variation'] . ' ajoutée à l\'ABTEST');
+                    george::redirect('./index.php?success=true&message=Variation ' . $_POST['variation'] . ' ajoutée à l\'ABTEST');
+                } else {
+                    george::redirect('./index.php?success=false&message=Une erreur est survenue');
+                }
+                exit;
+            }
+        }
     }
 
     if ($_GET['action'] == "editFilter") {
@@ -70,9 +95,10 @@ if (isset($_GET['action'])) {
         $parameters['filters'] = $filters;
 
         if ($george->updateAbTest($parameters)) {
-            header('Location: index.php?success=true&message=Filtre de l\'ABTEST ' . $_GET['db'] . ' changé');
+            george::redirect('./index.php?success=true&message=Filtre de l\'ABTEST ' . $_GET['db'] . ' changé');
         } else {
             header('Location: index.php?success=false&message=Une erreur est survenue');
+            george::redirect('./index.php?success=false&message=Une erreur est survenue');
         }
         exit;
     }
@@ -93,9 +119,9 @@ if (isset($_GET['action'])) {
             }
         }
         if ($success) {
-            header('Location: index.php?success=true&message=ABTEST supprimé avec succès');
+            george::redirect('./index.php?success=true&message=ABTEST supprimé avec succès');
         } else {
-            header('Location: index.php?success=false&message=Erreur dans la suppression');
+            george::redirect('/index.php?success=false&message=Erreur dans la suppression');
         }
         exit;
     }
@@ -111,15 +137,15 @@ if (isset($_GET['action'])) {
         $nameABtest = "ABTEST generated" ?? $searchDB;
         $description = "Abtest generate automactically";
 
-        $filters = ["device_type" =>  "computer", "utm_source" => "ag3", "utm_term" => "", "utm_content" => "", "utm_campaign" => ""];
-        $urls_variation = [["uri" => $url_conversion, "name" => "Main URL",  "variation" =>  $searchDB], ["uri" => "/1root/test/lan/09/", "name" => "First Variation",  "variation" =>  "1root_test_lan_09"]]; // Stockage des URLS 
+        $filters = ["device_type" =>  "computer", "utm_source" => "", "utm_term" => "", "utm_content" => "", "utm_campaign" => ""];
+        $urls_variation = [["uri" => $url_conversion, "name" => "[TEST][08][MAIN]", "variation" =>  $searchDB], ["uri" => "/1root/test/lan/09/", "name" => "[TEST][09]",  "variation" =>  "1root_test_lan_09"], ["uri" => "/1root/test/lan/07/", "name" => "[TEST][07]", "variation" => "1root_test_lan_07"]]; // Stockage des URLS 
 
 
         $george = new george($searchDB);
         if ($george->registerInDB($discovery_rate, $filters, $urls_variation, $nameABtest, $description)) { //On crée une nouvelle BDD
-            header('Location: index.php?success=true&message=ABTEST créé avec succès');
+            george::redirect('./index.php?success=true&message=ABTEST créé avec succès');
         } else {
-            header('Location: index.php?success=false&message=Erreur sur la création de l\'ABTEST');
+            george::redirect('./index.php?success=false&message=Erreur sur la création de l\'ABTEST');
         }
     }
     //FIN GENERATE DEV 
@@ -156,18 +182,18 @@ if (isset($_GET['action'])) {
         array_push($urls_variation, ["uri" => $url_conversion, "name" => $_POST['name_main_url'],  "variation" =>  $searchDB]);
         //First Variation
         $variation_one_replaced = George::_getVariationNamefromUrl($_POST['variation_one']);
-        array_push($urls_variation, ["uri" => $_POST['variation_one'], "name" => $_POST['name_variation_one'] != "" ? $_POST['name_variation_one'] : $variation_one_replaced,  "variation" =>  $variation_one_replaced]);
+        array_push($urls_variation, ["uri" => $_POST['variation_one'], "name" => $_POST['name_variation_one'] != "" ? $_POST['name_variation_one'] : $variation_one_replaced,  "variation" =>  $variation_one_replaced, "status" => 1]);
         //Second Variation
         if (!empty($_POST['variation_two']) && $_POST['variation_two'] != "") {
             $variation_two_replaced = George::_getVariationNamefromUrl($_POST['variation_two']);
-            array_push($urls_variation, ["uri" => $_POST['variation_two'], "name" => $_POST['name_variation_two'] != "" ? $_POST['name_variation_two'] : $variation_two_replaced,  "variation" =>  $variation_two_replaced]);
+            array_push($urls_variation, ["uri" => $_POST['variation_two'], "name" => $_POST['name_variation_two'] != "" ? $_POST['name_variation_two'] : $variation_two_replaced,  "variation" =>  $variation_two_replaced, "status" => 1]);
         }
 
         $george = new george($searchDB);
         if ($george->registerInDB($discovery_rate, $filters, $urls_variation, $nameABtest, $description)) { //On crée une nouvelle BDD
-            header('Location: index.php?success=true&message=ABTEST créé avec succès');
+            george::redirect('./index.php?success=true&message=ABTEST créé avec succès');
         } else {
-            header('Location: index.php?success=false&message=Erreur sur la création de l\'ABTEST, il doit déjà exister');
+            george::redirect('./index.php?success=false&message=Erreur sur la création de l\'ABTEST, il doit déjà exister');
         }
     }
     /**
@@ -183,31 +209,13 @@ if (isset($_GET['action'])) {
         if ($variationName != "ref.php" || $variationName != "/") {
             $george = new george($variationName); // On vérifie si une bdd avec le nom existe
             $data = @($george->get_data($variationName))[0];
-            $myfile = fopen("log.txt", "a") or die("Unable to open file!");
-            $start = new \DateTime();
-            $txt = "";
             if (!empty($data)) {
                 $george->save_conversion(str_replace("index.php", "", $_POST['path']));
-                $txt .= "START : " . $start->format("d/m/Y H:i:s") . "\n";
-                $txt .= "Variation : " . $_POST['path'] . "\n";
-                $txt .= "Main Variation : " . $testUrl . "\n";
-                $txt .= "TYPE DEVICE : " . $george->visit['device_type'] . "\n";
-                $txt .= "IP : " . $george->visit['ip'] . "\n";
-                $txt .= "CONVERSION SAVE : SUCCESSS\n";
-                $end = new \DateTime();
-                $txt .= "END : " . $end->format("d/m/Y H:i:s") . "\n";
-                $txt .= "===================================\n";
+                $george->save_log(1, $testUrl, $_POST['path']);
             } else {
-                $txt .= "DATE : " . $start->format("d/m/Y H:i:s") . "\n";
-                $txt .= "Variation : " . $_POST['path'] . "\n";
-                $txt .= "TYPE DEVICE : " . $george->visit['device_type'] . "\n";
-                $txt .= "CONVERSION SAVE : FAILED\n";
-                $txt .= "===================================\n";
+                $george->save_log(0, $testUrl, $_POST['path']);
             }
-            fwrite($myfile, $txt);
-            fclose($myfile);
         }
-        echo @$txt;
     }
 
     /**
@@ -216,9 +224,9 @@ if (isset($_GET['action'])) {
     if ($_GET['action'] == "setArchive") {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
         if ($george->setArchive()) {
-            header('Location: index.php?success=true&message=Archivage réussi');
+            george::redirect('./index.php?success=true&message=Archivage réussi');
         } else {
-            header('Location: index.php?success=false&message=Archivage échoué');
+            george::redirect('./index.php?success=false&message=Archivage échoué');
         }
         exit;
     }
