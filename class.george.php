@@ -704,7 +704,7 @@ class George
     }
 
 
-    public function updateAbTest(array $dataUpdated): bool
+    public function save_parameters(array $dataUpdated): bool
     {
         if ($this->_checkDBexist() && !empty($dataUpdated)) {
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);
@@ -720,7 +720,7 @@ class George
         }
     }
 
-    public function updateVariationToAbtest(array $dataUpdated): bool
+    public function save_variation(array $dataUpdated): bool
     {
         if ($this->_checkDBexist() && !empty($dataUpdated)) {
             $db = new FlatDB(dirname(__FILE__) . "/database", $this->test);

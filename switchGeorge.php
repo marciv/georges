@@ -26,7 +26,7 @@ if (isset($_GET['action'])) {
             $parameters['status'] = "1";
         }
 
-        if ($george->updateAbTest($parameters)) {
+        if ($george->save_parameters($parameters)) {
             george::redirect('./index.php?success=true&message=Status de l\'ABTEST ' . $_GET['db'] . ' changé');
         } else {
             george::redirect('./index.php?success=false&message=Une erreur est survenue avec ' . $_GET['db']);
@@ -45,7 +45,7 @@ if (isset($_GET['action'])) {
 
         $parameters['discovery_rate'] = $_POST['discovery_rate'];
 
-        if ($george->updateAbTest($parameters)) {
+        if ($george->save_parameters($parameters)) {
             george::redirect('./index.php?success=true&message=Discovery Rate de l\'ABTEST ' . $_GET['db'] . ' changé');
         } else {
             george::redirect('./index.php?success=false&message=Une erreur est survenue');
@@ -64,7 +64,7 @@ if (isset($_GET['action'])) {
         exit;
     }
 
-    if ($_GET['action'] == "updateVariationToAbtest") {
+    if ($_GET['action'] == "save_variation") {
         $george = new george($_GET['db']); // On vérifie si une bdd avec le nom existe
         $dataDB = $george->dataDB;
         var_dump($_POST);
@@ -75,7 +75,7 @@ if (isset($_GET['action'])) {
                 $variation['name'] = $_POST['name_variation'];
                 $variation['status'] = $_POST['status'];
                 var_dump($variation);
-                if ($george->updateVariationToAbtest($variation)) {
+                if ($george->save_variation($variation)) {
                     header('Location: index.php?success=true&message=Variation ' . $_POST['variation'] . ' ajoutée à l\'ABTEST');
                     george::redirect('./index.php?success=true&message=Variation ' . $_POST['variation'] . ' ajoutée à l\'ABTEST');
                 } else {
@@ -94,7 +94,7 @@ if (isset($_GET['action'])) {
 
         $parameters['filters'] = $filters;
 
-        if ($george->updateAbTest($parameters)) {
+        if ($george->save_parameters($parameters)) {
             george::redirect('./index.php?success=true&message=Filtre de l\'ABTEST ' . $_GET['db'] . ' changé');
         } else {
             header('Location: index.php?success=false&message=Une erreur est survenue');
