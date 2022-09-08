@@ -72,7 +72,6 @@ if (!empty($dbName)) {
                             <hr />
                             <a type="button" data-toggle="modal" data-target="#updateFilter" class="dropdown-item text-secondary">Edit Filter</a>
                             <a type="button" data-toggle="modal" data-target="#updateDiscoveryRate" class="dropdown-item text-secondary">Edit Discovery Rate</a>
-                            <a type="button" data-toggle="modal" data-target="#addVariation" class="dropdown-item text-secondary">Add Variation Rate</a>
                         </div>
                     </div>
                 </div>
@@ -87,8 +86,11 @@ if (!empty($dbName)) {
                 $i = 0;
                 foreach ($abtest as $key => $value) {
                 ?>
-                    <div class="card col-12 col-sm-6">
-                        <h2 class="text-center"><?= $value['name']; ?></h2>
+                    <div class="card col-12 col-sm-6 <?= $value['status'] == 1 ? '' : 'disabled' ?>">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <h2><?= $value['name']; ?></h2>
+                            <a type="button" data-toggle="modal" data-target="#update-<?= $value['name']; ?>"><img class="ml-3" src="css/pencil.png" alt="pencil"></a>
+                        </div>
                         <h6 class="text-center text-muted"><?= $value['uri']; ?></h6>
                         <p>Nombre visiteur(s) : <b>D(<?= $value['nb_visit_desktop']; ?>)</b> | <b>M(<?= $value['nb_visit_mobile']; ?>)</b> | <b>T(<?= $value['nb_visit_tablet']; ?>)</b></p>
                         <div class="row justify-content-center align-items-center">
@@ -141,10 +143,52 @@ if (!empty($dbName)) {
 
                             </div>
                         </div>
+
+                        <!-- MODAL UPDATE Variation -->
+                        <div class="modal fade" id="update-<?= $value['name']; ?>" tabindex="-1" role="dialog" aria-labelledby="update-<?= $value['name']; ?>" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updateDiscoveryRateTitle">Modification [<?= $value['name']; ?>]</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="post" action="switchGeorge.php?action=updateVariationToAbtest&variation=<?= $value['variation'] ?>&db=<?= $data[0]['variation']; ?>">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="name_variation">Name</label>
+                                                <input type="text" class="form-control" name="name_variation" id="name_variation" value="<?= $value['name']; ?>">
+                                            </div>
+                                            <?php if ($parameters['default_view'] != $value['variation']) { ?>
+                                                <div class="form-group">
+                                                    <label for="variation">Status</label>
+                                                    <div class="d-flex align-items-center">
+                                                        <?php if ($value["status"]) { ?>
+                                                            <div><input type="radio" name="status" id="1" checked value="1"> <label>Actif</label></div>
+                                                            <div class="ml-3"><input type="radio" name="status" id="0" value="0"> <label>Pause</label></div>
+                                                        <?php } else { ?>
+                                                            <div><input type="radio" name="status" id="1" value="1"> <label>Actif</label></div>
+                                                            <div class="ml-3"><input type="radio" name="status" id="0" value="0" checked> <label>Pause</label></div>
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" onclick="return e.preventDefault();" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     <?php
                     $i++;
                 }
                     ?>
+
+                    <div class="col-12 text-center"><a type="button" data-toggle="modal" class="btn btn-secondary text-white" data-target="#addVariation">Add Variation</a></div>
                     <div class="cardStat col-12">
                         <div class="container mx-auto">
                             <ul class="nav nav-pills justify-content-left mb-3 w-100" id="pills-tab" role="tablist">
@@ -166,7 +210,6 @@ if (!empty($dbName)) {
                         </div>
                     </div>
                     </div>
-
             </div>
 
 

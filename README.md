@@ -72,7 +72,6 @@ try {
         $variationName = George::_getVariationNamefromUrl($request_url); //Nom variation actuel
         $george = new George($variationName); // On vérifie si une bdd avec le nom existe
         $george->start();
-
     }
 } catch (Exception $e) {
 echo 'erreur : ';

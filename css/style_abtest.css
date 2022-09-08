@@ -5,6 +5,10 @@ ol {
   font-family: Fira Sans;
 }
 
+img {
+  max-width: 100%;
+}
+
 .headerCard {
   background-color: white;
   padding: 20px;
@@ -33,6 +37,10 @@ ol {
   margin: 20px 20px;
   border: none;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.disabled {
+    opacity: 0.5;
 }
 
 .roundedCardText {
